@@ -1,5 +1,6 @@
 
 const HttpError = require('../core/HttpError');
+const Timing = require('../game/Timing');
 
 function GET(params) {
 	const id = parseInt(params && params.id, 10);
@@ -36,10 +37,12 @@ function GET(params) {
 		throw new HttpError(409, 'The seat has been taken');
 	}
 
-	return {
+	let data = {
 		seat: player.getSeat(),
 		role: player.getRole().toNum(),
 	};
+	driver.trigger(Timing.ShowRole, player, data);
+	return data;
 }
 
 function POST(params, input) {
