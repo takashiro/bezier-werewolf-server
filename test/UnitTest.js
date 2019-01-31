@@ -74,7 +74,7 @@ class UnitTest {
 		let resCode = this.res.statusCode;
 		let resText = await readText(this.res);
 		if (resCode !== code || resText !== message) {
-			assert.fail(`${code} ${message}`, `${resCode} ${resText}`, 'Unexpected Error');
+			assert.fail(`Unexpected Error: ${resCode} ${resText}`);
 		}
 	}
 

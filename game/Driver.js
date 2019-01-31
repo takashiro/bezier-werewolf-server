@@ -1,6 +1,7 @@
 
 const shuffle = require('../util/shuffle');
 const Player = require('./Player');
+const SkillList = require('./skills');
 
 class Driver {
 
@@ -8,6 +9,7 @@ class Driver {
 		this.roles = [];
 		this.centerCards = [];
 		this.players = [];
+		this.skills = [];
 	}
 
 	/**
@@ -16,6 +18,14 @@ class Driver {
 	 */
 	setRoles(roles) {
 		this.roles = roles;
+
+		this.skills = [];
+		for (const Skill of SkillList) {
+			let skill = new Skill;
+			if (roles.indexOf(skill.role) >= 0) {
+				this.skills.push(skill);
+			}
+		}
 	}
 
 	/**
@@ -35,6 +45,9 @@ class Driver {
 		return this.players[seat - 1];
 	}
 
+	/**
+	 * Start the game and arrange roles
+	 */
 	start() {
 		let roles = Array.from(this.roles);
 		shuffle(roles);
@@ -50,6 +63,29 @@ class Driver {
 			let player = new Player(i + 1);
 			player.setRole(roles[3 + i]);
 			this.players[i] = player;
+		}
+	}
+
+	/**
+	 * Trigger skills on a player
+	 * @param {Timing} timing
+	 * @param {Player|Player[]} target
+	 * @param {object} data
+	 */
+	trigger(timing, target, data) {
+		for (const skill of this.skills) {
+			if (skill.timing !== timing) {
+				continue;
+			}
+
+			if (!skill.triggerable(this, target)) {
+				continue;
+			}
+
+			let broken = skill.effect(this, target, data);
+			if (broken) {
+				break;
+			}
 		}
 	}
 
