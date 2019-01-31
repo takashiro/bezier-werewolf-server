@@ -33,8 +33,9 @@ function POST(params, input) {
 	}
 
 	const driver = new GameDriver;
-	driver.setRoles(roles);
 	room.setDriver(driver);
+	driver.setRoles(roles);
+	driver.start();
 
 	return {
 		id: room.id,
