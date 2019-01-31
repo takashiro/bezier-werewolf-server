@@ -34,6 +34,7 @@ function POST(params, input) {
 
 	const driver = new GameDriver;
 	driver.setRoles(roles);
+	room.setDriver(driver);
 
 	return {
 		id: room.id,
@@ -43,9 +44,41 @@ function POST(params, input) {
 }
 
 function GET(params) {
+	const id = parseInt(params && params.id, 10);
+	if (isNaN(id) || id <= 0) {
+		throw new HttpError(400, 'Invalid room id');
+	}
+
+	const lobby = this.getLobby();
+	const room = lobby.get(id);
+	if (!room) {
+		throw new HttpError(404, 'The room does not exist');
+	}
+
+	const driver = room.getDriver();
+	return {
+		id: room.id,
+		roles: driver.roles.map(role => role.toNum()),
+	};
 }
 
 function DELETE(params) {
+	const id = parseInt(params && params.id, 10);
+	if (isNaN(id) || id <= 0) {
+		throw new HttpError(400, 'Invalid room id');
+	}
+
+	const lobby = this.getLobby();
+	const room = lobby.get(id);
+	if (!room || room.ownerKey !== params.ownerKey) {
+		throw new HttpError(404, 'The room does not exist');
+	}
+
+	if (!lobby.remove(id)) {
+		throw new HttpError(404, 'The room does not exist');
+	}
+
+	return {id};
 }
 
 module.exports = {POST, GET, DELETE};

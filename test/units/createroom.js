@@ -36,6 +36,12 @@ class CreateRoomTest extends UnitTest {
 		for (let i = 0; i < roles.length; i++) {
 			assert(roles[i] === room.roles[i]);
 		}
+
+		await this.delete('room', {id: room.id});
+		await this.assertError(404, 'The room does not exist');
+
+		await this.delete('room', {id: room.id, ownerKey: room.ownerKey});
+		await this.assertJSON({id: room.id});
 	}
 
 }
