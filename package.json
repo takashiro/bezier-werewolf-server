@@ -1,0 +1,28 @@
+{
+  "name": "bezier-werewolf-server",
+  "version": "0.1.0",
+  "description": "One Night Ultimate Werewolf (Node.js Server)",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takashiro/bezier-werewolf-server.git"
+  },
+  "keywords": [
+    "werewolf",
+    "board",
+    "game",
+    "one",
+    "night",
+    "werewolf"
+  ],
+  "author": "Kazuichi Takashiro",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/takashiro/bezier-werewolf-server/issues"
+  },
+  "homepage": "https://github.com/takashiro/bezier-werewolf-server#readme",
+  "dependencies": {}
+}
