@@ -6,4 +6,5 @@ module.exports = [
 	require('./skill'),
 	require('./villager'),
 	require('./werewolf'),
+	require('./seer'),
 ];
