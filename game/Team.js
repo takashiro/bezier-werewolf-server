@@ -41,6 +41,7 @@ Team.enums = [
 
 	new Team('Werewolf'),
 	new Team('Villager'),
+	new Team('Tanner'),
 ];
 
 module.exports = Team;
