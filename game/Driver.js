@@ -1,6 +1,7 @@
 
 const shuffle = require('../util/shuffle');
 const Player = require('./Player');
+const CenterCard = require('./CenterCard');
 const ProactiveSkill = require('./ProactiveSkill');
 const PassiveSkill = require('./PassiveSkill');
 
@@ -43,7 +44,7 @@ function arrangeRoles() {
 
 	this.centerCards = new Array(3);
 	for (let i = 0; i < 3; i++) {
-		this.centerCards[i] = roles[i];
+		this.centerCards[i] = new CenterCard(i, roles[i]);
 	}
 
 	const playerNum = roles.length - this.centerCards.length;
