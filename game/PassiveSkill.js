@@ -1,5 +1,5 @@
 
-class Skill {
+class PassiveSkill {
 
 	/**
 	 * Create a skill
@@ -17,7 +17,7 @@ class Skill {
 	 * @param {Player} target
 	 * @return {boolean}
 	 */
-	triggerable(driver, target) {
+	isTriggerable(driver, target) {
 		return driver && target && target.getRole() === this.role;
 	}
 
@@ -28,10 +28,10 @@ class Skill {
 	 * @param {object} data
 	 * @return {boolean} Whether to break following actions
 	 */
-	effect(driver, target, data) {
+	takeEffect(driver, target, data) {
 		return false;
 	}
 
 }
 
-module.exports = Skill;
+module.exports = PassiveSkill;

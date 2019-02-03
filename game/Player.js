@@ -5,6 +5,7 @@ class Player {
 		this.seat = seat;
 		this.seatKey = null;
 		this.role = null;
+		this.input = null;
 	}
 
 	/**
@@ -45,6 +46,22 @@ class Player {
 	 */
 	setRole(role) {
 		this.role = role;
+	}
+
+	/**
+	 * Set proactive skill
+	 * @param {ProactiveSkill} skill
+	 */
+	setProactiveSkill(skill) {
+		this.skill = skill;
+	}
+
+	/**
+	 * Get proactive skill
+	 * @return {ProactiveSkill}
+	 */
+	getProactiveSkill() {
+		return this.skill;
 	}
 
 }

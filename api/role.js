@@ -45,7 +45,4 @@ function GET(params) {
 	return data;
 }
 
-function POST(params, input) {
-}
-
-module.exports = {GET, POST};
+module.exports = {GET};
