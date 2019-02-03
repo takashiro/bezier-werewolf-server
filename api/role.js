@@ -41,7 +41,6 @@ function GET(params) {
 		seat: player.getSeat(),
 		role: player.getRole().toNum(),
 	};
-	driver.trigger(Timing.ShowRole, player, data);
 	return data;
 }
 

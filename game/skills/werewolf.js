@@ -1,19 +1,25 @@
 
-const Timing = require('../Timing');
 const Role = require('../Role');
-const Skill = require('../Skill');
+const ProactiveSkill = require('../ProactiveSkill');
 
-class WerewolfCompanions extends Skill {
+class WerewolfCompanions extends ProactiveSkill {
 
 	constructor() {
-		super(Timing.ShowRole, Role.Werewolf);
+		super(Role.Werewolf);
 	}
 
-	effect(driver, target, data) {
+	isFeasible(driver, self) {
+		return !!driver && !!self;
+	}
+
+	takeEffect(driver, self) {
 		const players = driver.players;
-		const werewolves = players.filter(player => player.role === Role.Werewolf && player !== target);
-		data.werewolves = werewolves.map(wolf => wolf.seat);
-		return false;
+		const werewolves = players.filter(player => player.role === Role.Werewolf && player !== self);
+		if (werewolves.length <= 0) {
+			return werewolves;
+		} else {
+			return werewolves.map(wolf => wolf.seat);
+		}
 	}
 
 }

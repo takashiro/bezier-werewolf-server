@@ -21,6 +21,11 @@ class WerewolfTest extends UnitTest {
 			await this.get('role', {id: room.id, seat, seatKey: seat});
 			const player = await this.getJSON();
 			players.push(player);
+
+			if (player.role === Role.Werewolf.value) {
+				await this.post('skill', {id: room.id, seat, seatKey: seat}, {});
+				player.werewolves = await this.getJSON();
+			}
 		}
 
 		const wolves = players.filter(player => player.role === Role.Werewolf.value).map(player => player.seat);
