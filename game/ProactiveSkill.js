@@ -12,7 +12,7 @@ class ProactiveSkill {
 	 * @param {*} data
 	 */
 	isFeasible(driver, self, data) {
-		return driver && data instanceof Array;
+		return !!driver && !!self;
 	}
 
 	/**
