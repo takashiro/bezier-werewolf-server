@@ -3,6 +3,7 @@ module.exports = [
 	require('./createroom'),
 	require('./enterroom'),
 	require('./fetchrole'),
+	require('./lynch'),
 	require('./skill'),
 	require('./villager'),
 	require('./werewolf'),

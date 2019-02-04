@@ -6,6 +6,7 @@ class Player {
 		this.seatKey = null;
 		this.role = null;
 		this.input = null;
+		this.lynchTarget = null;
 	}
 
 	/**
@@ -62,6 +63,22 @@ class Player {
 	 */
 	getProactiveSkill() {
 		return this.skill;
+	}
+
+	/**
+	 * Set lynch target
+	 * @param {Player} target
+	 */
+	setLynchTarget(target) {
+		this.lynchTarget = target;
+	}
+
+	/**
+	 * Get lynch target
+	 * @return {Player}
+	 */
+	getLynchTarget() {
+		return this.lynchTarget;
 	}
 
 }
