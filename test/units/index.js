@@ -1,5 +1,6 @@
 
 module.exports = [
+	require('./status'),
 	require('./createroom'),
 	require('./enterroom'),
 	require('./fetchrole'),
