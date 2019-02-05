@@ -5,4 +5,5 @@ module.exports = [
 	require('./minion'),
 	require('./troublemaker'),
 	require('./robber'),
+	require('./drunk'),
 ];
