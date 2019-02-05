@@ -5,6 +5,14 @@ const CenterCard = require('./CenterCard');
 const ProactiveSkill = require('./ProactiveSkill');
 const PassiveSkill = require('./PassiveSkill');
 
+const State = {
+	Invalid: 0x0, // To avoid unexpected equation
+	Starting: 0x1, // Users are taking seats
+	Running: 0x2, // Players are voting for somebody to get lynched
+	Stopping: 0x3, // Ready to execute skill effects
+	Ended: 0x4, // The game is over
+};
+
 function loadSkills() {
 	this.proactiveSkills = new Map;
 	this.passiveSkills = new Map;
@@ -64,6 +72,8 @@ class Driver {
 		this.players = [];
 		this.proactiveSkills = null;
 		this.passiveSkills = null;
+		this.actions = [];
+		this.finished = false;
 	}
 
 	/**
@@ -123,6 +133,50 @@ class Driver {
 		}
 	}
 
+	/**
+	 * Add an action
+	 * @param {Action} action
+	 */
+	addAction(action) {
+		this.actions.push(action);
+	}
+
+	/**
+	 * Get driver state
+	 * @return {number}
+	 */
+	getState() {
+		for (const player of this.players) {
+			if (!player.getSeatKey()) {
+				return State.Starting;
+			}
+		}
+
+		for (const player of this.players) {
+			if (!player.getLynchTarget()) {
+				return State.Running;
+			}
+		}
+
+		return this.finished ? State.Ended : State.Stopping;
+	}
+
+	/**
+	 * Take all action effects.
+	 */
+	end() {
+		if (this.finished) {
+			return;
+		}
+		this.finished = true;
+
+		for (let action of this.actions) {
+			action.execute(this);
+		}
+	}
+
 }
+
+Driver.State = State;
 
 module.exports = Driver;
