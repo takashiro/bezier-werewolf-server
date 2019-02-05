@@ -1,5 +1,6 @@
 
 const HttpError = require('../core/HttpError');
+const Driver = require('../game/Driver');
 
 function POST(params, input) {
 	const id = parseInt(params && params.id, 10);
@@ -66,7 +67,14 @@ function GET(params) {
 
 	const driver = room.getDriver();
 	const players = driver.players;
-	const done = players.every(player => player.getLynchTarget());
+	const driverState = driver.getState();
+	let done = false;
+	if (driverState === Driver.State.Stopping) {
+		driver.end();
+		done = true;
+	} else if (driverState === Driver.State.Ended) {
+		done = true;
+	}
 
 	let output = [];
 	for (const player of players) {
