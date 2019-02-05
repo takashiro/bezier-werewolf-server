@@ -26,32 +26,40 @@ class TroublemakerTest extends UnitTest {
 
 		// Invoke troublemakers' skills
 		const players = [];
-		const exchanges = [];
 		for (let seat = 1; seat <= playerNum; seat++) {
 			const auth = {id: room.id, seat, seatKey: 1};
 			await this.get('role', auth);
 			const player = await this.getJSON();
 			players.push(player);
+		}
 
-			if (player.role === Role.Troublemaker.value) {
-				await this.post('skill', auth, {players: [1, 1]});
-				await this.assertError(400, 'Invalid skill targets');
-
-				await this.post('skill', auth, {players: [1, seat]});
-				await this.assertError(400, 'Invalid skill targets');
-
-				let exchange = null;
-				do {
-					exchange = [
-						Math.floor(Math.random() * playerNum) + 1,
-						Math.floor(Math.random() * playerNum) + 1,
-					];
-				} while (exchange[0] === exchange[1] || exchange.some(t => t === seat));
-				console.log(`Exchange ${exchange[0]} ${exchange[1]}`);
-				await this.post('skill', auth, {players: exchange});
-				await this.assertOk();
-				exchanges.push(exchange);
+		const exchanges = [];
+		for (let seat = 1; seat <= playerNum; seat++) {
+			const player = players[seat - 1];
+			if (player.role !== Role.Troublemaker.value) {
+				continue;
 			}
+
+			const auth = {id: room.id, seat, seatKey: 1};
+
+			await this.post('skill', auth, {players: [1, 1]});
+			await this.assertError(400, 'Invalid skill targets');
+
+			await this.post('skill', auth, {players: [1, seat]});
+			await this.assertError(400, 'Invalid skill targets');
+
+			let exchange = null;
+			do {
+				exchange = [
+					Math.floor(Math.random() * playerNum) + 1,
+					Math.floor(Math.random() * playerNum) + 1,
+				];
+			} while (exchange[0] === exchange[1] || exchange.some(t => t === seat));
+			console.log(`Exchange ${exchange[0]} ${exchange[1]}`);
+			await this.post('skill', auth, {players: exchange});
+			await this.assertOk();
+			exchanges.push(exchange);
+			break;
 		}
 
 		// Calculate the expected result
