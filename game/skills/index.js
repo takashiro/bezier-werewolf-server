@@ -4,4 +4,5 @@ module.exports = [
 	require('./seer'),
 	require('./minion'),
 	require('./troublemaker'),
+	require('./robber'),
 ];
