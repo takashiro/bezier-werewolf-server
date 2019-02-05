@@ -3,6 +3,23 @@ class ProactiveSkill {
 
 	constructor(role) {
 		this.role = role;
+		this.used = false;
+	}
+
+	/**
+	 * Check if the skill has been invoked
+	 * @return {boolean}
+	 */
+	isUsed() {
+		return this.used;
+	}
+
+	/**
+	 * Mark the skill as used / unused
+	 * @param {boolean} used
+	 */
+	setUsed(used) {
+		this.used = used;
 	}
 
 	/**

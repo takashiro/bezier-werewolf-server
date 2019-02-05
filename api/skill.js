@@ -40,11 +40,18 @@ function POST(params, input) {
 		throw new HttpError(404, 'No skill for your role');
 	}
 
-	if (!skill.isFeasible(driver, player, input)) {
-		throw new HttpError(400, 'Invalid skill targets');
-	}
+	if (skill.isUsed()) {
+		return skill.output;
+	} else {
+		if (!skill.isFeasible(driver, player, input)) {
+			throw new HttpError(400, 'Invalid skill targets');
+		}
 
-	return skill.takeEffect(driver, player, input);
+		const output = skill.takeEffect(driver, player, input);
+		skill.setUsed(true);
+		skill.output = output;
+		return output;
+	}
 }
 
 module.exports = {POST};

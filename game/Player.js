@@ -5,7 +5,6 @@ class Player {
 		this.seat = seat;
 		this.seatKey = null;
 		this.role = null;
-		this.input = null;
 		this.lynchTarget = null;
 	}
 
