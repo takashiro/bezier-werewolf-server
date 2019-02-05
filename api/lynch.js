@@ -66,7 +66,6 @@ function GET(params) {
 	}
 
 	const driver = room.getDriver();
-	const players = driver.players;
 	const driverState = driver.getState();
 	let done = false;
 	if (driverState === Driver.State.Stopping) {
@@ -76,18 +75,21 @@ function GET(params) {
 		done = true;
 	}
 
-	let output = [];
-	for (const player of players) {
+	const players = [];
+	for (const player of driver.players) {
 		const target = player.getLynchTarget();
 		if (target) {
-			output.push({
+			players.push({
 				seat: player.seat,
 				target: target ? target.seat : 0,
 				role: done ? player.role.toNum() : 0,
 			});
 		}
 	}
-	return output;
+
+	const centerCards = driver.centerCards.map(card => card.role.toNum());
+
+	return {centerCards, players};
 }
 
 module.exports = {POST, GET};

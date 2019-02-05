@@ -66,15 +66,15 @@ class LynchTest extends UnitTest {
 
 		shuffle(seats);
 		let votes = new Map;
-		let lynchResult = null;
+		let board = null;
 		for (let seat of seats) {
 			const target = Math.floor(Math.random() * playerNum) + 1;
 			votes.set(seat, target);
 
 			await this.post('lynch', {id: room.id, seat, seatKey: 1}, {target});
 			await this.get('lynch', {id: room.id});
-			lynchResult = await this.getJSON();
-			for (const r of lynchResult) {
+			board = await this.getJSON();
+			for (const r of board.players) {
 				assert(votes.get(r.seat) === r.target);
 				if (votes.size < playerNum) {
 					assert(!r.role);
@@ -86,7 +86,7 @@ class LynchTest extends UnitTest {
 			}
 		}
 
-		assert(lynchResult.length === players.length);
+		assert(board.players.length === players.length);
 
 		await this.post('lynch', {id: room.id, seat: 1, seatKey: 1}, {target: 1000});
 		await this.assertError(400, 'You have submitted your lynch target');

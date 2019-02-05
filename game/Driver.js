@@ -102,6 +102,15 @@ class Driver {
 	}
 
 	/**
+	 * Get a center card
+	 * @param {number} index
+	 * @return {CenterCard}
+	 */
+	getCenterCard(index) {
+		return this.centerCards[index];
+	}
+
+	/**
 	 * Start the game and arrange roles
 	 */
 	start() {

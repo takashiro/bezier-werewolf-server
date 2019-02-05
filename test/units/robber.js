@@ -66,8 +66,8 @@ class RobberTest extends UnitTest {
 		await this.get('lynch', {id: room.id});
 		const board = await this.getJSON();
 
-		assert(board[robber.seat - 1].role === robbed.role);
-		assert(board[target - 1].role === robber.role);
+		assert(board.players[robber.seat - 1].role === robbed.role);
+		assert(board.players[target - 1].role === robber.role);
 
 		// Clean up
 		await this.delete('room', room);

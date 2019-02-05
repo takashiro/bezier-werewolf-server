@@ -78,10 +78,10 @@ class TroublemakerTest extends UnitTest {
 			await this.post('lynch', {id: room.id, seat, seatKey: 1}, {target: 1});
 		}
 		await this.get('lynch', {id: room.id});
-		const result = await this.getJSON();
+		const board = await this.getJSON();
 
-		assert(result.length > 0);
-		for (const player of result) {
+		assert(board.players.length > 0);
+		for (const player of board.players) {
 			const baseline = players[player.seat - 1];
 			assert(baseline.role === player.role);
 		}
