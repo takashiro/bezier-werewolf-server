@@ -4,9 +4,11 @@ class Action {
 	/**
 	 * An action to be executed
 	 * @param {Role} role
+	 * @param {number} priority
 	 */
-	constructor(role) {
+	constructor(role, priority) {
 		this.role = role;
+		this.priority = priority;
 	}
 
 	/**
@@ -15,6 +17,14 @@ class Action {
 	 */
 	getRole() {
 		return this.role;
+	}
+
+	/**
+	 * Get priority
+	 * @return {number}
+	 */
+	getPriority() {
+		return this.priority;
 	}
 
 	/**

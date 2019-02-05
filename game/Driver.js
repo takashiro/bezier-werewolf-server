@@ -170,6 +170,7 @@ class Driver {
 		}
 		this.finished = true;
 
+		this.actions.sort((a, b) => a.priority > b.priority);
 		for (let action of this.actions) {
 			action.execute(this);
 		}
