@@ -56,6 +56,17 @@ class UnitTest {
 	}
 
 	/**
+	 * Assert the response is empty and status is OK
+	 */
+	async assertOk() {
+		let resCode = this.res.statusCode;
+		let resText = await readText(this.res);
+		if (resCode !== 200 || resText !== "") {
+			assert.fail(`Unexpected: ${resCode} ${resText}`);
+		}
+	}
+
+	/**
 	 * Assert JSON response values
 	 * @param {*} expected
 	 */

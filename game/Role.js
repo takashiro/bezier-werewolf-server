@@ -47,6 +47,7 @@ Role.enums = [
 	new Role('Seer', Team.Villager),
 	new Role('Tanner', Team.Tanner),
 	new Role('Minion', Team.Werewolf),
+	new Role('Troublemaker', Team.Villager),
 ];
 
 module.exports = Role;

@@ -9,4 +9,5 @@ module.exports = [
 	require('./werewolf'),
 	require('./seer'),
 	require('./minion'),
+	require('./troublemaker'),
 ];
