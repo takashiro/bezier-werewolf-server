@@ -39,6 +39,7 @@ function POST(params, input) {
 
 	return {
 		id: room.id,
+		key: room.key,
 		ownerKey: room.ownerKey,
 		roles: driver.roles.map(role => role.toNum()),
 	};
@@ -59,6 +60,7 @@ function GET(params) {
 	const driver = room.getDriver();
 	return {
 		id: room.id,
+		key: room.key,
 		roles: driver.roles.map(role => role.toNum()),
 	};
 }

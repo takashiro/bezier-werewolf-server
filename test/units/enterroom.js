@@ -20,6 +20,7 @@ class EnterRoomTest extends UnitTest {
 
 		console.log('Check role config');
 		assert(created_room.id === room.id);
+		assert(room.key);
 		assert(room.roles.length === roles.length);
 		for (let i = 0; i < roles.length; i++) {
 			assert(roles[i] === room.roles[i]);

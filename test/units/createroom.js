@@ -29,6 +29,8 @@ class CreateRoomTest extends UnitTest {
 		roles = roles.map(role => role.toNum());
 		await this.post('room', {roles});
 		let room = await this.getJSON();
+		assert(room.id);
+		assert(room.key);
 		assert(room.roles && room.roles instanceof Array);
 		assert(room.roles.length === roles.length);
 		roles.sort();

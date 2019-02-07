@@ -10,6 +10,7 @@ class Room {
 		this.id = 0;
 		this.driver = null;
 		this.ownerKey = randstr(32);
+		this.key = randstr(8);
 	}
 
 	/**
