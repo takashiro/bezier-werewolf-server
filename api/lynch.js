@@ -87,9 +87,8 @@ function GET(params) {
 		}
 	}
 
-	const centerCards = driver.centerCards.map(card => card.role.toNum());
-
-	return {centerCards, players};
+	const cards = done ? driver.centerCards.map(card => ({pos: card.pos, role: card.role.toNum()})) : [];
+	return {cards, players};
 }
 
 module.exports = {POST, GET};

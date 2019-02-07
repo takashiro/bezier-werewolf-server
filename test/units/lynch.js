@@ -84,6 +84,15 @@ class LynchTest extends UnitTest {
 					assert(p.role === r.role);
 				}
 			}
+			if (votes.size < playerNum) {
+				assert(!board.cards || board.cards.length === 0);
+			} else {
+				assert(board.cards.length === 3);
+				for (const card of board.cards) {
+					assert(typeof card.pos === 'number');
+					assert(card.role && typeof card.role === 'number');
+				}
+			}
 		}
 
 		assert(board.players.length === players.length);
