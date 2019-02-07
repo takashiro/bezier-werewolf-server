@@ -10,12 +10,8 @@ class WerewolfCompanions extends ProactiveSkill {
 
 	takeEffect(driver, self) {
 		const players = driver.players;
-		const werewolves = players.filter(player => player.role === Role.Werewolf && player !== self);
-		if (werewolves.length <= 0) {
-			return werewolves;
-		} else {
-			return werewolves.map(wolf => wolf.seat);
-		}
+		const werewolves = players.filter(player => player.role === Role.Werewolf);
+		return this.showPlayers(werewolves);
 	}
 
 }

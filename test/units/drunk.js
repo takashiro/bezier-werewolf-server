@@ -68,7 +68,7 @@ class DrunkTest extends UnitTest {
 		const board = await this.getJSON();
 
 		assert(board.centerCards[card] === Role.Drunk.value);
-		assert(board.players[drunk.seat - 1].role === vision[0]);
+		assert(board.players[drunk.seat - 1].role === vision.cards[0].role);
 
 		// Clean up
 		await this.delete('room', room);

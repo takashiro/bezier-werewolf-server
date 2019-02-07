@@ -11,7 +11,7 @@ class MinionVision extends ProactiveSkill {
 	takeEffect(driver) {
 		const players = driver.players;
 		const werewolves = players.filter(player => player.role === Role.Werewolf);
-		return werewolves.map(wolf => wolf.seat);
+		return this.showPlayers(werewolves);
 	}
 
 }

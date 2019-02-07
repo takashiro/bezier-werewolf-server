@@ -27,17 +27,17 @@ async function test1() {
 
 		let cards = [a, b];
 		await this.post('skill', {id: room.id, seat, seatKey: seat}, {cards});
-		let foreseen = await this.getJSON();
-		assert(foreseen instanceof Array && foreseen.length == 2);
+		let vision = await this.getJSON();
+		assert(vision.cards instanceof Array && vision.cards.length == 2);
 		if (centerCards[a]) {
-			assert(foreseen[0] === centerCards[a]);
+			assert(vision.cards[0].role === centerCards[a]);
 		} else {
-			centerCards[a] = foreseen[0];
+			centerCards[a] = vision.cards[0].role;
 		}
 		if (centerCards[b]) {
-			assert(foreseen[1] === centerCards[b]);
+			assert(vision.cards[1].role === centerCards[b]);
 		} else {
-			centerCards[b] = foreseen[1];
+			centerCards[b] = vision.cards[1].role;
 		}
 
 		a = (a + 1) % 3;
@@ -78,19 +78,19 @@ async function test2() {
 
 		let target = Math.floor(Math.random() * playerNum) + 1;
 		await this.post('skill', {id: room.id, seat: player.seat, seatKey: 1}, {player: target});
-		let foreseen = await this.getJSON();
-		assert(foreseen.length === 1);
-		assert(foreseen[0] === players[target - 1].role);
+		let vision = await this.getJSON();
+		assert(vision.players.length === 1);
+		assert(vision.players[0].role === players[target - 1].role);
 	}
 
 	await this.delete('room', room);
 	await this.assertJSON({id: room.id});
 }
 
-class VillagerTest extends UnitTest {
+class SeerTest extends UnitTest {
 
 	constructor() {
-		super('Test villager');
+		super('Test seer');
 	}
 
 	async run() {
@@ -100,4 +100,4 @@ class VillagerTest extends UnitTest {
 
 }
 
-module.exports = VillagerTest;
+module.exports = SeerTest;

@@ -24,7 +24,7 @@ class WerewolfTest extends UnitTest {
 
 			if (player.role === Role.Werewolf.value) {
 				await this.post('skill', {id: room.id, seat, seatKey: seat}, {});
-				player.werewolves = await this.getJSON();
+				player.vision = await this.getJSON();
 			}
 		}
 
@@ -34,10 +34,9 @@ class WerewolfTest extends UnitTest {
 
 		for (const player of players) {
 			if (player.role === Role.Werewolf.value) {
-				let vision = player.werewolves;
-				assert(wolves.length === vision.length + 1);
-				let werewolves = [player.seat, ...vision];
-				werewolves.sort();
+				let vision = player.vision.players;
+				assert(wolves.length === vision.length);
+				let werewolves = vision.map(v => v.seat);
 				for (let i = 0; i < wolves.length; i++) {
 					assert(wolves[i] === werewolves[i]);
 				}

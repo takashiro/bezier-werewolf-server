@@ -41,9 +41,9 @@ class MinionTest extends UnitTest {
 		for (let seat of minions) {
 			await this.post('skill', {id: room.id, seat, seatKey: 1}, {});
 			let vision = await this.getJSON();
-			assert(vision.length === werewolves.length);
+			assert(vision.players.length === werewolves.length);
 			for (let i = 0; i < werewolves.length; i++) {
-				assert(vision[i] === werewolves[i]);
+				assert(vision.players[i].seat === werewolves[i]);
 			}
 		}
 

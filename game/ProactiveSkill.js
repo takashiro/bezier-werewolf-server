@@ -42,6 +42,16 @@ class ProactiveSkill {
 	takeEffect(driver, self, data) {
 	}
 
+	showPlayers(players) {
+		players = players.map(player => ({seat: player.seat, role: player.role.toNum()}));
+		return {players};
+	}
+
+	showCards(cards) {
+		cards = cards.map(card => ({pos: card.pos, role: card.role.toNum()}));
+		return {cards};
+	}
+
 }
 
 module.exports = ProactiveSkill;

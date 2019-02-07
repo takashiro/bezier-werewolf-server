@@ -21,7 +21,10 @@ class Rob extends ProactiveSkill {
 	takeEffect(driver, self, data) {
 		const target = driver.getPlayer(data.target);
 		driver.addAction(new ExchangeAction(this.role, 60, self, target));
-		return {role: target.role.toNum()};
+		return this.showPlayers([{
+			seat: self.seat,
+			role: target.role,
+		}]);
 	}
 
 }

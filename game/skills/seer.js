@@ -28,9 +28,9 @@ class SeerForecast extends ProactiveSkill {
 	takeEffect(driver, self, data) {
 		if (data.player) {
 			let player = driver.getPlayer(data.player);
-			return [player.role.toNum()];
+			return this.showPlayers([player]);
 		} else if (data.cards) {
-			return data.cards.map(i => driver.centerCards[i].toNum());
+			return this.showCards(data.cards.map(i => driver.centerCards[i]));
 		}
 	}
 
