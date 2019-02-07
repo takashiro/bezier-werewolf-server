@@ -14,6 +14,7 @@ class Role {
 		Role[key] = this;
 		this.key = key;
 		this.value = roleValue++;
+		this.team = team;
 	}
 
 	/**
