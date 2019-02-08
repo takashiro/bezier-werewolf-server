@@ -98,7 +98,7 @@ class LynchTest extends UnitTest {
 		assert(board.players.length === players.length);
 
 		await this.post('lynch', {id: room.id, seat: 1, seatKey: 1}, {target: 1000});
-		await this.assertError(400, 'You have submitted your lynch target');
+		await this.assertError(409, 'You have submitted your lynch target');
 
 		await this.delete('room', room);
 		await this.assertJSON({id: room.id});

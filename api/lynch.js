@@ -42,7 +42,7 @@ function POST(params, input) {
 	}
 
 	if (player.getLynchTarget()) {
-		throw new HttpError(400, 'You have submitted your lynch target');
+		throw new HttpError(409, 'You have submitted your lynch target');
 	}
 
 	const lynchTarget = driver.getPlayer(target);
