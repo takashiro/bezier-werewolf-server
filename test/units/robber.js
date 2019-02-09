@@ -43,11 +43,11 @@ class RobberTest extends UnitTest {
 		await this.assertError(400, 'Invalid skill targets');
 
 		// Non-existing target
-		await this.post('skill', auth, {target: playerNum + 1});
+		await this.post('skill', auth, {player: playerNum + 1});
 		await this.assertError(400, 'Invalid skill targets');
 
 		// Disallow robbing oneself
-		await this.post('skill', auth, {target: robber.seat});
+		await this.post('skill', auth, {player: robber.seat});
 		await this.assertError(400, 'Invalid skill targets');
 
 		// Rob other's role
@@ -56,7 +56,7 @@ class RobberTest extends UnitTest {
 			target = Math.floor(Math.random() * playerNum) + 1;
 		} while (target === robber.seat);
 		console.log('Rob ' + target);
-		await this.post('skill', auth, {target});
+		await this.post('skill', auth, {player: target});
 		let robbed = await this.getJSON();
 
 		// Reveal all roles
