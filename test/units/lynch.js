@@ -74,23 +74,23 @@ class LynchTest extends UnitTest {
 			await this.post('lynch', {id: room.id, seat, seatKey: 1}, {target});
 			await this.get('lynch', {id: room.id});
 			board = await this.getJSON();
-			for (const r of board.players) {
-				assert(votes.get(r.seat) === r.target);
-				if (votes.size < playerNum) {
-					assert(!r.role);
-				} else {
-					const p = players[r.seat - 1];
-					assert(p);
-					assert(p.role === r.role);
-				}
-			}
 			if (votes.size < playerNum) {
-				assert(!board.cards || board.cards.length === 0);
+				assert(!board.players);
+				assert(!board.cards);
+				assert(board.limit === playerNum);
+				assert(board.progress === votes.size);
 			} else {
 				assert(board.cards.length === 3);
 				for (const card of board.cards) {
 					assert(typeof card.pos === 'number');
 					assert(card.role && typeof card.role === 'number');
+				}
+
+				for (const r of board.players) {
+					assert(votes.get(r.seat) === r.target);
+					const p = players[r.seat - 1];
+					assert(p);
+					assert(p.role === r.role);
 				}
 			}
 		}

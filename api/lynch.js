@@ -75,20 +75,31 @@ function GET(params) {
 		done = true;
 	}
 
-	const players = [];
-	for (const player of driver.players) {
-		const target = player.getLynchTarget();
-		if (target) {
-			players.push({
-				seat: player.seat,
-				target: target ? target.seat : 0,
-				role: done ? player.role.toNum() : 0,
-			});
+	if (done) {
+		const players = [];
+		for (const player of driver.players) {
+			const target = player.getLynchTarget();
+			if (target) {
+				players.push({
+					seat: player.seat,
+					target: target ? target.seat : 0,
+					role: player.role.toNum(),
+				});
+			}
 		}
-	}
 
-	const cards = done ? driver.centerCards.map(card => ({pos: card.pos, role: card.role.toNum()})) : [];
-	return {cards, players};
+		const cards = driver.centerCards.map(card => ({pos: card.pos, role: card.role.toNum()}));
+		return {cards, players};
+	} else {
+		const limit = driver.players.length;
+		let progress = 0;
+		for (const player of driver.players) {
+			if (player.getLynchTarget()) {
+				progress++;
+			}
+		}
+		return {progress, limit};
+	}
 }
 
 module.exports = {POST, GET};
