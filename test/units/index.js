@@ -15,4 +15,5 @@ module.exports = [
 	require('./drunk'),
 	require('./mason'),
 	require('./board'),
+	require('./witch'),
 ];

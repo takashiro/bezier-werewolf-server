@@ -7,4 +7,5 @@ module.exports = [
 	require('./robber'),
 	require('./drunk'),
 	require('./mason'),
+	require('./witch'),
 ];
