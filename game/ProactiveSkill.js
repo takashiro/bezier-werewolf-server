@@ -3,7 +3,9 @@ class ProactiveSkill {
 
 	constructor(role) {
 		this.role = role;
-		this.used = false;
+		this.state = 0;
+		this.stateNum = 1;
+		this.output = null;
 	}
 
 	/**
@@ -11,15 +13,7 @@ class ProactiveSkill {
 	 * @return {boolean}
 	 */
 	isUsed() {
-		return this.used;
-	}
-
-	/**
-	 * Mark the skill as used / unused
-	 * @param {boolean} used
-	 */
-	setUsed(used) {
-		this.used = used;
+		return this.state >= this.stateNum;
 	}
 
 	/**
@@ -30,6 +24,30 @@ class ProactiveSkill {
 	 */
 	isFeasible(driver, self, data) {
 		return !!driver && !!self;
+	}
+
+	/**
+	 * Invoke the skill.
+	 * takeEffect() will be called, skill state will be updated and its output will be recorded.
+	 * @param {Driver} driver
+	 * @param {Player} self
+	 * @param {*} data
+	 */
+	invoke(driver, self, data) {
+		this.nextState = this.state + 1;
+		const output = this.takeEffect(driver, self, data);
+		if (this.nextState !== this.state) {
+			this.state = this.nextState;
+			this.output = output;
+		}
+	}
+
+	/**
+	 * Get the output of the last invocation.
+	 * @return {*}
+	 */
+	getOutput() {
+		return this.output;
 	}
 
 	/**
