@@ -5,13 +5,13 @@ class ExchangeAction extends Action {
 
 	/**
 	 * Create an exchange action
-	 * @param {Role} role
+	 * @param {Role} owner
 	 * @param {number} priority
 	 * @param {Player|CenterCard} from
 	 * @param {Player|CenterCard} to
 	 */
-	constructor(role, priority, from, to) {
-		super(role, priority);
+	constructor(owner, priority, from, to) {
+		super(owner, priority);
 
 		this.from = from;
 		this.to = to;

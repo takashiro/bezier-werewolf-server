@@ -20,7 +20,7 @@ class DrunkConfusion extends ProactiveSkill {
 
 	takeEffect(driver, self, data) {
 		const card = driver.getCenterCard(data.card);
-		driver.addAction(new ExchangeAction(this.role, 80, self, card));
+		driver.addAction(new ExchangeAction(self, 80, self, card));
 	}
 
 }

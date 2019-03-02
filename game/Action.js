@@ -3,20 +3,20 @@ class Action {
 
 	/**
 	 * An action to be executed
-	 * @param {Role} role
+	 * @param {Player} owner
 	 * @param {number} priority
 	 */
-	constructor(role, priority) {
-		this.role = role;
+	constructor(owner, priority) {
+		this.owner = owner;
 		this.priority = priority;
 	}
 
 	/**
-	 * Get role
-	 * @return {Role}
+	 * Get owner
+	 * @return {Player}
 	 */
-	getRole() {
-		return this.role;
+	getOwner() {
+		return this.owner;
 	}
 
 	/**

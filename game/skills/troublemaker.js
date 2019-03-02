@@ -31,7 +31,7 @@ class MakeTrouble extends ProactiveSkill {
 		let player1 = driver.getPlayer(data.players[0]);
 		let player2 = driver.getPlayer(data.players[1]);
 		// Skill Priority: 7
-		driver.addAction(new ExchangeAction(this.role, 70, player1, player2));
+		driver.addAction(new ExchangeAction(self, 70, player1, player2));
 	}
 
 }

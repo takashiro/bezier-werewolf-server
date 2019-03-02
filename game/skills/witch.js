@@ -40,7 +40,7 @@ class WitchPotion extends ProactiveSkill {
 		} else if (this.state === State.CardSelected) {
 			if (!isNaN(data.player)) {
 				const target = driver.getPlayer(data.player);
-				driver.addAction(new ExchangeAction(Role.Witch, 61, this.selectedCard, target));
+				driver.addAction(new ExchangeAction(self, 61, this.selectedCard, target));
 				return this.showPlayers([{
 					seat: target.seat,
 					role: this.selectedCard.role,
