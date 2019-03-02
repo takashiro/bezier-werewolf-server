@@ -16,4 +16,5 @@ module.exports = [
 	require('./mason'),
 	require('./board'),
 	require('./witch'),
+	require('./alphawolf'),
 ];

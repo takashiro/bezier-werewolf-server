@@ -8,4 +8,5 @@ module.exports = [
 	require('./drunk'),
 	require('./mason'),
 	require('./witch'),
+	require('./alphawolf'),
 ];
