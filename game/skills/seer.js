@@ -1,6 +1,5 @@
 
 const Role = require('../Role');
-const Player = require('../Player');
 const ProactiveSkill = require('../ProactiveSkill');
 
 class SeerForecast extends ProactiveSkill {
