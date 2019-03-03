@@ -35,6 +35,7 @@ class AlphaWolfTest extends UnitTest {
 
 		// Invoke alpha wolf skill
 		let target = 0;
+		let werewolves = [];
 		for (let seat = 1; seat <= playerNum; seat++) {
 			const player = players[seat - 1];
 			if (player.role !== Role.AlphaWolf.value) {
@@ -43,18 +44,27 @@ class AlphaWolfTest extends UnitTest {
 
 			const auth = {id: room.id, seat, seatKey: 1};
 
-			console.log('Test invalid card targets');
-			await this.post('skill', auth, {card: 3});
-			await this.assertError(400, 'Invalid skill targets');
+			console.log('See other werewolves');
+			await this.post('skill', auth, {});
+			const vision = await this.getJSON();
+			werewolves = vision.players;
+			assert(werewolves.length > 0);
 
-			console.log('Test invalid player target: 0');
-			await this.post('skill', auth, {player: 0});
-			await this.assertError(400, 'Invalid skill targets');
+			console.log('Test duplicate request');
+			await this.post('skill', auth, {card: 3});
+			const vision2 = await this.getJSON();
+			const w1 = vision.players.map(player => player.seat);
+			const w2 = vision2.players.map(player => player.seat);
+			assert(w1.length == w2.length);
+			for (let i = 0; i < w1.length; i++) {
+				assert(w1[i] === w2[i]);
+			}
 
 			console.log('Test invalid player target: self');
 			await this.post('skill', auth, {player: seat});
 			await this.assertError(400, 'Invalid skill targets');
 
+			// Infect a player
 			do {
 				target = Math.floor(Math.random() * playerNum) + 1;
 			} while (target === seat);
@@ -65,21 +75,31 @@ class AlphaWolfTest extends UnitTest {
 			break;
 		}
 
-		// Vote and see lync result
+		console.log('Vote and see lync result');
 		for (let seat = 1; seat <= playerNum; seat++) {
 			await this.post('lynch', {id: room.id, seat, seatKey: 1}, {target: 1});
 		}
 		await this.get('lynch', {id: room.id});
 		const board = await this.getJSON();
 
+		console.log(`Confirm the infected player ${target} is a werewolf`);
 		assert(board.players.length > 0);
 		for (const player of board.players) {
 			const baseline = players[player.seat - 1];
 			if (player.seat === target) {
 				assert(player.role === Role.Werewolf.value);
-				console.log(`Player ${player.seat} is a werewolf`);
 			} else {
 				assert(player.role === baseline.role);
+			}
+		}
+
+		console.log('Confirm other werewolves');
+		for (const p1 of werewolves) {
+			const p2 = board.players[p1.seat - 1];
+			if (p2.seat === target) {
+				assert(p2.role === Role.Werewolf.value);
+			} else {
+				assert(p2.role === p1.role);
 			}
 		}
 

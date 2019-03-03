@@ -3,6 +3,11 @@ const assert = require('assert');
 const UnitTest = require('../UnitTest');
 const Role = require('../../game/Role');
 
+const Wolf = [
+	Role.Werewolf.value,
+	Role.AlphaWolf.value,
+];
+
 class WerewolfTest extends UnitTest {
 
 	constructor() {
@@ -10,8 +15,17 @@ class WerewolfTest extends UnitTest {
 	}
 
 	async run() {
-		let roles = [Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.Werewolf, Role.Villager];
-		roles = roles.map(role => role.toNum());
+		const roles = [];
+		for (let i = 0; i < 5; i++) {
+			roles.push(Role.Werewolf.value);
+		}
+		for (let i = 0; i < 4; i++) {
+			roles.push(Role.AlphaWolf.value);
+		}
+		for (let i = 0; i < 20; i++) {
+			roles.push(Role.Villager.value);
+		}
+
 		await this.post('room', {roles});
 		const room = await this.getJSON();
 
@@ -28,9 +42,9 @@ class WerewolfTest extends UnitTest {
 			}
 		}
 
-		const wolves = players.filter(player => player.role === Role.Werewolf.value).map(player => player.seat);
+		const wolves = players.filter(player => Wolf.indexOf(player.role) >= 0).map(player => parseInt(player.seat));
 		assert(wolves.length >= 2);
-		wolves.sort();
+		wolves.sort((a, b) => a > b);
 
 		for (const player of players) {
 			if (player.role === Role.Werewolf.value) {
@@ -40,8 +54,6 @@ class WerewolfTest extends UnitTest {
 				for (let i = 0; i < wolves.length; i++) {
 					assert(wolves[i] === werewolves[i]);
 				}
-			} else {
-				assert(!player.werewolves);
 			}
 		}
 
