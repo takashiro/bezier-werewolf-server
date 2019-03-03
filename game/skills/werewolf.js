@@ -1,6 +1,16 @@
 
 const Role = require('../Role');
+const Timing = require('../Timing');
 const ProactiveSkill = require('../ProactiveSkill');
+const VisionSkill = require('../VisionSkill');
+
+class WerewolfVision extends VisionSkill {
+
+	constructor() {
+		super(Role.Werewolf, Role.Werewolf);
+	}
+
+}
 
 class WerewolfCompanions extends ProactiveSkill {
 
@@ -9,11 +19,13 @@ class WerewolfCompanions extends ProactiveSkill {
 	}
 
 	takeEffect(driver, self) {
-		const players = driver.players;
-		const werewolves = players.filter(player => player.role === Role.Werewolf);
+		const werewolves = driver.showVision(this.role);
 		return this.showPlayers(werewolves);
 	}
 
 }
 
-module.exports = [WerewolfCompanions];
+module.exports = [
+	WerewolfCompanions,
+	WerewolfVision,
+];

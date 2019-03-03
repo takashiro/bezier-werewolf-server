@@ -4,6 +4,7 @@ const Player = require('./Player');
 const CenterCard = require('./CenterCard');
 const ProactiveSkill = require('./ProactiveSkill');
 const PassiveSkill = require('./PassiveSkill');
+const Timing = require('./Timing');
 
 const State = {
 	Invalid: 0x0, // To avoid unexpected equation
@@ -135,11 +136,27 @@ class Driver {
 				continue;
 			}
 
-			let broken = skill.takeEfect(this, target, data);
+			let broken = skill.takeEffect(this, target, data);
 			if (broken) {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Show the vision of a role
+	 * @param {Role} role
+	 * @return {Player[]} players that can be seen
+	 */
+	showVision(role) {
+		const vision = {
+			viewerRole: role,
+			players: [],
+		};
+		for (const target of this.players) {
+			this.trigger(Timing.Vision, target, vision);
+		}
+		return vision.players;
 	}
 
 	/**
