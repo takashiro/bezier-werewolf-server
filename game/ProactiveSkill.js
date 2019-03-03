@@ -27,6 +27,16 @@ class ProactiveSkill {
 	}
 
 	/**
+	 * Check if the skill has been invoked
+	 * @param {Driver} driver
+	 * @param {Player} self
+	 * @param {*} data
+	 */
+	isInvoked(driver, self, data) {
+		return this.isUsed();
+	}
+
+	/**
 	 * Invoke the skill.
 	 * takeEffect() will be called, skill state will be updated and its output will be recorded.
 	 * @param {Driver} driver
@@ -34,12 +44,8 @@ class ProactiveSkill {
 	 * @param {*} data
 	 */
 	invoke(driver, self, data) {
-		this.nextState = this.state + 1;
-		const output = this.takeEffect(driver, self, data);
-		if (this.nextState !== this.state) {
-			this.state = this.nextState;
-			this.output = output;
-		}
+		this.output = this.takeEffect(driver, self, data);
+		this.state++;
 	}
 
 	/**

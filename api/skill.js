@@ -40,7 +40,7 @@ function POST(params, input) {
 		throw new HttpError(404, 'No skill for your role');
 	}
 
-	if (!skill.isUsed()) {
+	if (!skill.isInvoked(driver, player, input)) {
 		if (!skill.isFeasible(driver, player, input)) {
 			throw new HttpError(400, 'Invalid skill targets');
 		}
