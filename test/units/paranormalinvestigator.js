@@ -187,6 +187,10 @@ class ParanormalInvestigatorTest extends UnitTest {
 		await this.assertError(400, 'Invalid skill targets');
 		await this.post('skill', auth, {players: [me.seat]});
 		await this.assertError(400, 'Invalid skill targets');
+		await this.post('skill', auth, {players: [me.seat + 1]});
+		await this.assertError(400, 'Invalid skill targets');
+		await this.post('skill', auth, {players: [me.seat - 1]});
+		await this.assertError(400, 'Invalid skill targets');
 		await this.post('skill', auth, {players: [me.seat, me.seat + 1]});
 		await this.assertError(400, 'Invalid skill targets')
 		await this.post('skill', auth, {players: [me.seat, me.seat - 1]});

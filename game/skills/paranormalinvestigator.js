@@ -15,7 +15,12 @@ class Investigate extends ProactiveSkill {
 			return false;
 		}
 
-		if (!data.players || !(data.players instanceof Array)) {
+		const targets = data.players;
+		if (!targets || !(targets instanceof Array)) {
+			return false;
+		}
+
+		if (targets.length != 2) {
 			return false;
 		}
 
