@@ -3,10 +3,7 @@ const assert = require('assert');
 const UnitTest = require('../UnitTest');
 const Role = require('../../game/Role');
 
-const Wolf = [
-	Role.Werewolf.value,
-	Role.AlphaWolf.value,
-];
+const isWerewolf = require('../isWerewolf');
 
 class MinionTest extends UnitTest {
 
@@ -34,7 +31,7 @@ class MinionTest extends UnitTest {
 		for (let seat = 1; seat <= playerNum; seat++) {
 			await this.get('role', {id: room.id, seat, seatKey: 1});
 			let my = await this.getJSON();
-			if (Wolf.indexOf(my.role) >= 0) {
+			if (isWerewolf(my.role) >= 0) {
 				werewolves.push(seat);
 			} else if (my.role === Role.Minion.value) {
 				minions.push(seat);

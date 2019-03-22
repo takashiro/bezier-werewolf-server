@@ -9,4 +9,5 @@ module.exports = [
 	require('./mason'),
 	require('./witch'),
 	...require('./alphawolf'),
+	require('./dreamwolf'),
 ];

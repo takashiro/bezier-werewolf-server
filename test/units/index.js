@@ -17,4 +17,5 @@ module.exports = [
 	require('./board'),
 	require('./witch'),
 	require('./alphawolf'),
+	require('./dreamwolf'),
 ];
