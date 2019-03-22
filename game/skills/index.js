@@ -11,4 +11,5 @@ module.exports = [
 	...require('./alphawolf'),
 	require('./dreamwolf'),
 	...require('./mysticwolf'),
+	require('./paranormalinvestigator'),
 ];
