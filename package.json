@@ -4,7 +4,9 @@
   "description": "One Night Ultimate Werewolf (Node.js Server)",
   "main": "app.js",
   "scripts": {
-    "test": "node test"
+    "build": "tsc",
+    "test": "node test",
+    "lint": "eslint src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,13 @@
     "url": "https://github.com/takashiro/bezier-werewolf-server/issues"
   },
   "homepage": "https://github.com/takashiro/bezier-werewolf-server#readme",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "typescript": "^4.0.2"
+  }
 }
