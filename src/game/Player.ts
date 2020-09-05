@@ -1,4 +1,5 @@
 import { Role } from '@bezier/werewolf-core';
+import Skill from './Skill';
 
 class Player {
 	protected seat: number;
@@ -8,6 +9,8 @@ class Player {
 	protected role: Role;
 
 	protected lynchTarget?: Player;
+
+	protected skill?: Skill;
 
 	constructor(seat: number) {
 		this.seat = seat;
@@ -64,6 +67,21 @@ class Player {
 	 */
 	getLynchTarget(): Player | undefined {
 		return this.lynchTarget;
+	}
+
+	/**
+	 * Sets player skill
+	 * @param skill
+	 */
+	setSkill(skill: Skill): void {
+		this.skill = skill;
+	}
+
+	/**
+	 * @return player skill
+	 */
+	getSkill(): Skill | undefined {
+		return this.skill;
 	}
 }
 
