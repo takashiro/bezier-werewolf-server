@@ -25,7 +25,7 @@ export default abstract class Action<DriverType> {
 	/**
 	 * @return priority
 	 */
-	getPriority() {
+	getPriority(): number {
 		return this.priority;
 	}
 

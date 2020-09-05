@@ -1,6 +1,9 @@
-import { Role } from '@bezier/werewolf-core';
+import {
+	Role,
+	CardData,
+} from '@bezier/werewolf-core';
 
-export default class CenterCard {
+export default class Card {
 	protected pos: number;
 
 	protected role: Role;
@@ -28,5 +31,12 @@ export default class CenterCard {
 	 */
 	getRole(): Role {
 		return this.role;
+	}
+
+	toJSON(): CardData {
+		return {
+			pos: this.pos,
+			role: this.role,
+		};
 	}
 }

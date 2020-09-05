@@ -1,4 +1,8 @@
-import { Role } from '@bezier/werewolf-core';
+import {
+	Role,
+	PlayerProfile,
+} from '@bezier/werewolf-core';
+
 import Skill from './Skill';
 
 class Player {
@@ -82,6 +86,13 @@ class Player {
 	 */
 	getSkill(): Skill | undefined {
 		return this.skill;
+	}
+
+	getProfile(): PlayerProfile {
+		return {
+			seat: this.seat,
+			role: this.role,
+		};
 	}
 }
 
