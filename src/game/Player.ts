@@ -1,26 +1,31 @@
+import { Role } from '@bezier/werewolf-core';
 
 class Player {
+	protected seat: number;
 
-	constructor(seat) {
+	protected seatKey?: string;
+
+	protected role: Role;
+
+	protected lynchTarget?: Player;
+
+	constructor(seat: number) {
 		this.seat = seat;
-		this.seatKey = null;
-		this.role = null;
-		this.lynchTarget = null;
+		this.role = Role.Unknown;
 	}
 
 	/**
 	 * Get seat
 	 * @return {number}
 	 */
-	getSeat() {
+	getSeat(): number {
 		return this.seat;
 	}
 
 	/**
-	 * Get seat key
-	 * @return {number}
+	 * @return seat key
 	 */
-	getSeatKey() {
+	getSeatKey(): string | undefined {
 		return this.seatKey;
 	}
 
@@ -28,7 +33,7 @@ class Player {
 	 * Set seat key
 	 * @param {number} seatKey
 	 */
-	setSeatKey(seatKey) {
+	setSeatKey(seatKey: string): void {
 		this.seatKey = seatKey;
 	}
 
@@ -36,7 +41,7 @@ class Player {
 	 * Get role
 	 * @return {Role}
 	 */
-	getRole() {
+	getRole(): Role {
 		return this.role;
 	}
 
@@ -44,31 +49,15 @@ class Player {
 	 * Set role
 	 * @param {Role} role
 	 */
-	setRole(role) {
+	setRole(role: Role): void {
 		this.role = role;
-	}
-
-	/**
-	 * Set proactive skill
-	 * @param {ProactiveSkill} skill
-	 */
-	setProactiveSkill(skill) {
-		this.skill = skill;
-	}
-
-	/**
-	 * Get proactive skill
-	 * @return {ProactiveSkill}
-	 */
-	getProactiveSkill() {
-		return this.skill;
 	}
 
 	/**
 	 * Set lynch target
 	 * @param {Player} target
 	 */
-	setLynchTarget(target) {
+	setLynchTarget(target: Player): void {
 		this.lynchTarget = target;
 	}
 
@@ -76,10 +65,9 @@ class Player {
 	 * Get lynch target
 	 * @return {Player}
 	 */
-	getLynchTarget() {
+	getLynchTarget(): Player | undefined {
 		return this.lynchTarget;
 	}
-
 }
 
-module.exports = Player;
+export default Player;
