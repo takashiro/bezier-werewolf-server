@@ -15,8 +15,7 @@ class Player {
 	}
 
 	/**
-	 * Get seat
-	 * @return {number}
+	 * @return seat
 	 */
 	getSeat(): number {
 		return this.seat;
@@ -31,15 +30,14 @@ class Player {
 
 	/**
 	 * Set seat key
-	 * @param {number} seatKey
+	 * @param seatKey
 	 */
 	setSeatKey(seatKey: string): void {
 		this.seatKey = seatKey;
 	}
 
 	/**
-	 * Get role
-	 * @return {Role}
+	 * @return role
 	 */
 	getRole(): Role {
 		return this.role;
@@ -47,7 +45,7 @@ class Player {
 
 	/**
 	 * Set role
-	 * @param {Role} role
+	 * @param role
 	 */
 	setRole(role: Role): void {
 		this.role = role;
@@ -55,15 +53,14 @@ class Player {
 
 	/**
 	 * Set lynch target
-	 * @param {Player} target
+	 * @param target
 	 */
 	setLynchTarget(target: Player): void {
 		this.lynchTarget = target;
 	}
 
 	/**
-	 * Get lynch target
-	 * @return {Player}
+	 * @return lynch target
 	 */
 	getLynchTarget(): Player | undefined {
 		return this.lynchTarget;
