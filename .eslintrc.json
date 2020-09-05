@@ -30,10 +30,15 @@
 			"tab"
 		],
 		"linebreak-style": "off",
+		"no-continue": "off",
 		"no-plusplus": "off",
 		"no-param-reassign": "off",
 		"no-shadow": "off",
 		"no-tabs": "off",
+		"no-restricted-syntax": [
+			"error",
+			"WithStatement"
+		],
 		"@typescript-eslint/no-shadow": [
 			"error"
 		]

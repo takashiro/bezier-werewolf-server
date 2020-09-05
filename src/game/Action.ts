@@ -33,5 +33,5 @@ export default abstract class Action<DriverType> {
 	 * Action effect
 	 * @param driver
 	 */
-	abstract execute(driver: DriverType): void;
+	abstract exec(driver: DriverType): void;
 }
