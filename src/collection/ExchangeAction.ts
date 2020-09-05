@@ -1,7 +1,12 @@
+import Action from '../game/Action';
+import Driver from '../game/Driver';
+import Player from '../game/Player';
+import Card from '../game/Card';
 
-const Action = require('./Action');
+export default class ExchangeAction extends Action<Driver> {
+	protected from: Player | Card;
 
-class ExchangeAction extends Action {
+	protected to: Player | Card;
 
 	/**
 	 * Create an exchange action
@@ -10,7 +15,7 @@ class ExchangeAction extends Action {
 	 * @param {Player|CenterCard} from
 	 * @param {Player|CenterCard} to
 	 */
-	constructor(owner, priority, from, to) {
+	constructor(owner: Player, priority: number, from: Player | Card, to: Player | Card) {
 		super(owner, priority);
 
 		this.from = from;
@@ -20,13 +25,10 @@ class ExchangeAction extends Action {
 	/**
 	 * Take effect
 	 */
-	execute() {
+	exec(): void {
 		const fromRole = this.from.getRole();
 		const toRole = this.to.getRole();
 		this.from.setRole(toRole);
 		this.to.setRole(fromRole);
 	}
-
 }
-
-module.exports = ExchangeAction;
