@@ -61,6 +61,10 @@ export default class Driver {
 		return this.roles;
 	}
 
+	getPlayers(): Player[] {
+		return this.players;
+	}
+
 	/**
 	 * Get player
 	 * @param seat
