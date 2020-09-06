@@ -1,28 +1,27 @@
-import { Role } from '@bezier/werewolf-core';
+import { PlayerProfile } from '@bezier/werewolf-core';
 
-import Event from '../game/Event';
-import PassiveSkill from '../game/PassiveSkill';
-import Vision from '../game/Vision';
 import Driver from '../game/Driver';
+import Event from '../game/Event';
+import ProactiveSkill from '../game/ProactiveSkill';
 import Player from '../game/Player';
+import Vision from '../game/Vision';
 
-export default class VisionSkill extends PassiveSkill<Driver, Vision> {
-	protected viewerRole: Role;
-
+export default abstract class VisionSkill extends ProactiveSkill<Player, Driver, Selection, PlayerProfile[]> {
 	/**
-	 * role should be seen by viewer
-	 * @param {Role} myRole
-	 * @param {Role} viewerRole
+	 * Show the vision of a player
+	 * @param viewer
+	 * @return players that can be seen
 	 */
-	constructor(myRole: Role, viewerRole: Role) {
-		super(Event.Visioning, myRole);
-		this.viewerRole = viewerRole;
-	}
-
-	takeEffect(driver: Driver, self: Player, data: Vision): boolean {
-		if (data.viewer.getRole() === this.viewerRole) {
-			data.players.push(self);
+	protected showVision(viewer: Player): PlayerProfile[] {
+		if (!this.driver) {
+			return [];
 		}
-		return false;
+
+		const vision: Vision = {
+			viewer,
+			players: [],
+		};
+		this.driver.trigger(Event.Visioning, vision);
+		return vision.players.map((player) => player.getProfile());
 	}
 }

@@ -1,8 +1,7 @@
 import { Role } from '@bezier/werewolf-core';
 import Skill from './Skill';
-import Player from './Player';
 
-export default abstract class ProactiveSkill<DriverType, InputType, OutputType> extends Skill {
+export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, OutputType> extends Skill<OwnerType, DriverType> {
 	protected state: number;
 
 	protected stateNum: number;
@@ -29,31 +28,23 @@ export default abstract class ProactiveSkill<DriverType, InputType, OutputType> 
 	 * @param self
 	 * @param data
 	 */
-	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-	isFeasible(driver: DriverType, self: Player, data: InputType): boolean {
-		return !!driver && !!self;
+	isFeasible(data: InputType): boolean {
+		return Boolean(this.driver && data);
 	}
 
 	/**
 	 * Check if the skill has been invoked
-	 * @param driver
-	 * @param self
 	 * @param data
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	isInvoked(driver: DriverType, self: Player, data: InputType): boolean {
-		return this.isUsed();
-	}
+	abstract isInvoked(data: InputType): boolean;
 
 	/**
 	 * Invoke the skill.
 	 * takeEffect() will be called, skill state will be updated and its output will be recorded.
-	 * @param driver
-	 * @param self
 	 * @param data
 	 */
-	invoke(driver: DriverType, self: Player, data: InputType): void {
-		this.output = this.takeEffect(driver, self, data);
+	invoke(data: InputType): void {
+		this.output = this.takeEffect(data);
 		this.state++;
 	}
 
@@ -66,10 +57,8 @@ export default abstract class ProactiveSkill<DriverType, InputType, OutputType> 
 
 	/**
 	 * Take effect on targets
-	 * @param driver
-	 * @param self
 	 * @param data
 	 * @return data transfered to clients
 	 */
-	abstract takeEffect(driver: DriverType, self: Player, data: InputType): OutputType;
+	abstract takeEffect(data: InputType): OutputType;
 }

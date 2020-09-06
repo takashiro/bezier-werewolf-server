@@ -2,9 +2,8 @@ import { Role } from '@bezier/werewolf-core';
 
 import Event from './Event';
 import Skill from './Skill';
-import Player from './Player';
 
-export default abstract class PassiveSkill<DriverType, InputType> extends Skill {
+export default abstract class PassiveSkill<OwnerType, DriverType, InputType> extends Skill<OwnerType, DriverType> {
 	protected readonly event: Event;
 
 	/**
@@ -23,12 +22,9 @@ export default abstract class PassiveSkill<DriverType, InputType> extends Skill 
 
 	/**
 	 * Check if this skill can be triggered
-	 * @param driver
 	 * @param target
 	 */
-	isTriggerable(driver: DriverType, target: Player): boolean {
-		return driver && target && target.getRole() === this.role;
-	}
+	abstract isTriggerable(data: InputType): boolean;
 
 	/**
 	 * Take effect
@@ -37,5 +33,5 @@ export default abstract class PassiveSkill<DriverType, InputType> extends Skill 
 	 * @param data
 	 * @return Whether to break following actions
 	 */
-	abstract takeEffect(driver: DriverType, target: Player, data: InputType): boolean;
+	abstract takeEffect(data: InputType): boolean;
 }

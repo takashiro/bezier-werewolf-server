@@ -14,7 +14,7 @@ class Player {
 
 	protected lynchTarget?: Player;
 
-	protected skill?: Skill;
+	protected skill?: Skill<Player, unknown>;
 
 	constructor(seat: number) {
 		this.seat = seat;
@@ -77,14 +77,14 @@ class Player {
 	 * Sets player skill
 	 * @param skill
 	 */
-	setSkill(skill: Skill): void {
+	setSkill(skill: Skill<Player, unknown>): void {
 		this.skill = skill;
 	}
 
 	/**
 	 * @return player skill
 	 */
-	getSkill(): Skill | undefined {
+	getSkill(): Skill<Player, unknown> | undefined {
 		return this.skill;
 	}
 

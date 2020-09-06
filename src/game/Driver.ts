@@ -1,15 +1,10 @@
-import {
-	Role,
-	PlayerProfile,
-} from '@bezier/werewolf-core';
+import { Role } from '@bezier/werewolf-core';
 
 import Action from './Action';
 import Card from './Card';
 import Event from './Event';
-import PassiveSkill from './PassiveSkill';
+import PassiveSkillTemplate from './PassiveSkill';
 import Player from './Player';
-import ProactiveSkill from './ProactiveSkill';
-import Vision from './Vision';
 
 import shuffle from '../util/shuffle';
 
@@ -21,6 +16,8 @@ const enum State {
 	Ended, // The game is over
 }
 
+type PassiveSkill<InputType> = PassiveSkillTemplate<Player, Driver, InputType>;
+
 export default class Driver {
 	protected roles: Role[];
 
@@ -28,9 +25,7 @@ export default class Driver {
 
 	protected players: Player[];
 
-	protected proactiveSkills: Map<Role, ProactiveSkill<Driver, unknown, unknown>[]>;
-
-	protected passiveSkills: Map<Event, PassiveSkill<Driver, unknown>[]>;
+	protected passiveSkills: Map<Event, PassiveSkill<unknown>[]>;
 
 	protected actions: Action<Driver>[];
 
@@ -40,7 +35,6 @@ export default class Driver {
 		this.roles = [];
 		this.centerCards = [];
 		this.players = [];
-		this.proactiveSkills = new Map();
 		this.passiveSkills = new Map();
 		this.actions = [];
 		this.finished = false;
@@ -81,7 +75,7 @@ export default class Driver {
 		return this.centerCards[index];
 	}
 
-	register<InputType>(skill: PassiveSkill<Driver, InputType>): void {
+	register<InputType>(skill: PassiveSkill<InputType>): void {
 		const event = skill.getEvent();
 		const skills = this.passiveSkills.get(event);
 		if (!skills) {
@@ -89,6 +83,7 @@ export default class Driver {
 		} else {
 			skills.push(skill);
 		}
+		skill.setDriver(this);
 	}
 
 	/**
@@ -97,38 +92,22 @@ export default class Driver {
 	 * @param target
 	 * @param data
 	 */
-	trigger<InputType>(event: Event, target: Player, data: InputType): void {
+	trigger<InputType>(event: Event, data: InputType): void {
 		const skills = this.passiveSkills.get(event);
 		if (!skills) {
 			return;
 		}
 
 		for (const skill of skills) {
-			if (!skill.isTriggerable(this, target)) {
+			if (!skill.isTriggerable(data)) {
 				continue;
 			}
 
-			const broken = skill.takeEffect(this, target, data);
+			const broken = skill.takeEffect(data);
 			if (broken) {
 				break;
 			}
 		}
-	}
-
-	/**
-	 * Show the vision of a player
-	 * @param viewer
-	 * @return players that can be seen
-	 */
-	showVision(viewer: Player): PlayerProfile[] {
-		const vision: Vision = {
-			viewer,
-			players: [],
-		};
-		for (const target of this.players) {
-			this.trigger(Event.Visioning, target, vision);
-		}
-		return vision.players.map((player) => player.getProfile());
 	}
 
 	/**
