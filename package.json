@@ -4,7 +4,7 @@
   "description": "One Night Ultimate Werewolf (Node.js Server)",
   "main": "app.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "debug": "tsc --incremental --sourceMap",
     "test": "npm run lint",
     "lint": "eslint src/**/*.ts"
@@ -39,6 +39,7 @@
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "rimraf": "^3.0.2",
     "typescript": "^4.0.2"
   }
 }
