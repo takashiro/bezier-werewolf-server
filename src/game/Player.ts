@@ -1,6 +1,6 @@
 import {
 	Role,
-	PlayerProfile,
+	Player as PlayerProfile,
 } from '@bezier/werewolf-core';
 
 import Skill from './Skill';

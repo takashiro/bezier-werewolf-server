@@ -1,6 +1,6 @@
 import {
 	Role,
-	CardData,
+	Card as CardData,
 } from '@bezier/werewolf-core';
 
 export default class Card {
