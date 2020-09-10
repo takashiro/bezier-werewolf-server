@@ -5,7 +5,11 @@ import { lobby } from '../../base/Lobby';
 import Room from '../../base/Room';
 import GameDriver from '../../game/Driver';
 
+import boardRouter from './board';
+
 const router = Router();
+
+router.use('/:id/board', boardRouter);
 
 router.post('/', (req, res) => {
 	const input = req.body;

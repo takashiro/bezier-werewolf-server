@@ -12,6 +12,8 @@ class Player {
 
 	protected role: Role;
 
+	protected ready: boolean;
+
 	protected lynchTarget?: Player;
 
 	protected skill?: Skill<Player, unknown>;
@@ -19,6 +21,7 @@ class Player {
 	constructor(seat: number) {
 		this.seat = seat;
 		this.role = Role.Unknown;
+		this.ready = false;
 	}
 
 	/**
@@ -56,6 +59,14 @@ class Player {
 	 */
 	setRole(role: Role): void {
 		this.role = role;
+	}
+
+	isReady(): boolean {
+		return this.ready;
+	}
+
+	setReady(ready: boolean): void {
+		this.ready = ready;
 	}
 
 	/**
