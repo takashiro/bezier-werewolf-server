@@ -1,4 +1,4 @@
-import { Role } from '@bezier/werewolf-core';
+import { Role, GameConfig } from '@bezier/werewolf-core';
 
 import Action from './Action';
 import Card from './Card';
@@ -6,6 +6,7 @@ import Event from './Event';
 import PassiveSkill from './PassiveSkill';
 import Player from './Player';
 
+import BaseDriver from '../core/Driver';
 import shuffle from '../util/shuffle';
 
 const enum State {
@@ -16,7 +17,7 @@ const enum State {
 	Ended, // The game is over
 }
 
-export default class Driver {
+export default class Driver implements BaseDriver {
 	protected roles: Role[];
 
 	protected centerCards: Card[];
@@ -36,6 +37,12 @@ export default class Driver {
 		this.passiveSkills = new Map();
 		this.actions = [];
 		this.finished = false;
+	}
+
+	getConfig(): GameConfig {
+		return {
+			roles: this.roles,
+		};
 	}
 
 	/**

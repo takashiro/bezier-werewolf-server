@@ -1,3 +1,5 @@
+import { Room as RoomMeta } from '@bezier/werewolf-core';
+
 import randstr from '../util/randstr';
 import Driver from './Driver';
 
@@ -24,6 +26,10 @@ export default class Room {
 
 	getSalt(): string {
 		return this.salt;
+	}
+
+	getOwnerKey(): string {
+		return this.ownerKey;
 	}
 
 	/**
@@ -54,5 +60,14 @@ export default class Room {
 			clearTimeout(this.timer);
 			delete this.timer;
 		}
+	}
+
+	toJSON(): RoomMeta {
+		const config = this.driver?.getConfig();
+		return {
+			id: this.id,
+			salt: this.salt,
+			roles: config ? config.roles : [],
+		};
 	}
 }
