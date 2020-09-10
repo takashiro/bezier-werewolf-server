@@ -30,6 +30,7 @@
 			"tab"
 		],
 		"linebreak-style": "off",
+		"max-len": "off",
 		"no-continue": "off",
 		"no-plusplus": "off",
 		"no-param-reassign": "off",

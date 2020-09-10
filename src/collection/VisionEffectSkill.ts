@@ -2,9 +2,10 @@ import { Role } from '@bezier/werewolf-core';
 
 import Event from '../game/Event';
 import PassiveSkill from '../game/PassiveSkill';
-import Vision from '../game/Vision';
 import Driver from '../game/Driver';
 import Player from '../game/Player';
+
+import Vision from './Vision';
 
 export default abstract class VisionEffect extends PassiveSkill<Player, Driver, Vision> {
 	protected viewerRole: Role;

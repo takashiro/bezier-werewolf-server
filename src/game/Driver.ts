@@ -3,7 +3,7 @@ import { Role } from '@bezier/werewolf-core';
 import Action from './Action';
 import Card from './Card';
 import Event from './Event';
-import PassiveSkillTemplate from './PassiveSkill';
+import PassiveSkill from './PassiveSkill';
 import Player from './Player';
 
 import shuffle from '../util/shuffle';
@@ -16,8 +16,6 @@ const enum State {
 	Ended, // The game is over
 }
 
-type PassiveSkill<InputType> = PassiveSkillTemplate<Player, Driver, InputType>;
-
 export default class Driver {
 	protected roles: Role[];
 
@@ -25,7 +23,7 @@ export default class Driver {
 
 	protected players: Player[];
 
-	protected passiveSkills: Map<Event, PassiveSkill<unknown>[]>;
+	protected passiveSkills: Map<Event, PassiveSkill<Player, Driver, unknown>[]>;
 
 	protected actions: Action<Driver>[];
 
@@ -75,7 +73,7 @@ export default class Driver {
 		return this.centerCards[index];
 	}
 
-	register<InputType>(skill: PassiveSkill<InputType>): void {
+	register<InputType>(skill: PassiveSkill<Player, Driver, InputType>): void {
 		const event = skill.getEvent();
 		const skills = this.passiveSkills.get(event);
 		if (!skills) {
