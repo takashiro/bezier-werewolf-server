@@ -5,10 +5,13 @@ const { readFile } = fs.promises;
 export default class Config {
 	socket: number | string;
 
+	roomExpiry: number;
+
 	lobbyCapacity: number;
 
 	constructor() {
 		this.socket = '/var/run/bezier-werewolf/bezier-werewolf.sock';
+		this.roomExpiry = 60 * 60 * 1000;
 		this.lobbyCapacity = 1000;
 	}
 

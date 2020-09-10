@@ -8,7 +8,11 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceFolder}\\app.js"
+			"program": "${workspaceFolder}/src/cli.ts",
+			"outFiles": [
+				"${workspaceFolder}/dist/**/*.js"
+			],
+			"preLaunchTask": "npm: debug"
 		},
 		{
 			"type": "node",
