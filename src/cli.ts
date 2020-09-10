@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { config } from './core/Config';
-import { lobby } from './core/Lobby';
+import { config } from './base/Config';
+import { lobby } from './base/Lobby';
 
 import app from './index';
 

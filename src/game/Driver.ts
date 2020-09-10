@@ -6,7 +6,7 @@ import Event from './Event';
 import PassiveSkill from './PassiveSkill';
 import Player from './Player';
 
-import BaseDriver from '../core/Driver';
+import BaseDriver from '../base/Driver';
 import shuffle from '../util/shuffle';
 
 const enum State {

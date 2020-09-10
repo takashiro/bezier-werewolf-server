@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { Role } from '@bezier/werewolf-core';
 
-import { lobby } from '../../core/Lobby';
-import Room from '../../core/Room';
+import { lobby } from '../../base/Lobby';
+import Room from '../../base/Room';
 import GameDriver from '../../game/Driver';
 
 const router = Router();

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { lobby } from '../core/Lobby';
+import { lobby } from '../base/Lobby';
 
 const router = Router();
 
