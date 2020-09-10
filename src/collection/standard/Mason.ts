@@ -1,7 +1,4 @@
-import {
-	Role,
-	Vision,
-} from '@bezier/werewolf-core';
+import { Role } from '@bezier/werewolf-core';
 
 import CompanionSkill from '../CompanionSkill';
 
