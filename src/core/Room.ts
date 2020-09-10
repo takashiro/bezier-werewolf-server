@@ -10,6 +10,8 @@ export default class Room {
 
 	protected ownerKey: string;
 
+	protected timer?: NodeJS.Timeout;
+
 	constructor() {
 		this.id = 0;
 		this.salt = randstr(8);
@@ -37,5 +39,20 @@ export default class Room {
 	 */
 	getDriver(): Driver | undefined {
 		return this.driver;
+	}
+
+	setTimer(timer: NodeJS.Timeout): void {
+		this.timer = timer;
+	}
+
+	getTimer(): NodeJS.Timeout | undefined {
+		return this.timer;
+	}
+
+	destroy(): void {
+		if (this.timer) {
+			clearTimeout(this.timer);
+			delete this.timer;
+		}
 	}
 }

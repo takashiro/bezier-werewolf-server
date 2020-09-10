@@ -30,6 +30,7 @@
     "@bezier/werewolf-core": "^0.1.0"
   },
   "devDependencies": {
+    "@types/node": "^12.12.56",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "eslint": "^7.8.1",
