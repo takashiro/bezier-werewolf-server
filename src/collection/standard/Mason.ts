@@ -1,19 +1,12 @@
 import {
 	Role,
-	PlayerProfile,
+	Vision,
 } from '@bezier/werewolf-core';
 
-import Driver from '../../game/Driver';
-import ProactiveSkill from '../../game/ProactiveSkill';
+import CompanionSkill from '../CompanionSkill';
 
-export default class Mason extends ProactiveSkill<Driver, void, PlayerProfile[]> {
+export default class Mason extends CompanionSkill {
 	constructor() {
 		super(Role.Mason);
-	}
-
-	takeEffect(driver: Driver): PlayerProfile[] {
-		const players = driver.getPlayers();
-		const masons = players.filter((player) => player.getRole() === this.role);
-		return masons.map((mason) => mason.getProfile());
 	}
 }
