@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/takashiro/bezier-werewolf-server#readme",
   "dependencies": {
-    "@bezier/werewolf-core": "^0.1.0",
+    "@bezier/werewolf-core": "^0.1.1",
     "express": "^4.17.1"
   },
   "devDependencies": {
