@@ -6,12 +6,12 @@ import Room from '../../base/Room';
 import GameDriver from '../../game/Driver';
 
 import boardRouter from './board';
-import seatRouter from './seat';
+import playerRouter from './player';
 
 const router = Router();
 
 router.use('/:id/board', boardRouter);
-router.use('/:id/seat', seatRouter);
+router.use('/:id/player', playerRouter);
 
 router.post('/', (req, res) => {
 	const input = req.body;

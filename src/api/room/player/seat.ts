@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { Player } from '@bezier/werewolf-core';
 
-import { lobby } from '../../base/Lobby';
-import GameDriver from '../../game/Driver';
+import { lobby } from '../../../base/Lobby';
+import GameDriver from '../../../game/Driver';
 
 const router = Router({
 	mergeParams: true,
 });
 
-router.get('/:seat', (req, res) => {
+router.get('/', (req, res) => {
 	const id = Number.parseInt(req.params.id, 10);
 	if (Number.isNaN(id) || id <= 0) {
 		res.status(400).send('Invalid room id');
