@@ -2,20 +2,13 @@ import { Role, GameConfig } from '@bezier/werewolf-core';
 
 import Action from './Action';
 import Card from './Card';
+import State from './DriverState';
 import Event from './Event';
 import PassiveSkill from './PassiveSkill';
 import Player from './Player';
 
 import BaseDriver from '../base/Driver';
 import shuffle from '../util/shuffle';
-
-const enum State {
-	Invalid, // To avoid unexpected equation
-	Starting, // Users are taking seats
-	Running, // Players are voting for somebody to get lynched
-	Stopping, // Ready to execute skill effects
-	Ended, // The game is over
-}
 
 export default class Driver implements BaseDriver {
 	protected roles: Role[];
@@ -28,7 +21,7 @@ export default class Driver implements BaseDriver {
 
 	protected actions: Action<Driver>[];
 
-	protected finished: boolean;
+	protected state: State;
 
 	constructor() {
 		this.roles = [];
@@ -36,7 +29,7 @@ export default class Driver implements BaseDriver {
 		this.players = [];
 		this.passiveSkills = new Map();
 		this.actions = [];
-		this.finished = false;
+		this.state = State.Preparing;
 	}
 
 	getConfig(): GameConfig {
@@ -70,6 +63,10 @@ export default class Driver implements BaseDriver {
 	 */
 	getPlayer(seat: number): Player | undefined {
 		return this.players[seat - 1];
+	}
+
+	getCenterCards(): Card[] {
+		return this.centerCards;
 	}
 
 	/**
@@ -127,19 +124,7 @@ export default class Driver implements BaseDriver {
 	 * @return driver state
 	 */
 	getState(): State {
-		for (const player of this.players) {
-			if (!player.getSeatKey()) {
-				return State.Starting;
-			}
-		}
-
-		for (const player of this.players) {
-			if (!player.getLynchTarget()) {
-				return State.Running;
-			}
-		}
-
-		return this.finished ? State.Ended : State.Stopping;
+		return this.state;
 	}
 
 	/**
@@ -155,11 +140,28 @@ export default class Driver implements BaseDriver {
 		}
 
 		const playerNum = roles.length - this.centerCards.length;
-		this.players = new Array(playerNum);
+		const players: Player[] = new Array(playerNum);
 		for (let i = 0; i < playerNum; i++) {
 			const player = new Player(i + 1);
 			player.setRole(roles[3 + i]);
-			this.players[i] = player;
+			players[i] = player;
+		}
+		this.players = players;
+
+		this.state = State.TakingSeats;
+
+		for (const player of this.players) {
+			player.once('seated', () => {
+				if (this.state === State.TakingSeats && players.every((p) => p.isSeated())) {
+					this.state = State.InvokingSkills;
+				}
+			});
+
+			player.once('ready', () => {
+				if (this.state === State.InvokingSkills && players.every((p) => p.isReady())) {
+					this.exec();
+				}
+			});
 		}
 	}
 
@@ -167,14 +169,15 @@ export default class Driver implements BaseDriver {
 	 * Take all action effects.
 	 */
 	exec(): void {
-		if (this.finished) {
+		if (this.state !== State.InvokingSkills) {
 			return;
 		}
-		this.finished = true;
 
 		this.actions.sort((a, b) => a.getPriority() - b.getPriority());
 		for (const action of this.actions) {
 			action.exec(this);
 		}
+
+		this.state = State.Voting;
 	}
 }
