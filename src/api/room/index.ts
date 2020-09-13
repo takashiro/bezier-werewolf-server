@@ -5,12 +5,11 @@ import { lobby } from '../../base/Lobby';
 import Room from '../../base/Room';
 import GameDriver from '../../game/Driver';
 
-import boardRouter from './board';
 import playerRouter from './player';
+import $ from './$';
 
 const router = Router();
 
-router.use('/:id/board', boardRouter);
 router.use('/:id/player', playerRouter);
 
 router.post('/', (req, res) => {
@@ -54,35 +53,25 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-	const id = Number.parseInt(req.params.id, 10);
-	if (Number.isNaN(id) || id <= 0) {
-		res.status(400).send('Invalid room id');
-		return;
-	}
-
-	const room = lobby.get(id);
+	const room = $(req, res);
 	if (!room) {
-		res.status(404).send('The room does not exist');
 		return;
 	}
-
 	res.json(room.toJSON());
 });
 
 router.delete('/:id', (req, res) => {
-	const id = Number.parseInt(req.params.id, 10);
-	if (Number.isNaN(id) || id <= 0) {
-		res.status(400).send('Invalid room id');
+	const room = $(req, res);
+	if (!room) {
 		return;
 	}
 
-	const room = lobby.get(id);
-	if (!room || room.getOwnerKey() !== req.params.ownerKey) {
+	if (room.getOwnerKey() !== req.params.ownerKey) {
 		res.status(404).send('The room does not exist');
 		return;
 	}
 
-	if (!lobby.remove(id)) {
+	if (!lobby.remove(room.getId())) {
 		res.status(404).send('The room does not exist');
 		return;
 	}
