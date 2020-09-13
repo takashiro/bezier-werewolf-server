@@ -1,3 +1,5 @@
+import { EventEmitter } from 'events';
+
 import {
 	Role,
 	Player as PlayerProfile,
@@ -5,7 +7,16 @@ import {
 
 import Skill from './Skill';
 
-class Player {
+interface Player {
+	on(event: 'seated', listener: () => void): this;
+	on(event: 'ready', listener: () => void): this;
+	once(event: 'seated', listener: () => void): this;
+	once(event: 'ready', listener: () => void): this;
+	off(event: 'seated', listener: () => void): this;
+	off(event: 'ready', listener: () => void): this;
+}
+
+class Player extends EventEmitter {
 	protected seat: number;
 
 	protected seatKey?: string;
@@ -19,6 +30,7 @@ class Player {
 	protected skill?: Skill<Player, unknown>;
 
 	constructor(seat: number) {
+		super();
 		this.seat = seat;
 		this.role = Role.Unknown;
 		this.ready = false;
@@ -44,6 +56,11 @@ class Player {
 	 */
 	setSeatKey(seatKey: string): void {
 		this.seatKey = seatKey;
+		this.emit('seated');
+	}
+
+	isSeated(): boolean {
+		return Boolean(this.seatKey);
 	}
 
 	/**
@@ -67,6 +84,7 @@ class Player {
 
 	setReady(ready: boolean): void {
 		this.ready = ready;
+		this.emit('ready');
 	}
 
 	/**
