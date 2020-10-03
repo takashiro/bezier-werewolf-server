@@ -1,4 +1,3 @@
-import { Role } from '@bezier/werewolf-core';
 import Skill from './Skill';
 
 export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, OutputType> extends Skill<OwnerType, DriverType> {
@@ -8,8 +7,8 @@ export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, O
 
 	protected output?: OutputType;
 
-	constructor(role: Role) {
-		super(role);
+	constructor() {
+		super();
 
 		this.state = 0;
 		this.stateNum = 1;

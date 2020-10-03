@@ -1,25 +1,13 @@
-import { Role } from '@bezier/werewolf-core';
-
-export default abstract class Skill<OnwerType, DriverType> {
-	protected readonly role: Role;
-
-	protected owner?: OnwerType;
+export default abstract class Skill<OwnerType, DriverType> {
+	protected owner?: OwnerType;
 
 	protected driver?: DriverType;
 
-	constructor(role: Role) {
-		this.role = role;
-	}
-
-	getRole(): Role {
-		return this.role;
-	}
-
-	setOwner(owner: OnwerType): void {
+	setOwner(owner: OwnerType): void {
 		this.owner = owner;
 	}
 
-	getOwner(): OnwerType | undefined {
+	getOwner(): OwnerType | undefined {
 		return this.owner;
 	}
 

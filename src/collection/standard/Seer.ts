@@ -1,5 +1,4 @@
 import {
-	Role,
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
@@ -8,10 +7,6 @@ import VisionSkill from '../VisionSkill';
 import Card from '../../game/Card';
 
 export default class Seer extends VisionSkill {
-	constructor() {
-		super(Role.Seer);
-	}
-
 	isFeasible(data: Selection): boolean {
 		if (!this.driver || !data) {
 			return false;

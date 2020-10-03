@@ -1,5 +1,3 @@
-import { Role } from '@bezier/werewolf-core';
-
 import Event from './Event';
 import Skill from './Skill';
 
@@ -9,10 +7,9 @@ export default abstract class PassiveSkill<OwnerType, DriverType, InputType> ext
 	/**
 	 * Create a skill
 	 * @param {Timing} event
-	 * @param {Role} role
 	 */
-	constructor(event: Event, role: Role) {
-		super(role);
+	constructor(event: Event) {
+		super();
 		this.event = event;
 	}
 

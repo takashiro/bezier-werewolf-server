@@ -12,11 +12,10 @@ export default abstract class VisionEffect extends PassiveSkill<Player, Driver, 
 
 	/**
 	 * role should be seen by viewer
-	 * @param {Role} myRole
 	 * @param {Role} viewerRole
 	 */
-	constructor(myRole: Role, viewerRole: Role) {
-		super(Event.Visioning, myRole);
+	constructor(viewerRole: Role) {
+		super(Event.Visioning);
 		this.viewerRole = viewerRole;
 	}
 

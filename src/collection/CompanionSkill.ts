@@ -1,11 +1,18 @@
-import { Vision } from '@bezier/werewolf-core';
+import { Role, Vision } from '@bezier/werewolf-core';
 
 import VisionSkill from './VisionSkill';
 import Player from '../game/Player';
 
-export default class CompanionSkill extends VisionSkill {
+export default abstract class CompanionSkill extends VisionSkill {
+	protected role: Role;
+
+	constructor(role: Role) {
+		super();
+		this.role = role;
+	}
+
 	protected isCompanion(player: Player): boolean {
-		return player.getRole() === this.role;
+		return player !== this.owner && player.getRole() === this.role;
 	}
 
 	takeEffect(): Vision {
