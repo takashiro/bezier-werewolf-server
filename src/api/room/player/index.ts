@@ -8,8 +8,8 @@ const router = Router({
 	mergeParams: true,
 });
 
-router.get('/:seat/seat', seatRouter);
-router.get('/:seat/skill', skillRouter);
-router.get('/:seat/lynch', lynchRouter);
+router.use('/seat', seatRouter);
+router.use('/skill', skillRouter);
+router.use('/lynch', lynchRouter);
 
 export default router;

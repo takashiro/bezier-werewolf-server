@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
 		skill.invoke(req.body);
 	}
 
-	return skill.getOutput();
+	res.json(skill.getOutput());
 });
 
 export default router;

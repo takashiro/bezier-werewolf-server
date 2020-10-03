@@ -4,13 +4,16 @@ import { Role } from '@bezier/werewolf-core';
 import { lobby } from '../../base/Lobby';
 import Room from '../../base/Room';
 import GameDriver from '../../game/Driver';
+import collections from '../../collection';
 
 import playerRouter from './player';
 import $ from './$';
+import ProactiveSkill from '../../game/ProactiveSkill';
+import PassiveSkill from '../../game/PassiveSkill';
 
 const router = Router();
 
-router.use('/:id/player', playerRouter);
+router.use('/:id/player/:seat', playerRouter);
 
 router.post('/', (req, res) => {
 	const input = req.body;
@@ -47,6 +50,25 @@ router.post('/', (req, res) => {
 	driver.setRoles(roles);
 	driver.prepare();
 
+	const players = driver.getPlayers();
+	for (const player of players) {
+		for (const col of collections) {
+			const SkillCreators = col.find(player.getRole());
+			if (SkillCreators) {
+				for (const SkillCreator of SkillCreators) {
+					const skill = new SkillCreator();
+					if (skill instanceof ProactiveSkill) {
+						skill.setDriver(driver);
+						skill.setOwner(player);
+						player.setSkill(skill);
+					} else if (skill instanceof PassiveSkill) {
+						driver.register(skill);
+					}
+				}
+			}
+		}
+	}
+
 	const meta = room.toJSON();
 	meta.ownerKey = room.getOwnerKey();
 	res.json(meta);
@@ -66,7 +88,7 @@ router.delete('/:id', (req, res) => {
 		return;
 	}
 
-	if (room.getOwnerKey() !== req.params.ownerKey) {
+	if (room.getOwnerKey() !== req.query.ownerKey) {
 		res.status(404).send('The room does not exist');
 		return;
 	}
