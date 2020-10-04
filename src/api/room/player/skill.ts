@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
 		return;
 	}
 
-	if (!skill.isInvoked(req.body)) {
+	if (!skill.isUsed()) {
 		if (!skill.isFeasible(req.body)) {
 			res.status(400).send('Invalid skill targets');
 			return;

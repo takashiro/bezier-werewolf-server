@@ -32,12 +32,6 @@ export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, O
 	}
 
 	/**
-	 * Check if the skill has been invoked
-	 * @param data
-	 */
-	abstract isInvoked(data: InputType): boolean;
-
-	/**
 	 * Invoke the skill.
 	 * takeEffect() will be called, skill state will be updated and its output will be recorded.
 	 * @param data

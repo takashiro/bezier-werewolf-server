@@ -3,19 +3,14 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import Driver from '../game/Driver';
 import Event from '../game/Event';
-import ProactiveSkill from '../game/ProactiveSkill';
+import ProactiveSkill from './ProactiveSkill';
 import Player from '../game/Player';
 
 import Vision from './Vision';
 import Card from '../game/Card';
 
-export default abstract class VisionSkill extends ProactiveSkill<Player, Driver, Selection, VisionData> {
-	isInvoked(data: Selection): boolean {
-		return data && this.isUsed();
-	}
-
+export default abstract class VisionSkill extends ProactiveSkill<VisionData> {
 	/**
 	 * Show the vision of a player
 	 * @param viewer
