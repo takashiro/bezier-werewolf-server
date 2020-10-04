@@ -1,7 +1,4 @@
-import {
-	Vision as VisionData,
-	Selection,
-} from '@bezier/werewolf-core';
+import { Vision as VisionData } from '@bezier/werewolf-core';
 
 import Event from '../game/Event';
 import ProactiveSkill from './ProactiveSkill';

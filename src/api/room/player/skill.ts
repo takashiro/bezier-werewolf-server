@@ -22,13 +22,18 @@ router.post('/', (req, res) => {
 		return;
 	}
 
-	if (!skill.isUsed()) {
+	if (skill.isUsed()) {
+		player.setReady(true);
+	} else {
 		if (!skill.isFeasible(req.body)) {
 			res.status(400).send('Invalid skill targets');
 			return;
 		}
 
 		skill.invoke(req.body);
+		if (skill.isUsed()) {
+			player.setReady(true);
+		}
 	}
 
 	res.json(skill.getOutput());

@@ -83,6 +83,9 @@ class Player extends EventEmitter {
 	}
 
 	setReady(ready: boolean): void {
+		if (this.ready === ready) {
+			return;
+		}
 		this.ready = ready;
 		this.emit('ready');
 	}
