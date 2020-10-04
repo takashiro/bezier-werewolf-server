@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
 		return;
 	}
 
-	const target = parseInt(req.body.target, 10);
+	const target = Number.parseInt(req.body.target, 10);
 	if (Number.isNaN(target) || target <= 0) {
 		res.status(400).send('Invalid target seat number');
 		return;
@@ -39,6 +39,7 @@ router.post('/', (req, res) => {
 	}
 
 	player.setLynchTarget(lynchTarget);
+	res.sendStatus(200);
 });
 
 router.get('/', (req, res) => {

@@ -3,13 +3,15 @@ import { Role } from '@bezier/werewolf-core';
 
 import { lobby } from '../../base/Lobby';
 import Room from '../../base/Room';
+
 import GameDriver from '../../game/Driver';
+import ProactiveSkill from '../../game/ProactiveSkill';
+import PassiveSkill from '../../game/PassiveSkill';
+
 import collections from '../../collection';
 
 import playerRouter from './player';
 import $ from './$';
-import ProactiveSkill from '../../game/ProactiveSkill';
-import PassiveSkill from '../../game/PassiveSkill';
 
 const router = Router();
 
@@ -33,7 +35,7 @@ router.post('/', (req, res) => {
 		return;
 	}
 
-	roles = roles.filter((role) => Role[role] && role !== Role.Unknown) as Role[];
+	roles = roles.filter((role) => role !== Role.Unknown) as Role[];
 	if (roles.length < 5) {
 		res.status(400).send('Too many invalid roles');
 		return;

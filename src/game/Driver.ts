@@ -169,10 +169,6 @@ export default class Driver implements BaseDriver {
 	 * Take all action effects.
 	 */
 	exec(): void {
-		if (this.state !== State.InvokingSkills) {
-			return;
-		}
-
 		this.actions.sort((a, b) => a.getPriority() - b.getPriority());
 		for (const action of this.actions) {
 			action.exec(this);
