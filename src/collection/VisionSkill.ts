@@ -1,25 +1,23 @@
-import { Vision as VisionData } from '@bezier/werewolf-core';
+import {
+	Selection,
+	Vision,
+} from '@bezier/werewolf-core';
 
-import Event from '../game/Event';
-import ProactiveSkill from './ProactiveSkill';
-import Player from '../game/Player';
-
-import Vision from './Vision';
 import Card from '../game/Card';
+import Event from '../game/Event';
+import Player from '../game/Player';
+import VisionStruct from './Vision';
+import ProactiveSkill from './ProactiveSkill';
 
-export default abstract class VisionSkill extends ProactiveSkill<VisionData> {
-	/**
-	 * Show the vision of a player
-	 * @param viewer
-	 * @return players that can be seen
-	 */
-	protected showVision(viewer: Player): VisionData {
-		if (!this.driver) {
+export default abstract class VisionSkill extends ProactiveSkill<Vision> {
+	takeEffect(data: Selection): Vision {
+		if (!this.driver || !this.owner) {
 			return {};
 		}
 
-		const vision: Vision = {
-			viewer,
+		const vision: VisionStruct = {
+			viewer: this.owner,
+			...this.show(data),
 		};
 		this.driver.trigger(Event.Visioning, vision);
 
@@ -29,15 +27,22 @@ export default abstract class VisionSkill extends ProactiveSkill<VisionData> {
 		};
 	}
 
-	protected static showPlayers(players: Player[]): VisionData {
+	protected static showPlayers(players: Player[]): Vision {
 		return {
 			players: players.map((player) => player.getProfile()),
 		};
 	}
 
-	protected static showCards(cards: Card[]): VisionData {
+	protected static showCards(cards: Card[]): Vision {
 		return {
 			cards: cards.map((card) => card.toJSON()),
 		};
 	}
+
+	/**
+	 * Show the vision of a player
+	 * @param data
+	 * @return players or cards that can be seen
+	 */
+	protected abstract show(data: Selection): Vision;
 }

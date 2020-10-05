@@ -30,7 +30,7 @@ export default class Seer extends VisionSkill {
 		return false;
 	}
 
-	takeEffect(data: Selection): Vision {
+	show(data: Selection): Vision {
 		const { driver } = this;
 		if (!driver || !this.owner) {
 			return {};
