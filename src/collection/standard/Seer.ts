@@ -17,14 +17,14 @@ export default class Seer extends VisionSkill {
 			return Array.isArray(cards) && cards.every((i) => i >= 0 && i <= 2);
 		}
 
-		if (data.players) {
-			const { players } = data;
+		const { players } = data;
+		if (players) {
 			if (players.length !== 1) {
 				return false;
 			}
 
-			const [player] = players;
-			return Boolean(this.driver.getPlayer(player));
+			const player = this.driver.getPlayer(players[0]);
+			return Boolean(player) && player !== this.owner;
 		}
 
 		return false;
