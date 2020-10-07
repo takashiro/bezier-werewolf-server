@@ -10,7 +10,7 @@ import VisionStruct from './Vision';
 import ProactiveSkill from './ProactiveSkill';
 
 export default abstract class VisionSkill extends ProactiveSkill<Vision> {
-	takeEffect(data: Selection): Vision {
+	protected run(data: Selection): Vision {
 		if (!this.driver || !this.owner) {
 			return {};
 		}

@@ -25,7 +25,7 @@ export default class Troublemaker extends ProactiveSkill<void> {
 		return players[0] !== players[1] && players.every((player) => player && player !== owner);
 	}
 
-	takeEffect(data: Selection): void {
+	protected run(data: Selection): void {
 		const { driver, owner } = this;
 		if (!driver || !owner || !data || !data.players) {
 			return;

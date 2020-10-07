@@ -14,7 +14,7 @@ class Drunk extends ProactiveSkill<void> {
 		return !!card;
 	}
 
-	takeEffect(data: Selection): void {
+	protected run(data: Selection): void {
 		const driver = this.getDriver();
 		if (!driver || !this.owner || !data.cards) {
 			return;

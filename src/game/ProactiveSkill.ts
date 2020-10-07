@@ -38,5 +38,5 @@ export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, O
 	 * @param data
 	 * @return data transfered to clients
 	 */
-	abstract takeEffect(data: InputType): OutputType;
+	protected abstract run(data: InputType): OutputType;
 }

@@ -30,7 +30,7 @@ export default class Seer extends VisionSkill {
 		return false;
 	}
 
-	show(data: Selection): Vision {
+	protected show(data: Selection): Vision {
 		const { driver } = this;
 		if (!driver || !this.owner) {
 			return {};

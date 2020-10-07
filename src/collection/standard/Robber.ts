@@ -16,7 +16,7 @@ export default class Robber extends VisionSkill {
 		return Boolean(target) && target !== this.owner;
 	}
 
-	show(data: Selection): Vision {
+	protected show(data: Selection): Vision {
 		if (!this.driver || !this.owner || !data || !data.players) {
 			return {};
 		}

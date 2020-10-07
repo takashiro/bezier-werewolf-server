@@ -11,7 +11,7 @@ import VisionSkill from '../VisionSkill';
  * A minion sees all the werewolves without their exact roles.
  */
 export default class Minion extends VisionSkill {
-	show(): Vision {
+	protected show(): Vision {
 		if (!this.driver) {
 			return {};
 		}
