@@ -26,7 +26,7 @@ export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, O
 	 * @param data
 	 */
 	exec(data: InputType): OutputType {
-		if (Object.prototype.hasOwnProperty.call(this, 'output')) {
+		if (this.isFinished()) {
 			return this.output as OutputType;
 		}
 		this.output = this.run(data);
