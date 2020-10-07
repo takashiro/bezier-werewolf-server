@@ -1,4 +1,4 @@
-export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, OutputType> {
+export default abstract class Skill<OwnerType, DriverType, InputType, OutputType> {
 	protected owner?: OwnerType;
 
 	protected driver?: DriverType;

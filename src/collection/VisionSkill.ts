@@ -5,9 +5,9 @@ import {
 
 import Card from '../game/Card';
 import Player from '../game/Player';
-import ProactiveSkill from './Skill';
+import Skill from './Skill';
 
-export default abstract class VisionSkill extends ProactiveSkill<Vision> {
+export default abstract class VisionSkill extends Skill<Vision> {
 	protected run(data: Selection): Vision {
 		if (!this.driver || !this.owner) {
 			return {};

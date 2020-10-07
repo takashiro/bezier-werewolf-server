@@ -5,7 +5,6 @@ import { lobby } from '../../base/Lobby';
 import Room from '../../base/Room';
 
 import GameDriver from '../../game/Driver';
-import ProactiveSkill from '../../game/Skill';
 
 import collections from '../../collection';
 
@@ -58,11 +57,9 @@ router.post('/', (req, res) => {
 			if (SkillCreators) {
 				for (const SkillCreator of SkillCreators) {
 					const skill = new SkillCreator();
-					if (skill instanceof ProactiveSkill) {
-						skill.setDriver(driver);
-						skill.setOwner(player);
-						player.addSkill(skill);
-					}
+					skill.setDriver(driver);
+					skill.setOwner(player);
+					player.addSkill(skill);
 				}
 			}
 		}

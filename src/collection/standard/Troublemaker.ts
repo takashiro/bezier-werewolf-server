@@ -2,10 +2,10 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import ProactiveSkill from '../Skill';
+import Skill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
 
-export default class Troublemaker extends ProactiveSkill<void> {
+export default class Troublemaker extends Skill<void> {
 	isFeasible(data: Selection): boolean {
 		const { driver, owner } = this;
 		if (!driver || !owner) {

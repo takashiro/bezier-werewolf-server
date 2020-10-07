@@ -1,9 +1,9 @@
 import { Selection } from '@bezier/werewolf-core';
 
 import ExchangeAction from '../ExchangeAction';
-import ProactiveSkill from '../Skill';
+import Skill from '../Skill';
 
-class Drunk extends ProactiveSkill<void> {
+class Drunk extends Skill<void> {
 	isFeasible(data: Selection): boolean {
 		const driver = this.getDriver();
 		if (!driver || !data.cards) {
