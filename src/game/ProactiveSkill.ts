@@ -1,7 +1,25 @@
-import Skill from './Skill';
+export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, OutputType> {
+	protected owner?: OwnerType;
 
-export default abstract class ProactiveSkill<OwnerType, DriverType, InputType, OutputType> extends Skill<OwnerType, DriverType> {
+	protected driver?: DriverType;
+
 	protected output?: OutputType;
+
+	setOwner(owner: OwnerType): void {
+		this.owner = owner;
+	}
+
+	getOwner(): OwnerType | undefined {
+		return this.owner;
+	}
+
+	setDriver(driver: DriverType): void {
+		this.driver = driver;
+	}
+
+	getDriver(): DriverType | undefined {
+		return this.driver;
+	}
 
 	/**
 	 * Check if the skill has been invoked

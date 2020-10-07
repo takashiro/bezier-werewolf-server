@@ -72,7 +72,6 @@ export default class Driver implements BaseDriver {
 		return this.centerCards[index];
 	}
 
-
 	/**
 	 * Add an action
 	 * @param action
