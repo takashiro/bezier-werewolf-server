@@ -5,7 +5,7 @@ import {
 	Player as PlayerProfile,
 } from '@bezier/werewolf-core';
 
-import Skill from './ProactiveSkill';
+import Skill from './Skill';
 
 interface Player {
 	on(event: 'seated', listener: () => void): this;

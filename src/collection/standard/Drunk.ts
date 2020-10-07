@@ -1,7 +1,7 @@
 import { Selection } from '@bezier/werewolf-core';
 
 import ExchangeAction from '../ExchangeAction';
-import ProactiveSkill from '../ProactiveSkill';
+import ProactiveSkill from '../Skill';
 
 class Drunk extends ProactiveSkill<void> {
 	isFeasible(data: Selection): boolean {

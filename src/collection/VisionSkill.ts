@@ -5,7 +5,7 @@ import {
 
 import Card from '../game/Card';
 import Player from '../game/Player';
-import ProactiveSkill from './ProactiveSkill';
+import ProactiveSkill from './Skill';
 
 export default abstract class VisionSkill extends ProactiveSkill<Vision> {
 	protected run(data: Selection): Vision {

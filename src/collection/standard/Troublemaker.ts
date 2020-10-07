@@ -2,7 +2,7 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import ProactiveSkill from '../ProactiveSkill';
+import ProactiveSkill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
 
 export default class Troublemaker extends ProactiveSkill<void> {
