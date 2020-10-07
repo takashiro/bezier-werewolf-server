@@ -4,9 +4,7 @@ import {
 } from '@bezier/werewolf-core';
 
 import Card from '../game/Card';
-import Event from '../game/Event';
 import Player from '../game/Player';
-import VisionStruct from './Vision';
 import ProactiveSkill from './ProactiveSkill';
 
 export default abstract class VisionSkill extends ProactiveSkill<Vision> {
@@ -15,16 +13,7 @@ export default abstract class VisionSkill extends ProactiveSkill<Vision> {
 			return {};
 		}
 
-		const vision: VisionStruct = {
-			viewer: this.owner,
-			...this.show(data),
-		};
-		this.driver.trigger(Event.Visioning, vision);
-
-		return {
-			players: vision.players,
-			cards: vision.cards,
-		};
+		return this.show(data);
 	}
 
 	protected static showPlayers(players: Player[]): Vision {

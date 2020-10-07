@@ -3,8 +3,6 @@ import { Role, GameConfig } from '@bezier/werewolf-core';
 import Action from './Action';
 import Card from './Card';
 import State from './DriverState';
-import Event from './Event';
-import PassiveSkill from './PassiveSkill';
 import Player from './Player';
 
 import BaseDriver from '../base/Driver';
@@ -17,8 +15,6 @@ export default class Driver implements BaseDriver {
 
 	protected players: Player[];
 
-	protected passiveSkills: Map<Event, PassiveSkill<Player, Driver, unknown>[]>;
-
 	protected actions: Action<Driver>[];
 
 	protected state: State;
@@ -27,7 +23,6 @@ export default class Driver implements BaseDriver {
 		this.roles = [];
 		this.centerCards = [];
 		this.players = [];
-		this.passiveSkills = new Map();
 		this.actions = [];
 		this.state = State.Preparing;
 	}
@@ -77,40 +72,6 @@ export default class Driver implements BaseDriver {
 		return this.centerCards[index];
 	}
 
-	register<InputType>(skill: PassiveSkill<Player, Driver, InputType>): void {
-		const event = skill.getEvent();
-		const skills = this.passiveSkills.get(event);
-		if (!skills) {
-			this.passiveSkills.set(event, [skill]);
-		} else {
-			skills.push(skill);
-		}
-		skill.setDriver(this);
-	}
-
-	/**
-	 * Trigger skills on a player
-	 * @param event
-	 * @param target
-	 * @param data
-	 */
-	trigger<InputType>(event: Event, data: InputType): void {
-		const skills = this.passiveSkills.get(event);
-		if (!skills) {
-			return;
-		}
-
-		for (const skill of skills) {
-			if (!skill.isTriggerable(data)) {
-				continue;
-			}
-
-			const broken = skill.takeEffect(data);
-			if (broken) {
-				break;
-			}
-		}
-	}
 
 	/**
 	 * Add an action

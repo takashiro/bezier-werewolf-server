@@ -6,7 +6,6 @@ import Room from '../../base/Room';
 
 import GameDriver from '../../game/Driver';
 import ProactiveSkill from '../../game/ProactiveSkill';
-import PassiveSkill from '../../game/PassiveSkill';
 
 import collections from '../../collection';
 
@@ -63,8 +62,6 @@ router.post('/', (req, res) => {
 						skill.setDriver(driver);
 						skill.setOwner(player);
 						player.addSkill(skill);
-					} else if (skill instanceof PassiveSkill) {
-						driver.register(skill);
 					}
 				}
 			}
