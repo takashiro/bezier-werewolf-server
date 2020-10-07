@@ -62,7 +62,7 @@ router.post('/', (req, res) => {
 					if (skill instanceof ProactiveSkill) {
 						skill.setDriver(driver);
 						skill.setOwner(player);
-						player.setSkill(skill);
+						player.addSkill(skill);
 					} else if (skill instanceof PassiveSkill) {
 						driver.register(skill);
 					}

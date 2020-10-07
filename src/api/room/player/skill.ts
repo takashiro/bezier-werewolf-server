@@ -1,42 +1,42 @@
 import { Router } from 'express';
 
-import ProactiveSkill from '../../../game/ProactiveSkill';
-
 import $ from './$';
 
 const router = Router({
 	mergeParams: true,
 });
 
-router.post('/', (req, res) => {
+router.post('/:idx?', (req, res) => {
 	const context = $(req, res);
 	if (!context) {
 		return;
 	}
 
 	const { player } = context;
-	const skill = player.getSkill();
-	if (!skill || !(skill instanceof ProactiveSkill)) {
+	const skills = player.getSkills();
+	if (skills.length <= 0) {
 		player.setReady(true);
 		res.sendStatus(200);
 		return;
 	}
 
-	if (skill.isUsed()) {
-		player.setReady(true);
-	} else {
-		if (!skill.isFeasible(req.body)) {
-			res.status(400).send('Invalid skill targets');
-			return;
-		}
-
-		skill.invoke(req.body);
-		if (skill.isUsed()) {
-			player.setReady(true);
-		}
+	const { idx } = req.params;
+	const skill = skills[idx ? (Number.parseInt(idx, 10) || 0) : 0];
+	if (!skill) {
+		res.status(404).send('Skill not found');
+		return;
 	}
 
-	res.json(skill.getOutput());
+	if (!skill.isFeasible(req.body)) {
+		res.status(400).send('Invalid skill targets');
+		return;
+	}
+
+	const output = skill.exec(req.body);
+	if (skills.every((sk) => sk.isFinished())) {
+		player.setReady(true);
+	}
+	res.json(output);
 });
 
 export default router;
