@@ -1,11 +1,16 @@
-import { Role, GameConfig } from '@bezier/werewolf-core';
+import {
+	Role,
+	GameConfig,
+} from '@bezier/werewolf-core';
 
 import Action from './Action';
 import Card from './Card';
+import Collection from './Collection';
 import State from './DriverState';
 import EventDriver from './EventDriver';
 import Player from './Player';
 
+import Event from './Event';
 import BaseDriver from '../base/Driver';
 import shuffle from '../util/shuffle';
 
@@ -16,6 +21,8 @@ export default class Driver extends EventDriver implements BaseDriver {
 
 	protected players: Player[];
 
+	protected collection: Collection;
+
 	protected actions: Action<Driver>[];
 
 	protected state: State;
@@ -25,6 +32,7 @@ export default class Driver extends EventDriver implements BaseDriver {
 		this.roles = [];
 		this.centerCards = [];
 		this.players = [];
+		this.collection = new Collection('room');
 		this.actions = [];
 		this.state = State.Preparing;
 	}
@@ -55,6 +63,25 @@ export default class Driver extends EventDriver implements BaseDriver {
 	 */
 	getPlayers(): Player[] {
 		return this.players;
+	}
+
+	/**
+	 * Load extension packs.
+	 * @param collections Extension packs of One Night Ultimate Werewolf
+	 */
+	loadCollection(...collections: Collection[]): void {
+		for (const col of collections) {
+			for (const role of col.getRoles()) {
+				if (!this.roles.includes(role)) {
+					continue;
+				}
+
+				const creators = col.find(role);
+				if (creators) {
+					this.collection.add(role, ...creators);
+				}
+			}
+		}
 	}
 
 	/**
@@ -127,6 +154,23 @@ export default class Driver extends EventDriver implements BaseDriver {
 					this.exec();
 				}
 			});
+
+			const SkillCreators = this.collection.find(player.getRole());
+			if (!SkillCreators) {
+				continue;
+			}
+
+			for (const SkillCreator of SkillCreators) {
+				const skill = new SkillCreator();
+				skill.setDriver(this);
+				skill.setOwner(player);
+				player.addSkill(skill);
+
+				const listeners = skill.getListeners();
+				if (listeners) {
+					this.register(...listeners);
+				}
+			}
 		}
 	}
 

@@ -48,22 +48,8 @@ router.post('/', (req, res) => {
 	const driver = new GameDriver();
 	room.setDriver(driver);
 	driver.setRoles(roles);
+	driver.loadCollection(...collections);
 	driver.prepare();
-
-	const players = driver.getPlayers();
-	for (const player of players) {
-		for (const col of collections) {
-			const SkillCreators = col.find(player.getRole());
-			if (SkillCreators) {
-				for (const SkillCreator of SkillCreators) {
-					const skill = new SkillCreator();
-					skill.setDriver(driver);
-					skill.setOwner(player);
-					player.addSkill(skill);
-				}
-			}
-		}
-	}
 
 	const meta = room.toJSON();
 	meta.ownerKey = room.getOwnerKey();

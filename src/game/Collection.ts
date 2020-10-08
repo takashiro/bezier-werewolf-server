@@ -20,6 +20,10 @@ export default class Collection {
 		return this.name;
 	}
 
+	getRoles(): IterableIterator<Role> {
+		return this.skillMap.keys();
+	}
+
 	find(role: Role): SkillCreator[] | undefined {
 		return this.skillMap.get(role);
 	}

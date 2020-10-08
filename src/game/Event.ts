@@ -1,6 +1,6 @@
 const enum Event {
 	Invalid,
-	Visioning,
+	Preparing,
 }
 
 export default Event;
