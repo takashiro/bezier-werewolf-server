@@ -3,12 +3,13 @@ import { Role, GameConfig } from '@bezier/werewolf-core';
 import Action from './Action';
 import Card from './Card';
 import State from './DriverState';
+import EventDriver from './EventDriver';
 import Player from './Player';
 
 import BaseDriver from '../base/Driver';
 import shuffle from '../util/shuffle';
 
-export default class Driver implements BaseDriver {
+export default class Driver extends EventDriver implements BaseDriver {
 	protected roles: Role[];
 
 	protected centerCards: Card[];
@@ -20,6 +21,7 @@ export default class Driver implements BaseDriver {
 	protected state: State;
 
 	constructor() {
+		super();
 		this.roles = [];
 		this.centerCards = [];
 		this.players = [];
@@ -48,6 +50,9 @@ export default class Driver implements BaseDriver {
 		return this.roles;
 	}
 
+	/**
+	 * @return All players. It is empty until the driver is prepared.
+	 */
 	getPlayers(): Player[] {
 		return this.players;
 	}
