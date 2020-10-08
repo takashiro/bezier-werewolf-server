@@ -23,8 +23,8 @@ router.post('/', (req, res) => {
 		return;
 	}
 
-	if (roles.length < 5) {
-		res.status(400).send('At least 5 roles must be selected');
+	if (roles.length < 3) {
+		res.status(400).send('At least 3 roles must be selected');
 		return;
 	}
 
