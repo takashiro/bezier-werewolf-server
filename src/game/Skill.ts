@@ -1,9 +1,13 @@
+import EventListener from './EventListener';
+
 export default abstract class Skill<OwnerType, DriverType, InputType, OutputType> {
 	protected owner?: OwnerType;
 
 	protected driver?: DriverType;
 
 	protected output?: OutputType;
+
+	protected listeners?: EventListener<unknown>[];
 
 	setOwner(owner: OwnerType): void {
 		this.owner = owner;
@@ -19,6 +23,10 @@ export default abstract class Skill<OwnerType, DriverType, InputType, OutputType
 
 	getDriver(): DriverType | undefined {
 		return this.driver;
+	}
+
+	getListeners(): EventListener<unknown>[] | undefined {
+		return this.listeners;
 	}
 
 	/**
