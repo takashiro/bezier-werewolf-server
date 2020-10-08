@@ -1,4 +1,4 @@
-One Night Ultimate Werewolf [![Build Status](https://travis-ci.org/takashiro/bezier-werewolf-server.svg?branch=dev)](https://travis-ci.org/takashiro/bezier-werewolf-server)
+One Night Ultimate Werewolf ![Node.js CI](https://github.com/takashiro/bezier-werewolf-server/workflows/Node.js%20CI/badge.svg)
 ==========
 
 | Example Page |        https://onuw.takashiro.cn      |
@@ -33,4 +33,4 @@ WeChat App: https://github.com/takashiro/bezier-werewolf-wechat
 Running Environment
 -------------------
 1. Nginx
-2. Node v8 or later versions
+2. Node v12 or later versions
