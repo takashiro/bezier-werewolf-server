@@ -47,14 +47,18 @@ export default function parse(req: Request, res: Response, readonly = true): Pla
 
 	if (!player.getSeatKey()) {
 		if (readonly) {
-			res.status(404).send('The seat has not been taken');
+			res.status(403).send('The seat has not been taken');
 			return;
 		}
 		player.setSeatKey(seatKey);
 	}
 
 	if (seatKey !== player.getSeatKey()) {
-		res.status(409).send('The seat has been taken');
+		if (readonly) {
+			res.status(403).send('Invalid seat key');
+		} else {
+			res.status(409).send('The seat has been taken');
+		}
 		return;
 	}
 
