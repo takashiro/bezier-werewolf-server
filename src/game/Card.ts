@@ -19,6 +19,13 @@ export default class Card {
 	}
 
 	/**
+	 * @return The position of the card.
+	 */
+	getPos(): number {
+		return this.pos;
+	}
+
+	/**
 	 * Set role
 	 * @param role
 	 */

@@ -105,6 +105,17 @@ export default class Driver extends EventDriver implements BaseDriver {
 	}
 
 	/**
+	 * Add a center card.
+	 * @param card
+	 */
+	addCenterCard(role: Role): Card {
+		const index = this.centerCards.length;
+		const card = new Card(index, role);
+		this.centerCards.push(card);
+		return card;
+	}
+
+	/**
 	 * Add an action
 	 * @param action
 	 */
@@ -172,6 +183,8 @@ export default class Driver extends EventDriver implements BaseDriver {
 				}
 			}
 		}
+
+		this.trigger(Event.Preparing, this);
 	}
 
 	/**
