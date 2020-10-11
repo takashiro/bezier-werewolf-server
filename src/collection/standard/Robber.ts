@@ -7,6 +7,8 @@ import ExchangeAction from '../ExchangeAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Robber extends VisionSkill {
+	protected priority = 600;
+
 	isFeasible(data: Selection): boolean {
 		if (!data.players) {
 			return false;

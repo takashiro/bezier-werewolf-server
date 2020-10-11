@@ -14,6 +14,8 @@ transformMap.set(Team.Werewolf, Role.Werewolf);
 transformMap.set(Team.Tanner, Role.Tanner);
 
 export default class ParanormalInvestigator extends VisionSkill {
+	protected priority = 530;
+
 	protected selectedTargets: number[] = [];
 
 	protected transformedTo?: Role;

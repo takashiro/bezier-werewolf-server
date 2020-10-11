@@ -5,6 +5,8 @@ export default abstract class Skill<OwnerType, DriverType, InputType, OutputType
 
 	protected owner: OwnerType;
 
+	protected priority = 0;
+
 	protected output?: OutputType;
 
 	protected listeners?: EventListener<unknown>[];
@@ -26,6 +28,13 @@ export default abstract class Skill<OwnerType, DriverType, InputType, OutputType
 	 */
 	getOwner(): OwnerType {
 		return this.owner;
+	}
+
+	/**
+	 * @return Skill priority in ascending order.
+	 */
+	getPriority(): number {
+		return this.priority;
 	}
 
 	getListeners(): EventListener<unknown>[] | undefined {

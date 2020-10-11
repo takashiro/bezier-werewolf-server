@@ -10,6 +10,8 @@ import ExchangeAction from '../ExchangeAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Witch extends VisionSkill {
+	protected priority = 620;
+
 	protected skipped = false;
 
 	protected selectedCard?: Card;

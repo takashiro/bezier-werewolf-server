@@ -4,6 +4,8 @@ import ExchangeAction from '../ExchangeAction';
 import Skill from '../Skill';
 
 class Drunk extends Skill<void> {
+	protected priority = 800;
+
 	isFeasible(data: Selection): boolean {
 		if (!data.cards) {
 			return false;

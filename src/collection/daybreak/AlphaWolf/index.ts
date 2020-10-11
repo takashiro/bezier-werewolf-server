@@ -11,6 +11,8 @@ import IAlphaWolf from './AlphaWolf';
 import CenterWerewolfCard from './CenterWerewolfCard';
 
 export default class AlphaWolf extends Skill<void> implements IAlphaWolf {
+	protected priority = 220;
+
 	protected card?: Card;
 
 	protected listeners = [

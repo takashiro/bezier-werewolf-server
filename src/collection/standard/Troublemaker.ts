@@ -6,6 +6,8 @@ import Skill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
 
 export default class Troublemaker extends Skill<void> {
+	protected priority = 700;
+
 	isFeasible(data: Selection): boolean {
 		if (!data.players) {
 			return false;
