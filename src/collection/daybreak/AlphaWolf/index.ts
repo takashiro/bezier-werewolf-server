@@ -3,6 +3,7 @@ import {
 } from '@bezier/werewolf-core';
 
 import Card from '../../../game/Card';
+import SkillMode from '../../../game/SkillMode';
 
 import ExchangeAction from '../../ExchangeAction';
 import Skill from '../../Skill';
@@ -12,6 +13,8 @@ import CenterWerewolfCard from './CenterWerewolfCard';
 
 export default class AlphaWolf extends Skill<void> implements IAlphaWolf {
 	protected priority = 220;
+
+	protected mode = SkillMode.Write;
 
 	protected card?: Card;
 

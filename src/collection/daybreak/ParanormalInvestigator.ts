@@ -6,6 +6,8 @@ import {
 	Teamship,
 	Vision,
 } from '@bezier/werewolf-core';
+
+import SkillMode from '../../game/SkillMode';
 import TransformAction from '../TransformAction';
 import VisionSkill from '../VisionSkill';
 
@@ -15,6 +17,8 @@ transformMap.set(Team.Tanner, Role.Tanner);
 
 export default class ParanormalInvestigator extends VisionSkill {
 	protected priority = 530;
+
+	protected mode = SkillMode.ReadWrite;
 
 	protected selectedTargets: number[] = [];
 

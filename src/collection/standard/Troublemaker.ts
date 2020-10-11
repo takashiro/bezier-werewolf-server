@@ -2,11 +2,14 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
+import SkillMode from '../../game/SkillMode';
 import Skill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
 
 export default class Troublemaker extends Skill<void> {
 	protected priority = 700;
+
+	protected mode = SkillMode.Write;
 
 	isFeasible(data: Selection): boolean {
 		if (!data.players) {

@@ -1,4 +1,5 @@
 import EventListener from './EventListener';
+import SkillMode from './SkillMode';
 
 export default abstract class Skill<OwnerType, DriverType, InputType, OutputType> {
 	protected readonly driver: DriverType;
@@ -6,6 +7,8 @@ export default abstract class Skill<OwnerType, DriverType, InputType, OutputType
 	protected owner: OwnerType;
 
 	protected priority = 0;
+
+	protected mode = SkillMode.Invalid;
 
 	protected output?: OutputType;
 
@@ -35,6 +38,14 @@ export default abstract class Skill<OwnerType, DriverType, InputType, OutputType
 	 */
 	getPriority(): number {
 		return this.priority;
+	}
+
+	/**
+	 * @param mode Skill mode
+	 * @return Wether the skill mode is enabled.
+	 */
+	hasMode(mode: SkillMode): boolean {
+		return (this.mode & mode) === mode;
 	}
 
 	getListeners(): EventListener<unknown>[] | undefined {

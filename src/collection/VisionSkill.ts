@@ -5,9 +5,12 @@ import {
 
 import Card from '../game/Card';
 import Player from '../game/Player';
+import SkillMode from '../game/SkillMode';
 import Skill from './Skill';
 
 export default abstract class VisionSkill extends Skill<Vision> {
+	protected mode = SkillMode.Read;
+
 	protected run(data: Selection): Vision {
 		if (!this.driver || !this.owner) {
 			return {};

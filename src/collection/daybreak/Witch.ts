@@ -5,12 +5,15 @@ import {
 
 import Card from '../../game/Card';
 import Player from '../../game/Player';
+import SkillMode from '../../game/SkillMode';
 
 import ExchangeAction from '../ExchangeAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Witch extends VisionSkill {
 	protected priority = 620;
+
+	protected mode = SkillMode.ReadWrite;
 
 	protected skipped = false;
 
