@@ -21,10 +21,7 @@ export default class Witch extends VisionSkill {
 	}
 
 	isFeasible(data: Selection): boolean {
-		const { driver, owner } = this;
-		if (!driver || !owner) {
-			return false;
-		}
+		const { driver } = this;
 
 		if (!data.cards && !data.players) {
 			return true;
@@ -50,9 +47,6 @@ export default class Witch extends VisionSkill {
 		}
 
 		const { driver, owner } = this;
-		if (!driver || !owner) {
-			return {};
-		}
 
 		if (this.selectedCard === undefined) {
 			const card = data.cards && driver.getCenterCard(data.cards[0]);

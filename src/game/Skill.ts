@@ -1,28 +1,31 @@
 import EventListener from './EventListener';
 
 export default abstract class Skill<OwnerType, DriverType, InputType, OutputType> {
-	protected owner?: OwnerType;
+	protected readonly driver: DriverType;
 
-	protected driver?: DriverType;
+	protected owner: OwnerType;
 
 	protected output?: OutputType;
 
 	protected listeners?: EventListener<unknown>[];
 
-	setOwner(owner: OwnerType): void {
+	constructor(driver: DriverType, owner: OwnerType) {
+		this.driver = driver;
 		this.owner = owner;
 	}
 
-	getOwner(): OwnerType | undefined {
-		return this.owner;
-	}
-
-	setDriver(driver: DriverType): void {
-		this.driver = driver;
-	}
-
-	getDriver(): DriverType | undefined {
+	/**
+	 *@return Game driver that the skill is registered to.
+	 */
+	getDriver(): DriverType {
 		return this.driver;
+	}
+
+	/**
+	 * @return Skill owner.
+	 */
+	getOwner(): OwnerType {
+		return this.owner;
 	}
 
 	getListeners(): EventListener<unknown>[] | undefined {

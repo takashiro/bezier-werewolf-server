@@ -7,12 +7,7 @@ import ExchangeAction from '../ExchangeAction';
 
 export default class Troublemaker extends Skill<void> {
 	isFeasible(data: Selection): boolean {
-		const { driver, owner } = this;
-		if (!driver || !owner) {
-			return false;
-		}
-
-		if (!data || !data.players) {
+		if (!data.players) {
 			return false;
 		}
 
@@ -21,19 +16,18 @@ export default class Troublemaker extends Skill<void> {
 			return false;
 		}
 
-		const players = seats.map((seat) => driver.getPlayer(seat));
-		return players[0] !== players[1] && players.every((player) => player && player !== owner);
+		const players = seats.map((seat) => this.driver.getPlayer(seat));
+		return players[0] !== players[1] && players.every((player) => player && player !== this.owner);
 	}
 
 	protected run(data: Selection): void {
-		const { driver, owner } = this;
-		if (!driver || !owner || !data || !data.players) {
+		if (!data.players) {
 			return;
 		}
 
+		const { driver, owner } = this;
 		const player1 = driver.getPlayer(data.players[0]);
 		const player2 = driver.getPlayer(data.players[1]);
-		// Skill Priority: 7
 		if (player1 && player2) {
 			driver.addAction(new ExchangeAction(owner, 70, player1, player2));
 		}

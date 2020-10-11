@@ -8,7 +8,7 @@ import VisionSkill from '../VisionSkill';
 
 export default class Robber extends VisionSkill {
 	isFeasible(data: Selection): boolean {
-		if (!this.driver || !this.owner || !data || !data.players) {
+		if (!data.players) {
 			return false;
 		}
 
@@ -17,11 +17,7 @@ export default class Robber extends VisionSkill {
 	}
 
 	protected show(data: Selection): Vision {
-		if (!this.driver || !this.owner || !data || !data.players) {
-			return {};
-		}
-
-		const target = this.driver.getPlayer(data.players[0]);
+		const target = data.players && this.driver.getPlayer(data.players[0]);
 		if (!target) {
 			return {};
 		}

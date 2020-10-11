@@ -14,14 +14,9 @@ transformMap.set(Team.Werewolf, Role.Werewolf);
 transformMap.set(Team.Tanner, Role.Tanner);
 
 export default class ParanormalInvestigator extends VisionSkill {
-	protected selectedTargets: number[];
+	protected selectedTargets: number[] = [];
 
 	protected transformedTo?: Role;
-
-	constructor() {
-		super();
-		this.selectedTargets = [];
-	}
 
 	isFinished(): boolean {
 		return this.transformedTo !== undefined || this.selectedTargets.length >= 2;
@@ -32,8 +27,7 @@ export default class ParanormalInvestigator extends VisionSkill {
 			return false;
 		}
 
-		const { driver, owner } = this;
-		if (!driver || !owner || !data.players) {
+		if (!data.players) {
 			return false;
 		}
 
@@ -42,18 +36,17 @@ export default class ParanormalInvestigator extends VisionSkill {
 			return false;
 		}
 
-		const target = driver.getPlayer(players[0]);
-		return Boolean(target) && target !== owner;
+		const target = this.driver.getPlayer(players[0]);
+		return Boolean(target) && target !== this.owner;
 	}
 
 	protected show(data: Selection): Vision {
-		const { driver, owner } = this;
 		const { players } = data;
-		if (!driver || !owner || !players) {
+		if (!players) {
 			return {};
 		}
 
-		const target = driver.getPlayer(players[0]);
+		const target = this.driver.getPlayer(players[0]);
 		if (!target) {
 			return {};
 		}
@@ -65,20 +58,20 @@ export default class ParanormalInvestigator extends VisionSkill {
 			const role = team ? transformMap.get(team) : undefined;
 			if (role) {
 				this.transformedTo = role;
-				driver.addAction(new TransformAction(owner, 52, owner, role));
+				this.driver.addAction(new TransformAction(this.owner, 52, this.owner, role));
 			}
 		}
 
 		const vision: Player[] = [];
 		for (const seat of this.selectedTargets) {
-			const player = driver.getPlayer(seat);
+			const player = this.driver.getPlayer(seat);
 			if (player) {
 				vision.push(player.getProfile());
 			}
 		}
 		if (this.transformedTo) {
 			vision.push({
-				seat: owner.getSeat(),
+				seat: this.owner.getSeat(),
 				role: this.transformedTo,
 			});
 		}

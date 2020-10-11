@@ -4,7 +4,7 @@ import Driver from './Driver';
 import Player from './Player';
 import Skill from './Skill';
 
-type SkillCreator = new() => Skill<Player, Driver, unknown, unknown>;
+type SkillCreator = new(driver: Driver, owner: Player) => Skill<Player, Driver, unknown, unknown>;
 
 export default class Collection {
 	protected name: string;

@@ -9,9 +9,7 @@ import Player from '../../game/Player';
 import CompanionSkill from '../CompanionSkill';
 
 export default class Werewolf extends CompanionSkill {
-	constructor() {
-		super(Role.Werewolf);
-	}
+	protected role = Role.Werewolf;
 
 	protected isCompanion(player: Player): boolean {
 		if (player === this.owner) {

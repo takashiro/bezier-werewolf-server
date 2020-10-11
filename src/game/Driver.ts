@@ -172,9 +172,7 @@ export default class Driver extends EventDriver implements BaseDriver {
 			}
 
 			for (const SkillCreator of SkillCreators) {
-				const skill = new SkillCreator();
-				skill.setDriver(this);
-				skill.setOwner(player);
+				const skill = new SkillCreator(this, player);
 				player.addSkill(skill);
 
 				const listeners = skill.getListeners();

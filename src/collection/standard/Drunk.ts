@@ -5,27 +5,25 @@ import Skill from '../Skill';
 
 class Drunk extends Skill<void> {
 	isFeasible(data: Selection): boolean {
-		const driver = this.getDriver();
-		if (!driver || !data.cards) {
+		if (!data.cards) {
 			return false;
 		}
 
-		const card = driver.getCenterCard(data.cards[0]);
+		const card = this.driver.getCenterCard(data.cards[0]);
 		return !!card;
 	}
 
 	protected run(data: Selection): void {
-		const driver = this.getDriver();
-		if (!driver || !this.owner || !data.cards) {
+		if (!data.cards) {
 			return;
 		}
 
-		const card = driver.getCenterCard(data.cards[0]);
+		const card = this.driver.getCenterCard(data.cards[0]);
 		if (!card) {
 			return;
 		}
 
-		driver.addAction(new ExchangeAction(this.owner, 80, this.owner, card));
+		this.driver.addAction(new ExchangeAction(this.owner, 80, this.owner, card));
 	}
 }
 
