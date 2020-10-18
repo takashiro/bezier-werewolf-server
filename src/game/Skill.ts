@@ -1,7 +1,7 @@
 import EventListener from './EventListener';
 import SkillMode from './SkillMode';
 
-export default abstract class Skill<OwnerType, DriverType, InputType, OutputType> {
+export default abstract class Skill<DriverType, OwnerType, InputType, OutputType> {
 	protected readonly driver: DriverType;
 
 	protected owner: OwnerType;
@@ -48,6 +48,9 @@ export default abstract class Skill<OwnerType, DriverType, InputType, OutputType
 		return (this.mode & mode) === mode;
 	}
 
+	/**
+	 * @return Skill listeners bound to events.
+	 */
 	getListeners(): EventListener<unknown>[] | undefined {
 		return this.listeners;
 	}

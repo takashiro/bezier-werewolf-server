@@ -4,7 +4,7 @@ import Driver from '../game/Driver';
 import Player from '../game/Player';
 import BaseSkill from '../game/Skill';
 
-abstract class Skill<OutputType> extends BaseSkill<Player, Driver, Selection, OutputType> {
+abstract class Skill<OutputType> extends BaseSkill<Driver, Player, Selection, OutputType> {
 }
 
 export default Skill;

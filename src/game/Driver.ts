@@ -66,25 +66,6 @@ export default class Driver extends EventDriver implements BaseDriver {
 	}
 
 	/**
-	 * Load extension packs.
-	 * @param collections Extension packs of One Night Ultimate Werewolf
-	 */
-	loadCollection(...collections: Collection[]): void {
-		for (const col of collections) {
-			for (const role of col.getRoles()) {
-				if (!this.roles.includes(role)) {
-					continue;
-				}
-
-				const creators = col.find(role);
-				if (creators) {
-					this.collection.add(role, ...creators);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Get player
 	 * @param seat
 	 */
@@ -128,6 +109,25 @@ export default class Driver extends EventDriver implements BaseDriver {
 	 */
 	getState(): State {
 		return this.state;
+	}
+
+	/**
+	 * Load extension packs.
+	 * @param collections Extension packs of One Night Ultimate Werewolf
+	 */
+	loadCollection(...collections: Collection[]): void {
+		for (const col of collections) {
+			for (const role of col.getRoles()) {
+				if (!this.roles.includes(role)) {
+					continue;
+				}
+
+				const creators = col.find(role);
+				if (creators) {
+					this.collection.add(role, ...creators);
+				}
+			}
+		}
 	}
 
 	/**

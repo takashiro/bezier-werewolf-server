@@ -27,7 +27,7 @@ class Player extends EventEmitter {
 
 	protected lynchTarget?: Player;
 
-	protected skills: Skill<Player, unknown, unknown, unknown>[];
+	protected skills: Skill<unknown, Player, unknown, unknown>[];
 
 	constructor(seat: number) {
 		super();
@@ -110,14 +110,14 @@ class Player extends EventEmitter {
 	 * Sets player skill
 	 * @param skill
 	 */
-	addSkill(skill: Skill<Player, unknown, unknown, unknown>): void {
+	addSkill(skill: Skill<unknown, Player, unknown, unknown>): void {
 		this.skills.push(skill);
 	}
 
 	/**
 	 * @return player skills
 	 */
-	getSkills(): Skill<Player, unknown, unknown, unknown>[] {
+	getSkills(): Skill<unknown, Player, unknown, unknown>[] {
 		return this.skills;
 	}
 
