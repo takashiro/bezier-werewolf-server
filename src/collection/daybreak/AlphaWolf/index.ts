@@ -36,10 +36,10 @@ export default class AlphaWolf extends Skill<void> implements IAlphaWolf {
 			return;
 		}
 
-		const { driver, owner, card } = this;
+		const { driver, card } = this;
 		const target = driver.getPlayer(data.players[0]);
 		if (card && target) {
-			const action = new ExchangeAction(owner, 21, card, target);
+			const action = new ExchangeAction(this, card, target);
 			driver.addAction(action);
 		}
 	}

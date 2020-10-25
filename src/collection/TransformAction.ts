@@ -1,24 +1,22 @@
 import { Role } from '@bezier/werewolf-core';
 
 import Action from '../game/Action';
-import Driver from '../game/Driver';
 import Card from '../game/Card';
-import Player from '../game/Player';
+import Player, { Skill } from '../game/Player';
 
-export default class TransformAction extends Action<Driver> {
+export default class TransformAction extends Action {
 	protected target: Player | Card;
 
 	protected newRole: Role;
 
 	/**
 	 * Create a transform action
-	 * @param {Player} owner
-	 * @param {number} priority
-	 * @param {Player|CenterCard} target
-	 * @param {Role} newRole
+	 * @param owner
+	 * @param target
+	 * @param newRole
 	 */
-	constructor(owner: Player, priority: number, target: Player | Card, newRole: Role) {
-		super(owner, priority);
+	constructor(owner: Skill, target: Player | Card, newRole: Role) {
+		super(owner);
 
 		this.target = target;
 		this.newRole = newRole;

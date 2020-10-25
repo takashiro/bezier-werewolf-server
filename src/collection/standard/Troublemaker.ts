@@ -30,11 +30,11 @@ export default class Troublemaker extends Skill<void> {
 			return;
 		}
 
-		const { driver, owner } = this;
+		const { driver } = this;
 		const player1 = driver.getPlayer(data.players[0]);
 		const player2 = driver.getPlayer(data.players[1]);
 		if (player1 && player2) {
-			driver.addAction(new ExchangeAction(owner, 70, player1, player2));
+			driver.addAction(new ExchangeAction(this, player1, player2));
 		}
 	}
 }

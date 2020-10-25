@@ -1,22 +1,20 @@
 import Action from '../game/Action';
-import Driver from '../game/Driver';
-import Player from '../game/Player';
+import Player, { Skill } from '../game/Player';
 import Card from '../game/Card';
 
-export default class ExchangeAction extends Action<Driver> {
+export default class ExchangeAction extends Action {
 	protected from: Player | Card;
 
 	protected to: Player | Card;
 
 	/**
 	 * Create an exchange action
-	 * @param {Role} owner
-	 * @param {number} priority
-	 * @param {Player|CenterCard} from
-	 * @param {Player|CenterCard} to
+	 * @param skill
+	 * @param from
+	 * @param to
 	 */
-	constructor(owner: Player, priority: number, from: Player | Card, to: Player | Card) {
-		super(owner, priority);
+	constructor(skill: Skill, from: Player | Card, to: Player | Card) {
+		super(skill);
 
 		this.from = from;
 		this.to = to;

@@ -28,7 +28,7 @@ class Drunk extends Skill<void> {
 			return;
 		}
 
-		this.driver.addAction(new ExchangeAction(this.owner, 80, this.owner, card));
+		this.driver.addAction(new ExchangeAction(this, this.owner, card));
 	}
 }
 

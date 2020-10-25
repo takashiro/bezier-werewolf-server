@@ -1,37 +1,40 @@
-import Player from './Player';
+import Player, { Skill } from './Player';
 
-export default abstract class Action<DriverType> {
-	protected owner: Player;
-
-	protected priority: number;
+export default abstract class Action {
+	protected skill: Skill;
 
 	/**
 	 * An action to be executed
-	 * @param owner
+	 * @param skill
 	 * @param priority
 	 */
-	constructor(owner: Player, priority: number) {
-		this.owner = owner;
-		this.priority = priority;
+	constructor(skill: Skill) {
+		this.skill = skill;
 	}
 
 	/**
-	 * @return owner
+	 * @return The skill that performs the action.
+	 */
+	getSkill(): Skill {
+		return this.skill;
+	}
+
+	/**
+	 * @return Action owner
 	 */
 	getOwner(): Player {
-		return this.owner;
+		return this.skill.getOwner();
 	}
 
 	/**
-	 * @return priority
+	 * @return Skill Priority
 	 */
 	getPriority(): number {
-		return this.priority;
+		return this.skill.getPriority();
 	}
 
 	/**
 	 * Action effect
-	 * @param driver
 	 */
-	abstract exec(driver: DriverType): void;
+	abstract exec(): void;
 }

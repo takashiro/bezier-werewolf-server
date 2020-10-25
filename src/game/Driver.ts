@@ -23,7 +23,7 @@ export default class Driver extends EventDriver implements BaseDriver {
 
 	protected collection: Collection;
 
-	protected actions: Action<Driver>[];
+	protected actions: Action[];
 
 	protected state: State;
 
@@ -100,7 +100,7 @@ export default class Driver extends EventDriver implements BaseDriver {
 	 * Add an action
 	 * @param action
 	 */
-	addAction(action: Action<Driver>): void {
+	addAction(action: Action): void {
 		this.actions.push(action);
 	}
 
@@ -191,7 +191,7 @@ export default class Driver extends EventDriver implements BaseDriver {
 	exec(): void {
 		this.actions.sort((a, b) => a.getPriority() - b.getPriority());
 		for (const action of this.actions) {
-			action.exec(this);
+			action.exec();
 		}
 
 		this.state = State.Voting;

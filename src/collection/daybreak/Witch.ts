@@ -51,7 +51,7 @@ export default class Witch extends VisionSkill {
 			return {};
 		}
 
-		const { driver, owner } = this;
+		const { driver } = this;
 
 		if (this.selectedCard === undefined) {
 			const card = data.cards && driver.getCenterCard(data.cards[0]);
@@ -66,7 +66,7 @@ export default class Witch extends VisionSkill {
 			const target = data.players && driver.getPlayer(data.players[0]);
 			if (target) {
 				this.selectedPlayer = target;
-				driver.addAction(new ExchangeAction(owner, 61, this.selectedCard, target));
+				driver.addAction(new ExchangeAction(this, this.selectedCard, target));
 			}
 		}
 

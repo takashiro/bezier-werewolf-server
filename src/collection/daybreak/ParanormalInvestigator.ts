@@ -64,7 +64,7 @@ export default class ParanormalInvestigator extends VisionSkill {
 			const role = team ? transformMap.get(team) : undefined;
 			if (role) {
 				this.transformedTo = role;
-				this.driver.addAction(new TransformAction(this.owner, 52, this.owner, role));
+				this.driver.addAction(new TransformAction(this, this.owner, role));
 			}
 		}
 
