@@ -5,7 +5,7 @@ import {
 	Player as PlayerProfile,
 } from '@bezier/werewolf-core';
 
-import Skill from './Skill';
+import BaseSkill from './Skill';
 
 interface Player {
 	on(event: 'seated', listener: () => void): this;
@@ -15,6 +15,8 @@ interface Player {
 	off(event: 'seated', listener: () => void): this;
 	off(event: 'ready', listener: () => void): this;
 }
+
+export type Skill = BaseSkill<unknown, Player, unknown, unknown>;
 
 class Player extends EventEmitter {
 	protected seat: number;
@@ -27,7 +29,7 @@ class Player extends EventEmitter {
 
 	protected lynchTarget?: Player;
 
-	protected skills: Skill<unknown, Player, unknown, unknown>[];
+	protected skills: Skill[];
 
 	constructor(seat: number) {
 		super();
@@ -110,14 +112,14 @@ class Player extends EventEmitter {
 	 * Sets player skill
 	 * @param skill
 	 */
-	addSkill(skill: Skill<unknown, Player, unknown, unknown>): void {
+	addSkill(skill: Skill): void {
 		this.skills.push(skill);
 	}
 
 	/**
 	 * @return player skills
 	 */
-	getSkills(): Skill<unknown, Player, unknown, unknown>[] {
+	getSkills(): Skill[] {
 		return this.skills;
 	}
 
