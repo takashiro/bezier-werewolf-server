@@ -1,4 +1,4 @@
-export default abstract class EventListener<ParamType> {
+export default abstract class EventHook<ParamType> {
 	protected readonly event: number;
 
 	constructor(event: number) {

@@ -18,7 +18,7 @@ export default class AlphaWolf extends Skill<void> implements IAlphaWolf {
 
 	protected card?: Card;
 
-	protected listeners = [
+	protected hooks = [
 		new CenterWerewolfCard(this),
 	];
 

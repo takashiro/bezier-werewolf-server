@@ -1,13 +1,13 @@
-import EventListener from './EventListener';
+import EventHook from './EventHook';
 
 export default class EventDriver {
-	protected listeners: Map<number, EventListener<unknown>[]>;
+	protected listeners: Map<number, EventHook<unknown>[]>;
 
 	constructor() {
 		this.listeners = new Map();
 	}
 
-	register(...listeners: EventListener<unknown>[]): void {
+	register(...listeners: EventHook<unknown>[]): void {
 		for (const listener of listeners) {
 			const list = this.listeners.get(listener.getEvent());
 			if (list) {

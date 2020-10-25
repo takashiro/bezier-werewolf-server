@@ -2,11 +2,11 @@ import { Role } from '@bezier/werewolf-core';
 
 import Driver from '../../../game/Driver';
 import Event from '../../../game/Event';
-import EventListener from '../../../game/EventListener';
+import EventHook from '../../../game/EventHook';
 
 import AlphaWolf from './AlphaWolf';
 
-export default class CenterWerewolfCard extends EventListener<Driver> {
+export default class CenterWerewolfCard extends EventHook<Driver> {
 	protected skill: AlphaWolf;
 
 	constructor(skill: AlphaWolf) {

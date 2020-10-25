@@ -1,4 +1,4 @@
-import EventListener from './EventListener';
+import EventHook from './EventHook';
 import SkillMode from './SkillMode';
 
 export default abstract class Skill<DriverType, OwnerType, InputType, OutputType> {
@@ -12,7 +12,7 @@ export default abstract class Skill<DriverType, OwnerType, InputType, OutputType
 
 	protected output?: OutputType;
 
-	protected listeners?: EventListener<unknown>[];
+	protected hooks?: EventHook<unknown>[];
 
 	constructor(driver: DriverType, owner: OwnerType) {
 		this.driver = driver;
@@ -51,8 +51,8 @@ export default abstract class Skill<DriverType, OwnerType, InputType, OutputType
 	/**
 	 * @return Skill listeners bound to events.
 	 */
-	getListeners(): EventListener<unknown>[] | undefined {
-		return this.listeners;
+	getHooks(): EventHook<unknown>[] | undefined {
+		return this.hooks;
 	}
 
 	/**
