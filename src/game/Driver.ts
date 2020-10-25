@@ -3,59 +3,26 @@ import {
 	GameConfig,
 } from '@bezier/werewolf-core';
 
-import Action from './Action';
-import Card from './Card';
-import Collection from './Collection';
-import State from './DriverState';
-import EventDriver from './EventDriver';
-import Player from './Player';
-
-import Event from './Event';
 import BaseDriver from '../base/Driver';
 import shuffle from '../util/shuffle';
 
-export default class Driver extends EventDriver implements BaseDriver {
-	protected roles: Role[];
+import ActionDriver from './ActionDriver';
+import Card from './Card';
+import State from './DriverState';
+import Event from './Event';
+import Player, { Skill } from './Player';
 
-	protected centerCards: Card[];
+export default class Driver extends ActionDriver implements BaseDriver {
+	protected centerCards: Card[] = [];
 
-	protected players: Player[];
+	protected players: Player[] = [];
 
-	protected collection: Collection;
-
-	protected actions: Action[];
-
-	protected state: State;
-
-	constructor() {
-		super();
-		this.roles = [];
-		this.centerCards = [];
-		this.players = [];
-		this.collection = new Collection('room');
-		this.actions = [];
-		this.state = State.Preparing;
-	}
+	protected state = State.Preparing;
 
 	getConfig(): GameConfig {
 		return {
 			roles: this.roles,
 		};
-	}
-
-	/**
-	 * Set roles
-	 * @param roles
-	 */
-	setRoles(roles: Role[]): void {
-		this.roles = roles;
-	}
-
-	/**
-	 * @return roles
-	 */
-	getRoles(): Role[] {
-		return this.roles;
 	}
 
 	/**
@@ -97,14 +64,6 @@ export default class Driver extends EventDriver implements BaseDriver {
 	}
 
 	/**
-	 * Add an action
-	 * @param action
-	 */
-	addAction(action: Action): void {
-		this.actions.push(action);
-	}
-
-	/**
 	 * @return driver state
 	 */
 	getState(): State {
@@ -112,28 +71,35 @@ export default class Driver extends EventDriver implements BaseDriver {
 	}
 
 	/**
-	 * Load extension packs.
-	 * @param collections Extension packs of One Night Ultimate Werewolf
-	 */
-	loadCollection(...collections: Collection[]): void {
-		for (const col of collections) {
-			for (const role of col.getRoles()) {
-				if (!this.roles.includes(role)) {
-					continue;
-				}
-
-				const creators = col.find(role);
-				if (creators) {
-					this.collection.add(role, ...creators);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Arrange roles
 	 */
 	prepare(): void {
+		this.prepareRoles();
+
+		this.state = State.TakingSeats;
+		for (const player of this.players) {
+			this.giftPlayer(player);
+			this.watchPlayer(player);
+		}
+
+		this.sortSkills();
+
+		this.trigger(Event.Preparing, this);
+	}
+
+	/**
+	 * Take all action effects.
+	 */
+	exec(): void {
+		this.actions.sort((a, b) => a.getPriority() - b.getPriority());
+		for (const action of this.actions) {
+			action.exec();
+		}
+
+		this.state = State.Voting;
+	}
+
+	protected prepareRoles(): void {
 		const roles = [...this.roles];
 		shuffle(roles);
 
@@ -150,50 +116,62 @@ export default class Driver extends EventDriver implements BaseDriver {
 			players[i] = player;
 		}
 		this.players = players;
-
-		this.state = State.TakingSeats;
-
-		for (const player of this.players) {
-			player.once('seated', () => {
-				if (this.state === State.TakingSeats && players.every((p) => p.isSeated())) {
-					this.state = State.InvokingSkills;
-				}
-			});
-
-			player.once('ready', () => {
-				if (this.state === State.InvokingSkills && players.every((p) => p.isReady())) {
-					this.exec();
-				}
-			});
-
-			const SkillCreators = this.collection.find(player.getRole());
-			if (!SkillCreators) {
-				continue;
-			}
-
-			for (const SkillCreator of SkillCreators) {
-				const skill = new SkillCreator(this, player);
-				player.addSkill(skill);
-
-				const listeners = skill.getHooks();
-				if (listeners) {
-					this.register(...listeners);
-				}
-			}
-		}
-
-		this.trigger(Event.Preparing, this);
 	}
 
-	/**
-	 * Take all action effects.
-	 */
-	exec(): void {
-		this.actions.sort((a, b) => a.getPriority() - b.getPriority());
-		for (const action of this.actions) {
-			action.exec();
+	protected giftPlayer(player: Player): void {
+		const SkillCreators = this.collection.find(player.getRole());
+		if (!SkillCreators) {
+			return;
 		}
 
-		this.state = State.Voting;
+		for (const SkillCreator of SkillCreators) {
+			const skill = new SkillCreator(this, player);
+			player.addSkill(skill);
+
+			const listeners = skill.getHooks();
+			if (listeners) {
+				this.register(...listeners);
+			}
+		}
+	}
+
+	protected watchPlayer(player: Player): void {
+		player.once('seated', () => {
+			if (this.state !== State.TakingSeats) {
+				return;
+			}
+
+			if (this.players.every((p) => p.isSeated())) {
+				this.state = State.InvokingSkills;
+			}
+		});
+
+		player.once('ready', () => {
+			if (this.state !== State.InvokingSkills) {
+				return;
+			}
+
+			if (this.players.every((p) => p.isReady())) {
+				this.exec();
+				this.state = State.Voting;
+			}
+		});
+	}
+
+	protected sortSkills(): void {
+		const skills: Skill[] = [];
+		for (const player of this.players) {
+			skills.push(...player.getSkills());
+		}
+
+		skills.sort((a, b) => {
+			const factor = a.getPriority() - b.getPriority();
+			if (factor !== 0) {
+				return factor;
+			}
+			return a.getOwner().getSeat() - b.getOwner().getSeat();
+		});
+
+		Driver.linkSkills(skills);
 	}
 }

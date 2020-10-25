@@ -1,7 +1,16 @@
+import { EventEmitter } from 'events';
+
 import EventHook from './EventHook';
 import SkillMode from './SkillMode';
 
-export default abstract class Skill<DriverType, OwnerType, InputType, OutputType> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface Skill<DriverType, OwnerType, InputType, OutputType> {
+	on(event: 'finished', listener: () => void): this;
+	once(event: 'finished', listener: () => void): this;
+	off(event: 'finished', listener: () => void): this;
+}
+
+abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends EventEmitter {
 	protected readonly driver: DriverType;
 
 	protected owner: OwnerType;
@@ -10,11 +19,14 @@ export default abstract class Skill<DriverType, OwnerType, InputType, OutputType
 
 	protected mode = SkillMode.Invalid;
 
+	protected ready = false;
+
 	protected output?: OutputType;
 
 	protected hooks?: EventHook<unknown>[];
 
 	constructor(driver: DriverType, owner: OwnerType) {
+		super();
 		this.driver = driver;
 		this.owner = owner;
 	}
@@ -56,6 +68,21 @@ export default abstract class Skill<DriverType, OwnerType, InputType, OutputType
 	}
 
 	/**
+	 * @return Whether the skill is marked as ready.
+	 */
+	isReady(): boolean {
+		return this.ready;
+	}
+
+	/**
+	 * Sets ready state.
+	 * @param ready
+	 */
+	setReady(ready: boolean): void {
+		this.ready = ready;
+	}
+
+	/**
 	 * Check if the skill has been invoked
 	 */
 	isFinished(): boolean {
@@ -82,6 +109,9 @@ export default abstract class Skill<DriverType, OwnerType, InputType, OutputType
 			return this.output as OutputType;
 		}
 		this.output = this.run(data);
+		if (this.isFinished()) {
+			this.emit('finished');
+		}
 		return this.output;
 	}
 
@@ -92,3 +122,5 @@ export default abstract class Skill<DriverType, OwnerType, InputType, OutputType
 	 */
 	protected abstract run(data: InputType): OutputType;
 }
+
+export default Skill;
