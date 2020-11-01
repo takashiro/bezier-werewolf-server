@@ -20,10 +20,7 @@ export default class ExchangeAction extends Action {
 		this.to = to;
 	}
 
-	/**
-	 * Take effect
-	 */
-	exec(): void {
+	protected run(): void {
 		const fromRole = this.from.getRole();
 		const toRole = this.to.getRole();
 		this.from.setRole(toRole);

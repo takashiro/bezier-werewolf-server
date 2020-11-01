@@ -22,10 +22,7 @@ export default class TransformAction extends Action {
 		this.newRole = newRole;
 	}
 
-	/**
-	 * Take effect
-	 */
-	exec(): void {
+	protected run(): void {
 		this.target.setRole(this.newRole);
 	}
 }

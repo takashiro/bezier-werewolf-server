@@ -87,18 +87,6 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		this.trigger(Event.Preparing, this);
 	}
 
-	/**
-	 * Take all action effects.
-	 */
-	exec(): void {
-		this.actions.sort((a, b) => a.getPriority() - b.getPriority());
-		for (const action of this.actions) {
-			action.exec();
-		}
-
-		this.state = State.Voting;
-	}
-
 	protected prepareRoles(): void {
 		const roles = [...this.roles];
 		shuffle(roles);
@@ -152,7 +140,6 @@ export default class Driver extends ActionDriver implements BaseDriver {
 			}
 
 			if (this.players.every((p) => p.isReady())) {
-				this.exec();
 				this.state = State.Voting;
 			}
 		});
@@ -172,6 +159,6 @@ export default class Driver extends ActionDriver implements BaseDriver {
 			return a.getOwner().getSeat() - b.getOwner().getSeat();
 		});
 
-		Driver.linkSkills(skills);
+		this.registerSkills(skills);
 	}
 }

@@ -7,12 +7,13 @@ import SkillMode from './SkillMode';
 
 type Skill = BaseSkill<unknown, unknown, unknown, unknown>;
 
-function releaseSkills(skills: Skill[], from = 0): void {
+function releaseSkills(skills: Skill[], from = 0): number {
 	if (from >= skills.length) {
-		return;
+		return Number.NEGATIVE_INFINITY;
 	}
 
 	let readBlocked = false;
+	let current = Number.NEGATIVE_INFINITY;
 	for (let i = from; i < skills.length; i++) {
 		const cur = skills[i];
 		if (!readBlocked || !cur.hasMode(SkillMode.Read)) {
@@ -20,20 +21,19 @@ function releaseSkills(skills: Skill[], from = 0): void {
 		}
 		if (cur.hasMode(SkillMode.Write)) {
 			readBlocked = true;
+			current = i;
 		}
 	}
+
+	return current;
 }
 
 export default class SkillDriver extends EventDriver {
-	protected roles: Role[];
+	protected roles: Role[] = [];
 
-	protected collection: Collection;
+	protected collection = new Collection('room');
 
-	constructor() {
-		super();
-		this.roles = [];
-		this.collection = new Collection('room');
-	}
+	protected phase = Number.NEGATIVE_INFINITY;
 
 	/**
 	 * Set roles
@@ -48,6 +48,13 @@ export default class SkillDriver extends EventDriver {
 	 */
 	getRoles(): Role[] {
 		return this.roles;
+	}
+
+	/**
+	 * @return The largest index of ready skills.
+	 */
+	getPhase(): number {
+		return this.phase;
 	}
 
 	/**
@@ -69,14 +76,33 @@ export default class SkillDriver extends EventDriver {
 		}
 	}
 
-	protected static linkSkills(skills: Skill[]): void {
+	/**
+	 * Change the current phase.
+	 * @param phase The largest index of ready skills.
+	 */
+	protected movePhaseTo(phase: number): void {
+		this.phase = phase;
+	}
+
+	/**
+	 * Watch the events of skills and make corresponding changes on each event.
+	 * @param skills
+	 */
+	protected registerSkills(skills: Skill[]): void {
+		if (skills.length <= 0) {
+			return;
+		}
+
 		for (let i = 0; i < skills.length; i++) {
 			const skill = skills[i];
+			skill.setOrder(i);
 			skill.once('finished', () => {
-				releaseSkills(skills, i + 1);
+				const phase = releaseSkills(skills, i + 1);
+				this.movePhaseTo(phase);
 			});
 		}
 
-		releaseSkills(skills);
+		const phase = releaseSkills(skills);
+		this.movePhaseTo(phase);
 	}
 }

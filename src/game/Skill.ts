@@ -21,6 +21,8 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 
 	protected ready = false;
 
+	protected order = 0;
+
 	protected output?: OutputType;
 
 	protected hooks?: EventHook<unknown>[];
@@ -80,6 +82,21 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	 */
 	setReady(ready: boolean): void {
 		this.ready = ready;
+	}
+
+	/**
+	 * @return The execution order in the game.
+	 */
+	getOrder(): number {
+		return this.order;
+	}
+
+	/**
+	 * Sets the execution order by the driver.
+	 * @param order
+	 */
+	setOrder(order: number): void {
+		this.order = order;
 	}
 
 	/**

@@ -79,7 +79,6 @@ describe('Witch', () => {
 				const res2 = await self.post(`/room/${room.id}/player/${witch.seat}/skill?seatKey=1`).send({ players: [target] });
 				expect(res2.status).toBe(200);
 				const vision2: Vision = res2.body;
-				expect(vision2.cards).toStrictEqual([card]);
 				expect(vision2.players).toStrictEqual([{
 					seat: target,
 					role: card.role,

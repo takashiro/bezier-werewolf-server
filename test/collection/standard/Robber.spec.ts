@@ -56,7 +56,6 @@ it('validates user input', async () => {
 		.expect(400, 'Invalid skill targets');
 });
 
-const exchanges: [number, number][] = [];
 it('rob other\'s role', async () => {
 	const robbers = players.filter((player) => player.role === Role.Robber);
 	for (const robber of robbers) {
@@ -65,14 +64,20 @@ it('rob other\'s role', async () => {
 			target = Math.floor(Math.random() * players.length) + 1;
 		} while (target === robber.seat);
 
-		const res = await self.post(`/room/${room.id}/player/${robber.seat}/skill?seatKey=1`).send({ players: [target] });
+		const res = await self.post(`/room/${room.id}/player/${robber.seat}/skill?seatKey=1`)
+			.send({ players: [target] });
 		expect(res.status).toBe(200);
 
 		const vision: Vision = res.body;
 		expect(vision.players[0].seat).toBe(robber.seat);
 		expect(vision.players[0].role).toBe(players[target - 1].role);
 
-		exchanges.push([target, robber.seat]);
+		const from = players[target - 1];
+		const to = robber;
+		const fromRole = from.role;
+		const toRole = to.role;
+		from.role = toRole;
+		to.role = fromRole;
 	}
 });
 
@@ -85,18 +90,6 @@ it('gets ready and votes', async () => {
 		await self.post(`/room/${room.id}/player/${player.seat}/lynch?seatKey=1`)
 			.send({ target: 1 });
 	}));
-});
-
-it('calculates the expected result', () => {
-	expect(exchanges.length).toBeGreaterThan(0);
-	for (const exchange of exchanges) {
-		const from = players[exchange[0] - 1];
-		const to = players[exchange[1] - 1];
-		const fromRole = from.role;
-		const toRole = to.role;
-		from.role = toRole;
-		to.role = fromRole;
-	}
 });
 
 it('checkes roles', async () => {

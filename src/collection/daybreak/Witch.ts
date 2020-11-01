@@ -70,12 +70,10 @@ export default class Witch extends VisionSkill {
 			}
 		}
 
-		const vision = Witch.showCards([this.selectedCard]);
-		if (this.selectedPlayer) {
-			const player = this.selectedPlayer.getProfile();
-			player.role = this.selectedCard.getRole();
-			vision.players = [player];
+		if (!this.selectedPlayer) {
+			return Witch.showCards([this.selectedCard]);
 		}
-		return vision;
+
+		return Witch.showPlayers([this.selectedPlayer]);
 	}
 }

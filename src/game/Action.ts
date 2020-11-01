@@ -3,6 +3,8 @@ import Player, { Skill } from './Player';
 export default abstract class Action {
 	protected skill: Skill;
 
+	protected executed = false;
+
 	/**
 	 * An action to be executed
 	 * @param skill
@@ -20,6 +22,13 @@ export default abstract class Action {
 	}
 
 	/**
+	 * @return The execution order.
+	 */
+	getOrder(): number {
+		return this.skill.getOrder();
+	}
+
+	/**
 	 * @return Action owner
 	 */
 	getOwner(): Player {
@@ -34,7 +43,19 @@ export default abstract class Action {
 	}
 
 	/**
-	 * Action effect
+	 * Execute the action.
 	 */
-	abstract exec(): void;
+	exec(): void {
+		if (this.executed) {
+			return;
+		}
+
+		this.run();
+		this.executed = true;
+	}
+
+	/**
+	 * A function to implement action effect.
+	 */
+	protected abstract run(): void;
 }

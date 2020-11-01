@@ -28,13 +28,6 @@ export default class Robber extends VisionSkill {
 		}
 
 		this.driver.addAction(new ExchangeAction(this, this.owner, target));
-
-		const seen = {
-			seat: this.owner.getSeat(),
-			role: target.getRole(),
-		};
-		return {
-			players: [seen],
-		};
+		return Robber.showPlayers([this.owner]);
 	}
 }

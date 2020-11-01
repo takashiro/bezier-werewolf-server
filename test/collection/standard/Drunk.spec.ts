@@ -6,7 +6,6 @@ import {
 import { agent } from 'supertest';
 
 import app from '../../../src';
-import { lobby } from '../../../src/base/Lobby';
 
 const self = agent(app);
 
@@ -16,15 +15,15 @@ const room = {
 	ownerKey: '',
 };
 const players: Player[] = [];
-let drunk: Player;
-let skillApi: string;
-let card: number;
-let vision: Vision;
+const drunks: Player[] = [];
+const centerCards: Role[] = [Role.Unknown, Role.Unknown, Role.Unknown];
 
 beforeAll(async () => {
 	// Configure roles
 	for (let i = 0; i < 4; i++) {
 		roles.push(Role.Drunk);
+	}
+	for (let i = 0; i < 6; i++) {
 		roles.push(Role.Seer);
 	}
 	for (let i = 1000; i <= 1020; i++) {
@@ -48,40 +47,69 @@ it('fetches roles', async () => {
 		const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
 		players.push(res.body);
 	}
-	drunk = players.find((player) => player.role === Role.Drunk);
-	skillApi = `/room/${room.id}/player/${drunk.seat}/skill?seatKey=1`;
+	drunks.push(...players.filter((player) => player.role === Role.Drunk));
 });
 
 it('validate user input', async () => {
-	await self.post(skillApi)
+	await self.post(`/room/${room.id}/player/${drunks[0].seat}/skill?seatKey=1`)
 		.expect(400, 'Invalid skill targets');
 });
 
 it('filters non-existing targets', async () => {
-	await self.post(skillApi).send({ cards: [3] })
+	await self.post(`/room/${room.id}/player/${drunks[0].seat}/skill?seatKey=1`)
+		.send({ cards: [3] })
 		.expect(400, 'Invalid skill targets');
-	await self.post(skillApi).send({ cards: [-1] })
+	await self.post(`/room/${room.id}/player/${drunks[0].seat}/skill?seatKey=1`)
+		.send({ cards: [-1] })
 		.expect(400, 'Invalid skill targets');
 });
 
-it('exchanges the card with a center card', async () => {
-	card = Math.floor(Math.random() * 3);
-	await self.post(skillApi).send({ cards: [card] })
-		.expect(200);
+it('gets ready', async () => {
+	for (const player of players) {
+		if (player.role < 1000) {
+			continue;
+		}
+
+		const res = await self.post(`/room/${room.id}/player/${player.seat}/skill?seatKey=1`);
+		expect(res.status).toBe(200);
+	}
 });
 
 it('checkes center cards', async () => {
-	const seer = players.find((player) => player.role === Role.Seer);
-	const res = await self.post(`/room/${room.id}/player/${seer.seat}/skill?seatKey=1`)
-		.send({ cards: [card, (card + 1) % 3] })
-		.expect(200);
-	vision = res.body;
+	const seers = players.filter((player) => player.role === Role.Seer);
+	let sel = 0;
+	for (const seer of seers) {
+		const res = await self.post(`/room/${room.id}/player/${seer.seat}/skill?seatKey=1`)
+			.send({ cards: [sel, (sel + 1) % 3] })
+			.expect(200);
+		sel = (sel + 2) % 3;
+		const vision: Vision = res.body;
+		const { cards } = vision;
+		expect(cards).toHaveLength(2);
+		for (const card of cards) {
+			const baseline = centerCards[card.pos];
+			if (baseline) {
+				expect(baseline).toBe(card.role);
+			} else {
+				centerCards[card.pos] = card.role;
+			}
+		}
+	}
+});
+
+it('exchanges the card with a center card', async () => {
+	for (const drunk of drunks) {
+		const card = Math.floor(Math.random() * 3);
+		await self.post(`/room/${room.id}/player/${drunk.seat}/skill?seatKey=1`)
+			.send({ cards: [card] })
+			.expect(200);
+		const from = centerCards[card];
+		drunk.role = from;
+		centerCards[card] = Role.Drunk;
+	}
 });
 
 it('reveals all roles', async () => {
-	const driver = lobby.get(room.id).getDriver();
-	driver.exec();
-
 	for (const player of players) {
 		const res = await self.post(`/room/${room.id}/player/${player.seat}/lynch?seatKey=1`)
 			.send({ target: 1 });
@@ -91,7 +119,11 @@ it('reveals all roles', async () => {
 	for (const player of players) {
 		const res = await self.get(`/room/${room.id}/player/${player.seat}/lynch?seatKey=1`);
 		const board: Vision = res.body;
-		expect(board.cards[card].role).toBe(Role.Drunk);
-		expect(board.players[drunk.seat - 1].role).toBe(vision.cards[0].role);
+		expect(board.cards).toHaveLength(3);
+		expect(board.cards.map((card) => card.role)).toStrictEqual(centerCards);
+		for (const p of board.players) {
+			const b = players[p.seat - 1];
+			expect(p.role).toBe(b.role);
+		}
 	}
 });

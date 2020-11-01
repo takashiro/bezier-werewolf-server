@@ -13,9 +13,8 @@ const self = agent(app);
 // Configure roles
 const roles: Role[] = new Array(20);
 roles.fill(Role.MysticWolf, 0, 4);
-roles.fill(Role.AlphaWolf, 4, 8);
-roles.fill(Role.Werewolf, 8, 12);
-for (let i = 12; i < roles.length; i++) {
+roles.fill(Role.Werewolf, 4, 8);
+for (let i = 8; i < roles.length; i++) {
 	roles[i] = 1000 + i;
 }
 
@@ -65,7 +64,6 @@ it('sees other werewolves', async () => {
 			.map((seat) => players[seat - 1])
 			.map((p) => p.role);
 		expect(baselines).toContain(Role.Werewolf);
-		expect(baselines).toContain(Role.AlphaWolf);
 	}
 });
 

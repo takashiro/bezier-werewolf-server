@@ -27,6 +27,11 @@ router.post('/:idx?', (req, res) => {
 		return;
 	}
 
+	if (!skill.isReady()) {
+		res.status(425).send('Skill not ready');
+		return;
+	}
+
 	if (!skill.isFeasible(req.body)) {
 		res.status(400).send('Invalid skill targets');
 		return;
