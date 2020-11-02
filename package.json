@@ -29,6 +29,9 @@
     "url": "https://github.com/takashiro/bezier-werewolf-server/issues"
   },
   "homepage": "https://github.com/takashiro/bezier-werewolf-server#readme",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@bezier/werewolf-core": "^0.1.1",
     "express": "^4.17.1"
