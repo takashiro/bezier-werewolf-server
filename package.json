@@ -2,7 +2,8 @@
   "name": "@bezier/werewolf-server",
   "version": "0.1.0",
   "description": "One Night Ultimate Werewolf (Node.js Server)",
-  "main": "app.js",
+  "bin": "dist/cli.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rimraf dist && tsc",
     "debug": "tsc --incremental --sourceMap",
