@@ -44,7 +44,7 @@ it('fetches all roles', async () => {
 });
 
 it('sees all werewolves', async () => {
-	const werewolves = players.filter((player) => Teamship.get(player.role) === Team.Werewolf);
+	const werewolves = players.filter((player) => player.role !== Role.Minion && Teamship.get(player.role) === Team.Werewolf);
 	const minions = players.filter((player) => player.role === Role.Minion);
 	for (const minion of minions) {
 		const res = await self.post(`/room/${room.id}/player/${minion.seat}/skill?seatKey=1`);

@@ -15,7 +15,10 @@ export default class Minion extends VisionSkill {
 
 	protected show(): Vision {
 		const players = this.driver.getPlayers();
-		const werewolves = players.filter((player) => Teamship.get(player.getRole()) === Team.Werewolf);
+		const werewolves = players.filter((player) => {
+			const role = player.getRole();
+			return role !== Role.Minion && Teamship.get(role) === Team.Werewolf;
+		});
 		return {
 			players: werewolves.map((werewolf) => ({
 				role: Role.Werewolf,
