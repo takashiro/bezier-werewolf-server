@@ -131,6 +131,7 @@ export default class Driver extends ActionDriver implements BaseDriver {
 
 			if (this.players.every((p) => p.isSeated())) {
 				this.state = State.InvokingSkills;
+				this.releaseSkills();
 			}
 		});
 

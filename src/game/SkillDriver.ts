@@ -35,6 +35,8 @@ export default class SkillDriver extends EventDriver {
 
 	protected phase = Number.NEGATIVE_INFINITY;
 
+	protected skills: Skill[] = [];
+
 	/**
 	 * Set roles
 	 * @param roles
@@ -102,7 +104,11 @@ export default class SkillDriver extends EventDriver {
 			});
 		}
 
-		const phase = releaseSkills(skills);
+		this.skills = skills;
+	}
+
+	protected releaseSkills(): void {
+		const phase = releaseSkills(this.skills);
 		this.movePhaseTo(phase);
 	}
 }
