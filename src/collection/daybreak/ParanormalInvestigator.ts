@@ -2,18 +2,23 @@ import {
 	Player,
 	Role,
 	Selection,
-	Team,
-	Teamship,
 	Vision,
 } from '@bezier/werewolf-core';
 
 import SkillMode from '../../game/SkillMode';
 import TransformAction from '../TransformAction';
 import VisionSkill from '../VisionSkill';
+import isWerewolf from '../isWerewolf';
 
-const transformMap = new Map<Team, Role>();
-transformMap.set(Team.Werewolf, Role.Werewolf);
-transformMap.set(Team.Tanner, Role.Tanner);
+function transformTo(seen: Role): Role {
+	if (isWerewolf(seen)) {
+		return Role.Werewolf;
+	}
+	if (seen === Role.Tanner) {
+		return Role.Tanner;
+	}
+	return Role.Unknown;
+}
 
 export default class ParanormalInvestigator extends VisionSkill {
 	protected priority = 530;
@@ -60,9 +65,9 @@ export default class ParanormalInvestigator extends VisionSkill {
 		if (!this.selectedTargets.includes(players[0])) {
 			// Action Priority: 5c
 			this.selectedTargets.push(players[0]);
-			const team = Teamship.get(target.getRole());
-			const role = team ? transformMap.get(team) : undefined;
-			if (role) {
+			const seen = target.getRole();
+			const role = transformTo(seen);
+			if (role !== Role.Unknown) {
 				this.transformedTo = role;
 				this.driver.addAction(new TransformAction(this, this.owner, role));
 			}
