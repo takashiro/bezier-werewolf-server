@@ -83,6 +83,7 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		}
 
 		this.sortSkills();
+		this.releaseSkills();
 
 		this.trigger(Event.Preparing, this);
 	}
@@ -99,15 +100,15 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		const playerNum = roles.length - this.centerCards.length;
 		const players: Player[] = new Array(playerNum);
 		for (let i = 0; i < playerNum; i++) {
-			const player = new Player(i + 1);
-			player.setRole(roles[3 + i]);
+			const role = roles[3 + i];
+			const player = new Player(i + 1, role);
 			players[i] = player;
 		}
 		this.players = players;
 	}
 
 	protected giftPlayer(player: Player): void {
-		const SkillCreators = this.collection.find(player.getRole());
+		const SkillCreators = this.collection.find(player.getRolle());
 		if (!SkillCreators) {
 			return;
 		}
@@ -131,7 +132,6 @@ export default class Driver extends ActionDriver implements BaseDriver {
 
 			if (this.players.every((p) => p.isSeated())) {
 				this.state = State.InvokingSkills;
-				this.releaseSkills();
 			}
 		});
 

@@ -25,16 +25,19 @@ class Player extends EventEmitter {
 
 	protected role: Role;
 
+	protected rolle: Role;
+
 	protected ready: boolean;
 
 	protected lynchTarget?: Player;
 
 	protected skills: Skill[];
 
-	constructor(seat: number) {
+	constructor(seat: number, role: Role) {
 		super();
 		this.seat = seat;
-		this.role = Role.Unknown;
+		this.role = role;
+		this.rolle = role;
 		this.ready = false;
 		this.skills = [];
 	}
@@ -79,6 +82,13 @@ class Player extends EventEmitter {
 	 */
 	setRole(role: Role): void {
 		this.role = role;
+	}
+
+	/**
+	 * @return intial role
+	 */
+	getRolle(): Role {
+		return this.rolle;
 	}
 
 	isReady(): boolean {

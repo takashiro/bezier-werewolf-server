@@ -18,7 +18,7 @@ export default class Werewolf extends CompanionSkill {
 			return false;
 		}
 
-		const role = player.getRole();
+		const role = player.getRolle();
 		return role !== Role.Minion && Teamship.get(role) === Team.Werewolf;
 	}
 }

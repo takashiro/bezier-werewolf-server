@@ -30,19 +30,6 @@ afterAll(async () => {
 	expect(res.status).toBe(200);
 });
 
-it('can rob no one before everyone is seated', async () => {
-	for (let seat = 1; seat <= roles.length - 3; seat++) {
-		const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
-		expect(res.status).toBe(200);
-		const player: Player = res.body;
-		if (player.role === Role.Robber && seat + 1 <= roles.length - 3) {
-			await self.post(`/room/${room.id}/player/${player.seat}/skill?seatKey=1`)
-				.send({ players: [player.seat + 1] })
-				.expect(425, 'Skill not ready');
-		}
-	}
-});
-
 const players: Player[] = [];
 it('fetches all roles', async () => {
 	for (let seat = 1; seat <= roles.length - 3; seat++) {
