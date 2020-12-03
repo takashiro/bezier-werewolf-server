@@ -14,6 +14,7 @@ const room: Room = {
 	id: 0,
 	salt: '',
 	ownerKey: '',
+	cardNum: 3,
 	roles: [],
 };
 

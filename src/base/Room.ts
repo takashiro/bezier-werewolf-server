@@ -67,6 +67,7 @@ export default class Room {
 		return {
 			id: this.id,
 			salt: this.salt,
+			cardNum: config ? config.cardNum : 0,
 			roles: config ? config.roles : [],
 		};
 	}

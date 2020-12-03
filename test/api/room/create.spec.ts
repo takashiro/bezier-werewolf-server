@@ -26,6 +26,7 @@ const room: Room = {
 	id: 0,
 	salt: '',
 	ownerKey: '',
+	cardNum: 0,
 	roles: [] as Role[],
 };
 it('creates a room', async () => {
@@ -37,6 +38,7 @@ it('creates a room', async () => {
 	expect(room.id).toBeGreaterThan(0);
 	expect(room.salt).toHaveLength(8);
 	expect(room.ownerKey).toHaveLength(32);
+	expect(room.cardNum).toBe(3);
 	expect([...room.roles].sort()).toStrictEqual([...roles].sort());
 });
 

@@ -1,6 +1,7 @@
 import {
 	Player,
 	Role,
+	Room,
 	Team,
 	Teamship,
 	Vision,
@@ -46,6 +47,12 @@ it('fetches all roles', async () => {
 	}
 	werewolves.push(...players.filter((player) => Teamship.get(player.role) === Team.Werewolf));
 	alphawolves.push(...werewolves.filter((player) => player.role === Role.AlphaWolf));
+});
+
+it('enters the room', async () => {
+	const res = await self.get(`/room/${room.id}`);
+	const r: Room = res.body;
+	expect(r.cardNum).toBe(3 + alphawolves.length);
 });
 
 it('sees other werewolves', async () => {

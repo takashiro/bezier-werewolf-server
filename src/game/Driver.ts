@@ -21,6 +21,7 @@ export default class Driver extends ActionDriver implements BaseDriver {
 
 	getConfig(): GameConfig {
 		return {
+			cardNum: this.centerCards.length,
 			roles: this.roles,
 		};
 	}
