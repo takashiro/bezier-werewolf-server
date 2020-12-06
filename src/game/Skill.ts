@@ -17,7 +17,7 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 
 	protected priority = 0;
 
-	protected mode = SkillMode.Invalid;
+	protected mode = SkillMode.None;
 
 	protected ready = false;
 
