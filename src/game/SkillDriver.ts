@@ -7,27 +7,6 @@ import SkillMode from './SkillMode';
 
 type Skill = BaseSkill<unknown, unknown, unknown, unknown>;
 
-function releaseSkills(skills: Skill[], from = 0): number {
-	if (from >= skills.length) {
-		return Number.NEGATIVE_INFINITY;
-	}
-
-	let readBlocked = false;
-	let current = Number.NEGATIVE_INFINITY;
-	for (let i = from; i < skills.length; i++) {
-		const cur = skills[i];
-		if (!readBlocked || !cur.hasMode(SkillMode.Read)) {
-			cur.setReady(true);
-		}
-		if (cur.hasMode(SkillMode.Write)) {
-			readBlocked = true;
-			current = i;
-		}
-	}
-
-	return current;
-}
-
 export default class SkillDriver extends EventDriver {
 	protected roles: Role[] = [];
 
@@ -90,25 +69,44 @@ export default class SkillDriver extends EventDriver {
 	 * Watch the events of skills and make corresponding changes on each event.
 	 * @param skills
 	 */
-	protected registerSkills(skills: Skill[]): void {
+	registerSkills(skills: Skill[]): void {
 		if (skills.length <= 0) {
 			return;
 		}
+
+		this.skills = skills;
 
 		for (let i = 0; i < skills.length; i++) {
 			const skill = skills[i];
 			skill.setOrder(i);
 			skill.once('finished', () => {
-				const phase = releaseSkills(skills, i + 1);
-				this.movePhaseTo(phase);
+				this.releaseSkills(i + 1);
 			});
 		}
 
-		this.skills = skills;
+		this.releaseSkills();
 	}
 
-	protected releaseSkills(): void {
-		const phase = releaseSkills(this.skills);
-		this.movePhaseTo(phase);
+	releaseSkills(from = 0): void {
+		const { skills } = this;
+		if (from >= skills.length) {
+			this.movePhaseTo(Number.NEGATIVE_INFINITY);
+			return;
+		}
+
+		let readBlocked = false;
+		let current = Number.NEGATIVE_INFINITY;
+		for (let i = from; i < skills.length; i++) {
+			const cur = skills[i];
+			if (!readBlocked || !cur.hasMode(SkillMode.Read)) {
+				cur.setReady(true);
+				if (cur.hasMode(SkillMode.Write)) {
+					readBlocked = true;
+					current = i;
+				}
+			}
+		}
+
+		this.movePhaseTo(current);
 	}
 }

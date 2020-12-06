@@ -84,7 +84,6 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		}
 
 		this.sortSkills();
-		this.releaseSkills();
 
 		this.trigger(Event.Preparing, this);
 	}
