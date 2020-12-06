@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { LynchVote } from '@bezier/werewolf-core';
+import {
+	LynchResult,
+	LynchVote,
+} from '@bezier/werewolf-core';
 
 import DriverState from '../../../game/DriverState';
 
@@ -55,11 +58,11 @@ router.get('/', (req, res) => {
 	}
 
 	const playerNum = driver.getPlayers().length;
-	const players: LynchVote[] = [];
+	const votes: LynchVote[] = [];
 	for (const player of driver.getPlayers()) {
 		const target = player.getLynchTarget();
 		if (target) {
-			players.push({
+			votes.push({
 				seat: player.getSeat(),
 				role: player.getRole(),
 				target: target.getSeat(),
@@ -67,18 +70,18 @@ router.get('/', (req, res) => {
 		}
 	}
 
-	if (players.length < playerNum) {
-		res.json({
-			progress: players.length,
-			limit: playerNum,
-		});
-	} else {
+	const output: LynchResult = {
+		progress: votes.length,
+		limit: playerNum,
+	};
+
+	if (output.progress >= output.limit) {
 		const cards = driver.getCenterCards();
-		res.json({
-			cards: cards.map((card) => card.toJSON()),
-			players,
-		});
+		output.cards = cards.map((card) => card.toJSON());
+		output.players = votes;
 	}
+
+	res.json(output);
 });
 
 export default router;
