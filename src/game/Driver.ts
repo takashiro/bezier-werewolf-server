@@ -13,6 +13,8 @@ import Event from './Event';
 import Player, { Skill } from './Player';
 
 export default class Driver extends ActionDriver implements BaseDriver {
+	protected random = true;
+
 	protected centerCards: Card[] = [];
 
 	protected players: Player[] = [];
@@ -24,6 +26,14 @@ export default class Driver extends ActionDriver implements BaseDriver {
 			cardNum: this.centerCards.length,
 			roles: this.roles,
 		};
+	}
+
+	isRandom(): boolean {
+		return this.random;
+	}
+
+	setRandom(random: boolean): void {
+		this.random = random;
 	}
 
 	/**
@@ -91,7 +101,9 @@ export default class Driver extends ActionDriver implements BaseDriver {
 
 	shuffleRoles(): Role[] {
 		const roles = [...this.roles];
-		shuffle(roles);
+		if (this.isRandom()) {
+			shuffle(roles);
+		}
 		return roles;
 	}
 
