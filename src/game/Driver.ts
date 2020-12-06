@@ -83,14 +83,20 @@ export default class Driver extends ActionDriver implements BaseDriver {
 			this.watchPlayer(player);
 		}
 
+		this.runDanglingHooks();
 		this.sortSkills();
 
 		this.trigger(Event.Preparing, this);
 	}
 
-	protected prepareRoles(): void {
+	shuffleRoles(): Role[] {
 		const roles = [...this.roles];
 		shuffle(roles);
+		return roles;
+	}
+
+	protected prepareRoles(): void {
+		const roles = this.shuffleRoles();
 
 		this.centerCards = new Array(3);
 		for (let i = 0; i < 3; i++) {
@@ -117,9 +123,9 @@ export default class Driver extends ActionDriver implements BaseDriver {
 			const skill = new SkillCreator(this, player);
 			player.addSkill(skill);
 
-			const listeners = skill.getHooks();
-			if (listeners) {
-				this.register(...listeners);
+			const hooks = skill.getHooks();
+			if (hooks) {
+				this.register(...hooks);
 			}
 		}
 	}
@@ -144,6 +150,24 @@ export default class Driver extends ActionDriver implements BaseDriver {
 				this.state = State.Voting;
 			}
 		});
+	}
+
+	protected runDanglingHooks(): void {
+		const dummy = new Player(0, Role.Unknown);
+		for (const card of this.centerCards) {
+			const SkillCreators = this.collection.find(card.getRole());
+			if (!SkillCreators) {
+				continue;
+			}
+
+			for (const SkillCreator of SkillCreators) {
+				const skill = new SkillCreator(this, dummy);
+				const hooks = skill.getHooks();
+				if (hooks) {
+					this.register(...hooks);
+				}
+			}
+		}
 	}
 
 	protected sortSkills(): void {

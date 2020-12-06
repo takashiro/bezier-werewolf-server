@@ -9,11 +9,12 @@ export default class EventDriver {
 
 	register(...listeners: EventHook<unknown>[]): void {
 		for (const listener of listeners) {
-			const list = this.listeners.get(listener.getEvent());
+			const event = listener.getEvent();
+			const list = this.listeners.get(event);
 			if (list) {
 				list.push(listener);
 			} else {
-				this.listeners.set(listener.getEvent(), [listener]);
+				this.listeners.set(event, [listener]);
 			}
 		}
 	}

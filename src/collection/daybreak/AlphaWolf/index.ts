@@ -8,10 +8,9 @@ import SkillMode from '../../../game/SkillMode';
 import ExchangeAction from '../../ExchangeAction';
 import Skill from '../../Skill';
 
-import IAlphaWolf from './AlphaWolf';
 import CenterWerewolfCard from './CenterWerewolfCard';
 
-export default class AlphaWolf extends Skill<void> implements IAlphaWolf {
+export default class AlphaWolf extends Skill<void> {
 	protected priority = 320;
 
 	protected mode = SkillMode.Write;
