@@ -10,13 +10,13 @@ export default class Seer extends VisionSkill {
 	protected priority = 500;
 
 	isFeasible(data: Selection): boolean {
-		if (!this.driver || !data) {
+		if (!data) {
 			return false;
 		}
 
 		if (data.cards) {
 			const { cards } = data;
-			return Array.isArray(cards) && cards.every((i) => i >= 0 && i <= 2);
+			return Array.isArray(cards) && cards.every((i) => Boolean(this.driver.getCenterCard(i)));
 		}
 
 		const { players } = data;
@@ -34,10 +34,6 @@ export default class Seer extends VisionSkill {
 
 	protected show(data: Selection): Vision {
 		const { driver } = this;
-		if (!driver || !this.owner) {
-			return {};
-		}
-
 		if (data.players) {
 			const player = driver.getPlayer(data.players[0]);
 			if (player) {
