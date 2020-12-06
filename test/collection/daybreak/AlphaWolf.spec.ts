@@ -2,8 +2,6 @@ import {
 	Player,
 	Role,
 	Room,
-	Team,
-	Teamship,
 	Vision,
 } from '@bezier/werewolf-core';
 import { agent } from 'supertest';
@@ -12,20 +10,28 @@ import app from '../../../src';
 const self = agent(app);
 
 // Configure roles
-const roles: Role[] = new Array(30);
-roles.fill(Role.AlphaWolf, 0, 4);
-roles.fill(Role.Werewolf, 4, 8);
-for (let i = 8; i < roles.length; i++) {
-	roles[i] = 1000 + i;
-}
+const roles: Role[] = [
+	1001,
+	1002,
+	1003,
+	Role.AlphaWolf,
+	Role.Werewolf,
+	1004,
+];
 
 // Create a room
 const room = {
 	id: 0,
 	ownerKey: '',
 };
+
+const me: Player = {
+	seat: 1,
+	role: Role.AlphaWolf,
+};
+
 beforeAll(async () => {
-	const res = await self.post('/room').send({ roles });
+	const res = await self.post('/room').send({ roles, random: false });
 	expect(res.status).toBe(200);
 	Object.assign(room, res.body);
 });
@@ -35,127 +41,92 @@ afterAll(async () => {
 	expect(res.status).toBe(200);
 });
 
-const players: Player[] = [];
-const werewolves: Player[] = [];
-const alphawolves: Player[] = [];
 it('fetches all roles', async () => {
+	const players: Player[] = [];
 	const playerNum = roles.length - 3;
 	for (let seat = 1; seat <= playerNum; seat++) {
 		const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
 		expect(res.status).toBe(200);
 		players.push(res.body);
 	}
-	werewolves.push(...players.filter((player) => Teamship.get(player.role) === Team.Werewolf));
-	alphawolves.push(...werewolves.filter((player) => player.role === Role.AlphaWolf));
+	expect(players[0].role).toBe(Role.AlphaWolf);
+	expect(players[1].role).toBe(Role.Werewolf);
+	expect(players[2].role).toBe(1004);
 });
 
 it('enters the room', async () => {
 	const res = await self.get(`/room/${room.id}`);
 	const r: Room = res.body;
-	expect(r.cardNum).toBe(3 + alphawolves.length);
+	expect(r.cardNum).toBe(4);
 });
 
-it('sees other werewolves', async () => {
-	for (const player of players) {
-		const res = await self.post(`/room/${room.id}/player/${player.seat}/skill?seatKey=1`);
-		expect(res.status).toBe(200);
-		const vision: Vision = res.body;
-		if (Teamship.get(player.role) === Team.Werewolf) {
-			const seen = vision.players;
-			expect(seen.length).toBe(werewolves.length - 1);
-			for (const wolf of seen) {
-				const baseline = players[wolf.seat - 1];
-				expect(Teamship.get(baseline.role)).toBe(Team.Werewolf);
-				expect(Teamship.get(wolf.role)).toBe(Team.Werewolf);
-			}
-		} else {
-			expect(vision.cards).toBeUndefined();
-			expect(vision.players).toBeUndefined();
-		}
-	}
+it('sees other wolves', async () => {
+	const res = await self.post(`/room/${room.id}/player/1/skill?seatKey=1`);
+	expect(res.status).toBe(200);
+	const vision: Vision = res.body;
+	const seen = vision.players;
+	expect(seen).toHaveLength(1);
+	expect(seen[0].seat).toBe(2);
+	expect(seen[0].role).toBe(Role.Werewolf);
+});
+
+it('can be seen by other wolves', async () => {
+	const res = await self.post(`/room/${room.id}/player/2/skill?seatKey=1`);
+	expect(res.status).toBe(200);
+	const vision: Vision = res.body;
+	const seen = vision.players;
+	expect(seen).toHaveLength(1);
+	expect(seen[0].seat).toBe(1);
+	expect(seen[0].role).toBe(Role.AlphaWolf);
+});
+
+it('can be not seen by others', async () => {
+	const res = await self.post(`/room/${room.id}/player/3/skill?seatKey=1`);
+	expect(res.status).toBe(200);
+	const vision: Vision = res.body;
+	expect(vision.cards).toBeUndefined();
+	expect(vision.players).toBeUndefined();
 });
 
 it('rejects empty targets', async () => {
-	for (const wolf of werewolves) {
-		const res = await self.post(`/room/${room.id}/player/${wolf.seat}/skill/1?seatKey=1`);
-		if (wolf.role === Role.Werewolf) {
-			expect(res.status).toBe(404);
-			expect(res.text).toBe('Skill not found');
-		} else {
-			expect(res.status).toBe(400);
-			expect(res.text).toBe('Invalid skill targets');
-		}
-	}
+	const res = await self.post(`/room/${room.id}/player/${me.seat}/skill/1?seatKey=1`);
+	expect(res.status).toBe(400);
+	expect(res.text).toBe('Invalid skill targets');
 });
 
 it('rejects invalid target: self', async () => {
-	for (const wolf of alphawolves) {
-		const res = await self.post(`/room/${room.id}/player/${wolf.seat}/skill/1?seatKey=1`).send({ players: [wolf.seat] });
-		expect(res.status).toBe(400);
-		expect(res.text).toBe('Invalid skill targets');
-	}
+	const res = await self.post(`/room/${room.id}/player/${me.seat}/skill/1?seatKey=1`).send({ players: [me.seat] });
+	expect(res.status).toBe(400);
+	expect(res.text).toBe('Invalid skill targets');
 });
 
-const infected: number[] = [];
 it('exchanges the center werewolf card with any other player', async () => {
-	for (const wolf of alphawolves) {
-		let target = 0;
-		do {
-			target = Math.floor(Math.random() * players.length) + 1;
-		} while (Teamship.get(players[target - 1].role) === Team.Werewolf);
-		const res = await self.post(`/room/${room.id}/player/${wolf.seat}/skill/1?seatKey=1`).send({ players: [target] });
-		expect(res.status).toBe(200);
-
-		infected.push(target);
-	}
+	const res = await self.post(`/room/${room.id}/player/${me.seat}/skill/1?seatKey=1`).send({ players: [3] });
+	expect(res.status).toBe(200);
 });
 
 it('votes', async () => {
-	await Promise.all(players.map(async (player) => {
-		await self.post(`/room/${room.id}/player/${player.seat}/lynch?seatKey=1`)
+	for (let seat = 1; seat <= 3; seat++) {
+		await self.post(`/room/${room.id}/player/${seat}/lynch?seatKey=1`)
 			.send({ target: 1 });
-	}));
-});
-
-it('predicts player roles', () => {
-	const cards: Role[] = new Array(3 + alphawolves.length);
-	cards.fill(Role.Unknown, 0, 3);
-	cards.fill(Role.Werewolf, 3);
-
-	let i = 3;
-	for (const target of infected) {
-		const player = players[target - 1];
-		const { role } = player;
-		player.role = cards[i];
-		cards[i] = role;
-		i++;
 	}
 });
 
 it('validates exchange result', async () => {
-	const [me] = players;
-
 	const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
 	expect(res.status).toBe(200);
 
 	const board: Vision = res.body;
-	for (const player of board.players) {
-		const baseline = players[player.seat - 1];
-		expect(player.role).toBe(baseline.role);
-		expect(player.seat).toBe(baseline.seat);
-	}
 
-	expect(board.cards).toHaveLength(3 + alphawolves.length);
+	const { players } = board;
+	expect(players[0].role).toBe(Role.AlphaWolf);
+	expect(players[1].role).toBe(Role.Werewolf);
+	expect(players[2].role).toBe(Role.Werewolf);
 
-	const allRoles: Role[] = [
-		...board.cards.map((card) => card.role),
-		...board.players.map((player) => player.role),
-	];
-	allRoles.sort();
-	const expectedRoles: Role[] = [...roles];
-	for (let i = 0; i < alphawolves.length; i++) {
-		expectedRoles.push(Role.Werewolf);
-	}
-	expectedRoles.sort();
-	expect(allRoles).toStrictEqual(expectedRoles);
+	const { cards } = board;
+	expect(cards).toHaveLength(4);
+	expect(cards[0].role).toBe(1001);
+	expect(cards[1].role).toBe(1002);
+	expect(cards[2].role).toBe(1003);
+	expect(cards[3].role).toBe(1004);
 });
