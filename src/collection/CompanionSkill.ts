@@ -1,10 +1,18 @@
-import { Role, Vision } from '@bezier/werewolf-core';
+import {
+	Role,
+	Selection,
+	Vision,
+} from '@bezier/werewolf-core';
 
 import Player from '../game/Player';
 import VisionSkill from './VisionSkill';
 
 export default abstract class CompanionSkill extends VisionSkill {
 	protected role = Role.Unknown;
+
+	isFeasible(data: Selection): boolean {
+		return this.driver && !data.cards && !data.players;
+	}
 
 	protected isCompanion(player: Player): boolean {
 		return player !== this.owner && player.getRolle() === this.role;

@@ -1,5 +1,6 @@
 import {
 	Role,
+	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
 
@@ -11,6 +12,10 @@ import isWerewolf from '../isWerewolf';
  */
 export default class Minion extends VisionSkill {
 	protected priority = 200;
+
+	isFeasible(data: Selection): boolean {
+		return this.driver && !data.cards && !data.players;
+	}
 
 	protected show(): Vision {
 		const players = this.driver.getPlayers();

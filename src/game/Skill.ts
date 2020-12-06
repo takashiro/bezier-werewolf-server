@@ -112,9 +112,7 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	 * @param self
 	 * @param data
 	 */
-	isFeasible(data: InputType): boolean {
-		return Boolean(this.driver && data);
-	}
+	abstract isFeasible(data: InputType): boolean;
 
 	/**
 	 * Invoke the skill.
