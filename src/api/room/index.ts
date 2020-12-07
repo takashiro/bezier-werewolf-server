@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
 	const driver = new GameDriver();
 	room.setDriver(driver);
 
-	if (process.env.NODE_ENV === 'test' && input.random === false) {
+	if (input.random === false) {
 		driver.setRandom(false);
 	}
 
