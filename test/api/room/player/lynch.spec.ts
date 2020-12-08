@@ -1,7 +1,6 @@
 import {
 	Player,
 	Role,
-	Room,
 } from '@bezier/werewolf-core';
 import { agent } from 'supertest';
 
@@ -15,7 +14,7 @@ for (let i = 0; i < 20; i++) {
 	roles[i] = 1000 + i;
 }
 
-const room: Room = {
+const room = {
 	id: 0,
 	salt: '',
 	ownerKey: '',

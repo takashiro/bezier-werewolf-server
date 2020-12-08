@@ -69,6 +69,8 @@ export default class Room {
 			salt: this.salt,
 			cardNum: config ? config.cardNum : 0,
 			roles: config ? config.roles : [],
+			random: config ? config.random : true,
+			loneWolf: config ? config.loneWolf : false,
 		};
 	}
 }

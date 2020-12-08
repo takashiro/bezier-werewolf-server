@@ -1,7 +1,6 @@
 import {
 	Player,
 	Role,
-	Room,
 } from '@bezier/werewolf-core';
 import { agent } from 'supertest';
 import app from '../../../../src';
@@ -10,7 +9,7 @@ const self = agent(app);
 
 const roles: Role[] = [1, 1, 2, 2, 1, 2, 2, 2];
 
-const room: Room = {
+const room = {
 	id: 0,
 	salt: '',
 	ownerKey: '',

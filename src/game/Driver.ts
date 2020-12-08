@@ -15,6 +15,8 @@ import Player, { Skill } from './Player';
 export default class Driver extends ActionDriver implements BaseDriver {
 	protected random = true;
 
+	protected loneWolf = false;
+
 	protected centerCards: Card[] = [];
 
 	protected players: Player[] = [];
@@ -25,6 +27,8 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		return {
 			cardNum: this.centerCards.length,
 			roles: this.roles,
+			random: this.random,
+			loneWolf: this.loneWolf,
 		};
 	}
 
@@ -34,6 +38,14 @@ export default class Driver extends ActionDriver implements BaseDriver {
 
 	setRandom(random: boolean): void {
 		this.random = random;
+	}
+
+	isLoneWolf(): boolean {
+		return this.loneWolf;
+	}
+
+	setLoneWolf(enabled: boolean): void {
+		this.loneWolf = enabled;
 	}
 
 	/**
@@ -133,6 +145,10 @@ export default class Driver extends ActionDriver implements BaseDriver {
 
 		for (const SkillCreator of SkillCreators) {
 			const skill = new SkillCreator(this, player);
+			if (skill.isFinished()) {
+				continue;
+			}
+
 			player.addSkill(skill);
 
 			const hooks = skill.getHooks();

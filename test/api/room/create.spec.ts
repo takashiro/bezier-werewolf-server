@@ -1,7 +1,4 @@
-import {
-	Role,
-	Room,
-} from '@bezier/werewolf-core';
+import { Role } from '@bezier/werewolf-core';
 import { agent } from 'supertest';
 import app from '../../../src';
 
@@ -22,7 +19,7 @@ it('requires at least 3 roles', async () => {
 		.expect(400, 'At least 3 roles must be selected');
 });
 
-const room: Room = {
+const room = {
 	id: 0,
 	salt: '',
 	ownerKey: '',

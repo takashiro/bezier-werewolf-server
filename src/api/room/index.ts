@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { Role } from '@bezier/werewolf-core';
+import {
+	GameConfig,
+	Role,
+} from '@bezier/werewolf-core';
 
 import { lobby } from '../../base/Lobby';
 import Room from '../../base/Room';
@@ -16,8 +19,8 @@ const router = Router();
 router.use('/:id/player/:seat', playerRouter);
 
 router.post('/', (req, res) => {
-	const input = req.body;
-	let { roles } = input;
+	const options = req.body as GameConfig;
+	let { roles } = options;
 	if (!roles || !Array.isArray(roles)) {
 		res.status(400).send('Invalid roles parameter');
 		return;
@@ -33,7 +36,7 @@ router.post('/', (req, res) => {
 		return;
 	}
 
-	roles = roles.filter((role) => role !== Role.Unknown) as Role[];
+	roles = roles.filter((role) => role !== Role.Unknown);
 	if (roles.length < 5) {
 		res.status(400).send('Too many invalid roles');
 		return;
@@ -48,8 +51,12 @@ router.post('/', (req, res) => {
 	const driver = new GameDriver();
 	room.setDriver(driver);
 
-	if (input.random === false) {
+	if (options.random === false) {
 		driver.setRandom(false);
+	}
+
+	if (options.loneWolf === true) {
+		driver.setLoneWolf(true);
 	}
 
 	driver.setRoles(roles);
