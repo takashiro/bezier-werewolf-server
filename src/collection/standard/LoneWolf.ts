@@ -16,7 +16,7 @@ export default class LoneWolf extends VisionSkill {
 		}
 
 		const players = this.driver.getPlayers();
-		const wolves = players.filter((player) => isWerewolf(player.getRolle()));
+		const wolves = players.filter((player) => isWerewolf(player.getNotionalRole()));
 		return wolves.length > 1;
 	}
 

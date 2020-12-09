@@ -15,6 +15,6 @@ export default class Werewolf extends CompanionSkill {
 			return false;
 		}
 
-		return isWerewolf(player.getRolle());
+		return isWerewolf(player.getNotionalRole());
 	}
 }

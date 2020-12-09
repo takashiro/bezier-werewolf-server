@@ -23,9 +23,11 @@ class Player extends EventEmitter {
 
 	protected seatKey?: string;
 
-	protected role: Role;
+	protected initialRole: Role;
 
-	protected rolle: Role;
+	protected notionalRole?: Role;
+
+	protected actualRole?: Role;
 
 	protected ready: boolean;
 
@@ -36,8 +38,7 @@ class Player extends EventEmitter {
 	constructor(seat: number, role: Role) {
 		super();
 		this.seat = seat;
-		this.role = role;
-		this.rolle = role;
+		this.initialRole = role;
 		this.ready = false;
 		this.skills = [];
 	}
@@ -70,25 +71,57 @@ class Player extends EventEmitter {
 	}
 
 	/**
-	 * @return role
+	 * @return The initial role of the player.
 	 */
-	getRole(): Role {
-		return this.role;
+	getInitialRole(): Role {
+		return this.initialRole;
 	}
 
 	/**
-	 * Set role
+	 * @return The notional role of the player himself.
+	 * For example, Mason may be already turned into a werewolf (the actual role) by Alpha Wolf,
+	 * but he still meets the other Mason because he think he is Mason (the notional role).
+	 */
+	getNotionalRole(): Role {
+		return this.notionalRole || this.initialRole;
+	}
+
+	/**
+	 * Change the notional role of the player.
+	 * @param role
+	 */
+	setNotionalRole(role: Role): void {
+		this.notionalRole = role;
+	}
+
+	/**
+	 * @return The actual role of the player.
+	 */
+	getActualRole(): Role {
+		return this.actualRole || this.initialRole;
+	}
+
+	/**
+	 * Change the actual role of the player.
+	 * @param role
+	 */
+	setActualRole(role: Role): void {
+		this.actualRole = role;
+	}
+
+	/**
+	 * @return The actual role of the player.
+	 */
+	getRole(): Role {
+		return this.actualRole || this.initialRole;
+	}
+
+	/**
+	 * Change the actual role of the player.
 	 * @param role
 	 */
 	setRole(role: Role): void {
-		this.role = role;
-	}
-
-	/**
-	 * @return intial role
-	 */
-	getRolle(): Role {
-		return this.rolle;
+		this.actualRole = role;
 	}
 
 	isReady(): boolean {
@@ -135,8 +168,8 @@ class Player extends EventEmitter {
 
 	getProfile(): PlayerProfile {
 		return {
-			seat: this.seat,
-			role: this.role,
+			seat: this.getSeat(),
+			role: this.getActualRole(),
 		};
 	}
 }

@@ -19,7 +19,7 @@ it('sets all roles', () => {
 
 it('runs dangling hooks', () => {
 	const players = driver.getPlayers();
-	expect(players.some((player) => player.getRolle() === Role.AlphaWolf)).toBe(false);
+	expect(players.some((player) => player.getInitialRole() === Role.AlphaWolf)).toBe(false);
 	const centerCards = driver.getCenterCards();
 	expect(centerCards).toHaveLength(4);
 });

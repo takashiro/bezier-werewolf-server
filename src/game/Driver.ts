@@ -111,6 +111,10 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		this.trigger(Event.Preparing, this);
 	}
 
+	/**
+	 * Shuffle all the roles and return them.
+	 * @return Shuffled roles
+	 */
 	shuffleRoles(): Role[] {
 		const roles = [...this.roles];
 		if (this.isRandom()) {
@@ -137,8 +141,13 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		this.players = players;
 	}
 
-	protected giftPlayer(player: Player): void {
-		const SkillCreators = this.collection.find(player.getRolle());
+	/**
+	 * Find all the skills by player role and attach the skills to the player.
+	 * @param player The player to be gifted.
+	 * @param role If not specified, player's initial role will be used.
+	 */
+	giftPlayer(player: Player, role?: Role): void {
+		const SkillCreators = this.collection.find(role || player.getInitialRole());
 		if (!SkillCreators) {
 			return;
 		}

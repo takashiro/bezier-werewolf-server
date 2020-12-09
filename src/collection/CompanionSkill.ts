@@ -15,7 +15,7 @@ export default abstract class CompanionSkill extends VisionSkill {
 	}
 
 	protected isCompanion(player: Player): boolean {
-		return player !== this.owner && player.getRolle() === this.role;
+		return player !== this.owner && player.getNotionalRole() === this.role;
 	}
 
 	protected show(): Vision {

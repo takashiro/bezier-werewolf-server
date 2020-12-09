@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 	const { player } = context;
 	const profile: Player = {
 		seat: player.getSeat(),
-		role: player.getRolle(),
+		role: player.getInitialRole(),
 	};
 	res.json(profile);
 });
