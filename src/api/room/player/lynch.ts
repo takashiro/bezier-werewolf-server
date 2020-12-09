@@ -77,7 +77,7 @@ router.get('/', (req, res) => {
 
 	if (output.progress >= output.limit) {
 		const cards = driver.getCenterCards();
-		output.cards = cards.map((card) => card.toJSON());
+		output.cards = cards.map((card) => card.getProfile());
 		output.players = votes;
 	}
 

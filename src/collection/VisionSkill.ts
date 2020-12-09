@@ -27,7 +27,7 @@ export default abstract class VisionSkill extends Skill<Vision> {
 
 	protected static showCards(cards: Card[]): Vision {
 		return {
-			cards: cards.map((card) => card.toJSON()),
+			cards: cards.map((card) => card.getProfile()),
 		};
 	}
 

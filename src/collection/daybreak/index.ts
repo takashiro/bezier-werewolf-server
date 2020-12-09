@@ -6,6 +6,7 @@ import AlphaWolf from './AlphaWolf';
 import ApprenticeSeer from './ApprenticeSeer';
 import MysticWolf from './MysticWolf';
 import ParanormalInvestigator from './ParanormalInvestigator';
+import Revealer from './Revealer';
 import VillageIdiot from './VillageIdiot';
 import Witch from './Witch';
 
@@ -14,6 +15,7 @@ col.add(Role.AlphaWolf, Werewolf, AlphaWolf);
 col.add(Role.ApprenticeSeer, ApprenticeSeer);
 col.add(Role.MysticWolf, Werewolf, MysticWolf);
 col.add(Role.ParanormalInvestigator, ParanormalInvestigator);
+col.add(Role.Revealer, Revealer);
 col.add(Role.VillageIdiot, VillageIdiot);
 col.add(Role.Witch, Witch);
 

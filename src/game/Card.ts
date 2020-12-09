@@ -1,12 +1,14 @@
 import {
 	Role,
-	Card as CardData,
+	Card as CardProfile,
 } from '@bezier/werewolf-core';
 
 export default class Card {
 	protected pos: number;
 
 	protected role: Role;
+
+	protected revealed = false;
 
 	/**
 	 * Center Card
@@ -40,7 +42,22 @@ export default class Card {
 		return this.role;
 	}
 
-	toJSON(): CardData {
+	/**
+	 * @return Whether the actual role is visible to all players.
+	 */
+	isRevealed(): boolean {
+		return this.revealed;
+	}
+
+	/**
+	 * Sets whether the actual role is flipped (visible to all players).
+	 * @param revealed
+	 */
+	setRevealed(revealed: boolean): void {
+		this.revealed = revealed;
+	}
+
+	getProfile(): CardProfile {
 		return {
 			pos: this.pos,
 			role: this.role,

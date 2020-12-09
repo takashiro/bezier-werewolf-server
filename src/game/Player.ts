@@ -29,18 +29,18 @@ class Player extends EventEmitter {
 
 	protected actualRole?: Role;
 
-	protected ready: boolean;
-
 	protected lynchTarget?: Player;
 
-	protected skills: Skill[];
+	protected skills: Skill[] = [];
+
+	protected ready = false;
+
+	protected revealed = false;
 
 	constructor(seat: number, role: Role) {
 		super();
 		this.seat = seat;
 		this.initialRole = role;
-		this.ready = false;
-		this.skills = [];
 	}
 
 	/**
@@ -171,6 +171,21 @@ class Player extends EventEmitter {
 			seat: this.getSeat(),
 			role: this.getActualRole(),
 		};
+	}
+
+	/**
+	 * @return Whether the actual role is visible to all players.
+	 */
+	isRevealed(): boolean {
+		return this.revealed;
+	}
+
+	/**
+	 * Sets whether the actual role is flipped (visible to all players).
+	 * @param revealed
+	 */
+	setRevealed(revealed: boolean): void {
+		this.revealed = revealed;
 	}
 }
 
