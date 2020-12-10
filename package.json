@@ -1,6 +1,6 @@
 {
   "name": "@bezier/werewolf-server",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "One Night Ultimate Werewolf (Node.js Server)",
   "bin": "dist/cli.js",
   "main": "dist/index.js",
