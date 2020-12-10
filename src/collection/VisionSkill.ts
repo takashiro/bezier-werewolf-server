@@ -19,9 +19,23 @@ export default abstract class VisionSkill extends Skill<Vision> {
 		return this.show(data);
 	}
 
-	protected static showPlayers(players: Player[]): Vision {
+	protected static showPlayer(player: Player, actual: boolean): Vision {
 		return {
-			players: players.map((player) => player.getProfile()),
+			players: [actual ? player.getActualProfile() : player.getNotionalProfile()],
+		};
+	}
+
+	protected static showPlayers(players: Player[], actual: boolean): Vision {
+		return {
+			players: actual
+				? players.map((player) => player.getActualProfile())
+				: players.map((player) => player.getNotionalProfile()),
+		};
+	}
+
+	protected static showCard(card: Card): Vision {
+		return {
+			cards: [card.getProfile()],
 		};
 	}
 

@@ -15,7 +15,7 @@ const roles: Role[] = [
 	1003,
 	Role.ApprenticeTanner,
 	Role.Villager,
-	Role.Villager,
+	Role.Robber,
 	Role.Tanner,
 ];
 
@@ -48,7 +48,13 @@ it('fetches all roles', async () => {
 	}
 });
 
-it('sees Tanner', async () => {
+it('waits for Robber', async () => {
+	const res = await self.post(`/room/${room.id}/player/3/skill?seatKey=1`)
+		.send({ players: [4] });
+	expect(res.status).toBe(200);
+});
+
+it('still sees Tanner', async () => {
 	const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`);
 	expect(res.status).toBe(200);
 	const { players } = res.body as Vision;

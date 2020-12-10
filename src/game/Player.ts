@@ -166,7 +166,27 @@ class Player extends EventEmitter {
 		return this.skills;
 	}
 
+	/**
+	 * Alias to getActualProfile().
+	 */
 	getProfile(): PlayerProfile {
+		return this.getActualProfile();
+	}
+
+	/**
+	 * @return Player information including notional role.
+	 */
+	getNotionalProfile(): PlayerProfile {
+		return {
+			seat: this.getSeat(),
+			role: this.getNotionalRole(),
+		};
+	}
+
+	/**
+	 * @return Player information including actual role.
+	 */
+	getActualProfile(): PlayerProfile {
 		return {
 			seat: this.getSeat(),
 			role: this.getActualRole(),

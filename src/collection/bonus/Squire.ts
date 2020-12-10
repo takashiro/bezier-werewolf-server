@@ -16,6 +16,6 @@ export default class Squire extends VisionSkill {
 	protected show(): Vision {
 		const players = this.driver.getPlayers();
 		const werewolves = players.filter((player) => isWerewolf(player.getNotionalRole()));
-		return Squire.showPlayers(werewolves);
+		return Squire.showPlayers(werewolves, true);
 	}
 }

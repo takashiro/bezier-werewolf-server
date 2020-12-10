@@ -57,7 +57,7 @@ export default class Witch extends VisionSkill {
 			const card = data.cards && driver.getCenterCard(data.cards[0]);
 			if (card) {
 				this.selectedCard = card;
-				return Witch.showCards([card]);
+				return Witch.showCard(card);
 			}
 			return {};
 		}
@@ -71,9 +71,9 @@ export default class Witch extends VisionSkill {
 		}
 
 		if (!this.selectedPlayer) {
-			return Witch.showCards([this.selectedCard]);
+			return Witch.showCard(this.selectedCard);
 		}
 
-		return Witch.showPlayers([this.selectedPlayer]);
+		return Witch.showPlayer(this.selectedPlayer, true);
 	}
 }

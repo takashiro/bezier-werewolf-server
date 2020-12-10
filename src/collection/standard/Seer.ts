@@ -37,7 +37,7 @@ export default class Seer extends VisionSkill {
 		if (data.players) {
 			const player = driver.getPlayer(data.players[0]);
 			if (player) {
-				return Seer.showPlayers([player]);
+				return Seer.showPlayer(player, true);
 			}
 		} else if (data.cards) {
 			const cards: Card[] = [];

@@ -18,6 +18,6 @@ export default class MysticWolf extends VisionSkill {
 
 	show(data: Selection): Vision {
 		const target = data.players && this.driver.getPlayer(data.players[0]);
-		return target ? MysticWolf.showPlayers([target]) : {};
+		return target ? MysticWolf.showPlayer(target, true) : {};
 	}
 }
