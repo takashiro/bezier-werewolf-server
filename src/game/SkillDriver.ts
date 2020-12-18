@@ -69,13 +69,13 @@ export default class SkillDriver extends EventDriver {
 	 * Watch the events of skills and make corresponding changes on each event.
 	 * @param skills
 	 */
-	setSkills(skills: Skill[]): void {
+	addSkill(...skills: Skill[]): void {
 		if (skills.length <= 0) {
 			return;
 		}
 
-		skills.sort((a, b) => a.getOrder() - b.getOrder());
-		this.skills = skills;
+		this.skills.push(...skills);
+		this.skills.sort((a, b) => a.getOrder() - b.getOrder());
 
 		for (const skill of skills) {
 			skill.once('finished', () => {
@@ -83,8 +83,6 @@ export default class SkillDriver extends EventDriver {
 				this.releaseSkills(next);
 			});
 		}
-
-		this.releaseSkills();
 	}
 
 	releaseSkills(from = Number.NEGATIVE_INFINITY): void {

@@ -15,12 +15,11 @@ const witch = new Witch(driver, owner);
 const skills = [wolf, robber, witch];
 
 it('registers skills', () => {
-	let i = 0;
 	for (const skill of skills) {
 		expect(skill.isReady()).toBe(false);
-		skill.setOrder(i++);
 	}
-	driver.setSkills(skills);
+	driver.addSkill(...skills);
+	driver.releaseSkills();
 });
 
 it('wakes up Alpha Wolf', () => {
@@ -33,11 +32,11 @@ it('wakes up Robber', () => {
 	wolf.emit('finished');
 	expect(robber.isReady()).toBe(true);
 	expect(witch.isReady()).toBe(false);
-	expect(driver.getPhase()).toBe(1);
+	expect(driver.getPhase()).toBe(robber.getOrder());
 });
 
 it('wakes up Witch', () => {
 	robber.emit('finished');
 	expect(witch.isReady()).toBe(true);
-	expect(driver.getPhase()).toBe(2);
+	expect(driver.getPhase()).toBe(witch.getOrder());
 });
