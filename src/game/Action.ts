@@ -36,13 +36,6 @@ export default abstract class Action {
 	}
 
 	/**
-	 * @return Skill Priority
-	 */
-	getPriority(): number {
-		return this.skill.getPriority();
-	}
-
-	/**
 	 * Execute the action.
 	 */
 	exec(): void {

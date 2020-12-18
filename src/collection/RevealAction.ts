@@ -6,7 +6,7 @@ export default class RevealAction extends Action {
 	protected target: Player | Card;
 
 	/**
-	 * Create a transform action
+	 * Create a reveal action
 	 * @param owner
 	 * @param target
 	 * @param newRole
