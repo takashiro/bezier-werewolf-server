@@ -15,10 +15,12 @@ const witch = new Witch(driver, owner);
 const skills = [wolf, robber, witch];
 
 it('registers skills', () => {
+	let i = 0;
 	for (const skill of skills) {
 		expect(skill.isReady()).toBe(false);
+		skill.setOrder(i++);
 	}
-	driver.registerSkills(skills);
+	driver.setSkills(skills);
 });
 
 it('wakes up Alpha Wolf', () => {

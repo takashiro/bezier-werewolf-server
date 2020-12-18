@@ -106,7 +106,7 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		}
 
 		this.runDanglingHooks();
-		this.sortSkills();
+		this.registerSkills();
 
 		this.trigger(Event.Preparing, this);
 	}
@@ -207,20 +207,19 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		}
 	}
 
-	protected sortSkills(): void {
+	protected registerSkills(): void {
 		const skills: Skill[] = [];
 		for (const player of this.players) {
 			skills.push(...player.getSkills());
 		}
 
-		skills.sort((a, b) => {
-			const factor = a.getPriority() - b.getPriority();
-			if (factor !== 0) {
-				return factor;
-			}
-			return a.getOwner().getSeat() - b.getOwner().getSeat();
-		});
+		for (const skill of skills) {
+			const priority = skill.getPriority();
+			const seat = skill.getOwner().getSeat();
+			const order = priority * 100 + seat;
+			skill.setOrder(order);
+		}
 
-		this.registerSkills(skills);
+		super.setSkills(skills);
 	}
 }

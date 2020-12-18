@@ -69,40 +69,39 @@ export default class SkillDriver extends EventDriver {
 	 * Watch the events of skills and make corresponding changes on each event.
 	 * @param skills
 	 */
-	registerSkills(skills: Skill[]): void {
+	setSkills(skills: Skill[]): void {
 		if (skills.length <= 0) {
 			return;
 		}
 
+		skills.sort((a, b) => a.getOrder() - b.getOrder());
 		this.skills = skills;
 
-		for (let i = 0; i < skills.length; i++) {
-			const skill = skills[i];
-			skill.setOrder(i);
+		for (const skill of skills) {
 			skill.once('finished', () => {
-				this.releaseSkills(i + 1);
+				const next = skill.getOrder() + 1;
+				this.releaseSkills(next);
 			});
 		}
 
 		this.releaseSkills();
 	}
 
-	releaseSkills(from = 0): void {
+	releaseSkills(from = Number.NEGATIVE_INFINITY): void {
 		const { skills } = this;
-		if (from >= skills.length) {
-			this.movePhaseTo(Number.NEGATIVE_INFINITY);
-			return;
-		}
 
 		let readBlocked = false;
 		let current = Number.NEGATIVE_INFINITY;
-		for (let i = from; i < skills.length; i++) {
-			const cur = skills[i];
+		for (const cur of skills) {
+			if (cur.getOrder() < from) {
+				continue;
+			}
+
 			if (!readBlocked || !cur.hasMode(SkillMode.Read)) {
 				cur.setReady(true);
 				if (cur.hasMode(SkillMode.Write)) {
 					readBlocked = true;
-					current = i;
+					current = cur.getOrder();
 				}
 			}
 		}
