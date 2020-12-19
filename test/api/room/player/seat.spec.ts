@@ -39,7 +39,7 @@ it('rejects invalid seat number', async () => {
 
 it('rejects empty seat key', async () => {
 	await self.get(`/room/${room.id}/player/1/seat`)
-		.expect(400, 'Seat key cannot be empty');
+		.expect(401, 'Seat key cannot be empty');
 });
 
 const players: Player[] = [];

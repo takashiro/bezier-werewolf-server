@@ -29,7 +29,7 @@ export default function parse(req: Request, res: Response, readonly = true): Pla
 
 	const { seatKey } = req.query;
 	if (!seatKey || typeof seatKey !== 'string') {
-		res.status(400).send('Seat key cannot be empty');
+		res.status(401).send('Seat key cannot be empty');
 		return;
 	}
 

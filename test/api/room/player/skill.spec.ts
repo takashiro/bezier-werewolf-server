@@ -44,7 +44,7 @@ it('rejects invalid seat number', async () => {
 
 it('rejects empty seat key', async () => {
 	await self.post(`/room/${room.id}/player/1/skill`)
-		.expect(400, 'Seat key cannot be empty');
+		.expect(401, 'Seat key cannot be empty');
 });
 
 it('rejects untaken seat', async () => {
