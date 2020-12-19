@@ -10,7 +10,7 @@ import RevealAction from '../RevealAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Revealer extends VisionSkill {
-	protected priority = 1000;
+	protected priority = 0x1a00;
 
 	protected mode = SkillMode.ReadWrite;
 

@@ -7,7 +7,7 @@ import {
 import VisionSkill from '../VisionSkill';
 
 export default class ApprenticeTanner extends VisionSkill {
-	protected priority = 220;
+	protected priority = 0x1220;
 
 	isFeasible(data: Selection): boolean {
 		return this.driver && !data.cards && !data.players;

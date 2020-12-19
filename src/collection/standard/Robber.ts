@@ -8,7 +8,7 @@ import ExchangeAction from '../ExchangeAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Robber extends VisionSkill {
-	protected priority = 600;
+	protected priority = 0x1600;
 
 	protected mode = SkillMode.ReadWrite;
 

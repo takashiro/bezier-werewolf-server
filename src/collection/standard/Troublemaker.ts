@@ -7,7 +7,7 @@ import Skill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
 
 export default class Troublemaker extends Skill<void> {
-	protected priority = 700;
+	protected priority = 0x1700;
 
 	protected mode = SkillMode.Write;
 

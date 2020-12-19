@@ -5,7 +5,7 @@ import ExchangeAction from '../ExchangeAction';
 import Skill from '../Skill';
 
 class Drunk extends Skill<void> {
-	protected priority = 800;
+	protected priority = 0x1800;
 
 	protected mode = SkillMode.Write;
 

@@ -7,7 +7,7 @@ import VisionSkill from '../VisionSkill';
 import Card from '../../game/Card';
 
 export default class Seer extends VisionSkill {
-	protected priority = 500;
+	protected priority = 0x1500;
 
 	isFeasible(data: Selection): boolean {
 		if (!data) {

@@ -7,7 +7,7 @@ import VisionSkill from '../VisionSkill';
 import isWerewolf from '../isWerewolf';
 
 export default class Squire extends VisionSkill {
-	protected priority = 930;
+	protected priority = 0x1930;
 
 	isFeasible(data: Selection): boolean {
 		return this.driver && !data.cards && !data.players;

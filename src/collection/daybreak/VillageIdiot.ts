@@ -4,7 +4,7 @@ import SkillMode from '../../game/SkillMode';
 import Skill from '../Skill';
 
 export default class VillageIdiot extends Skill<void> {
-	protected priority = 720;
+	protected priority = 0x1720;
 
 	protected mode = SkillMode.Write;
 

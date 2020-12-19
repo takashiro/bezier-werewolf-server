@@ -6,7 +6,7 @@ import CompanionSkill from '../CompanionSkill';
 import isWerewolf from '../isWerewolf';
 
 export default class Werewolf extends CompanionSkill {
-	protected priority = 300;
+	protected priority = 0x1300;
 
 	protected role = Role.Werewolf;
 
