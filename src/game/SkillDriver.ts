@@ -1,4 +1,5 @@
 import { Role } from '@bezier/werewolf-core';
+import insert from '../util/insert';
 
 import Collection from './Collection';
 import EventDriver from './EventDriver';
@@ -74,10 +75,8 @@ export default class SkillDriver extends EventDriver {
 			return;
 		}
 
-		this.skills.push(...skills);
-		this.skills.sort((a, b) => a.getOrder() - b.getOrder());
-
 		for (const skill of skills) {
+			insert(this.skills, skill, (a, b) => a.getOrder() - b.getOrder());
 			skill.once('finished', () => {
 				const next = skill.getOrder() + 1;
 				this.releaseSkills(next);
