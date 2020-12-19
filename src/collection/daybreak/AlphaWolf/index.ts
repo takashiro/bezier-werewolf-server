@@ -1,4 +1,5 @@
 import {
+	Role,
 	Selection,
 } from '@bezier/werewolf-core';
 
@@ -15,14 +16,13 @@ export default class AlphaWolf extends Skill<void> {
 
 	protected mode = SkillMode.Write;
 
-	protected card?: Card;
-
 	protected hooks = [
 		new CenterWerewolfCard(this),
 	];
 
-	setCard(card: Card): void {
-		this.card = card;
+	getCard(): Card | undefined {
+		const cards = this.driver.getCenterCards();
+		return cards.find((card) => card.hasFlag(Role.AlphaWolf));
 	}
 
 	isFeasible(data: Selection): boolean {
@@ -35,7 +35,8 @@ export default class AlphaWolf extends Skill<void> {
 			return;
 		}
 
-		const { driver, card } = this;
+		const card = this.getCard();
+		const { driver } = this;
 		const target = driver.getPlayer(data.players[0]);
 		if (card && target) {
 			const action = new ExchangeAction(this, card, target);

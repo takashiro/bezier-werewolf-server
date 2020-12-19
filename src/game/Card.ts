@@ -10,6 +10,8 @@ export default class Card {
 
 	protected revealed = false;
 
+	protected flags?: Role[];
+
 	/**
 	 * Center Card
 	 * @param pos
@@ -62,5 +64,25 @@ export default class Card {
 			pos: this.pos,
 			role: this.role,
 		};
+	}
+
+	/**
+	 * Add a flag to record the card.
+	 * @param flag
+	 */
+	addFlag(flag: Role): void {
+		if (!this.flags) {
+			this.flags = [flag];
+		} else {
+			this.flags.push(flag);
+		}
+	}
+
+	/**
+	 * Check whether the card has a specific flag.
+	 * @param flag
+	 */
+	hasFlag(flag: Role): boolean {
+		return this.flags ? this.flags.includes(flag) : false;
 	}
 }

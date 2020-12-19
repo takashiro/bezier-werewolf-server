@@ -107,7 +107,7 @@ export default class Driver extends ActionDriver implements BaseDriver {
 		this.runDanglingHooks();
 		this.releaseSkills();
 
-		this.trigger(Event.Preparing, this);
+		this.trigger(Event.Preparing, null);
 	}
 
 	/**
