@@ -1,6 +1,7 @@
 import { Role } from '@bezier/werewolf-core';
 import Collection from '../../game/Collection';
 
+import Doppelganger from './Doppelganger';
 import Drunk from './Drunk';
 import Insomniac from './Insomniac';
 import Mason from './Mason';
@@ -12,6 +13,7 @@ import Werewolf from './Werewolf';
 import LoneWolf from './LoneWolf';
 
 const col = new Collection('standard');
+col.add(Role.Doppelganger, Doppelganger);
 col.add(Role.Drunk, Drunk);
 col.add(Role.Insomniac, Insomniac);
 col.add(Role.Mason, Mason);
