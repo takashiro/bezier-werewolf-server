@@ -1,7 +1,18 @@
 import { Selection } from '@bezier/werewolf-core';
 
 import SkillMode from '../../game/SkillMode';
+import ShiftAction, { ShiftDirection } from '../ShiftAction';
 import Skill from '../Skill';
+
+function takeDirection(selected: number, self: number): ShiftDirection {
+	if (selected < self) {
+		return ShiftDirection.Descending;
+	}
+	if (selected > self) {
+		return ShiftDirection.Ascending;
+	}
+	return ShiftDirection.None;
+}
 
 export default class VillageIdiot extends Skill<void> {
 	protected priority = 0x1720;
@@ -31,27 +42,18 @@ export default class VillageIdiot extends Skill<void> {
 			return;
 		}
 
-		const [direction] = data.players;
+		const [selected] = data.players;
 		const seat = this.owner.getSeat();
+		const direction = takeDirection(selected, seat);
+		if (direction === ShiftDirection.None) {
+			return;
+		}
+
 		const players = this.driver.getPlayers().filter((player) => player.getSeat() !== seat);
 		if (players.length <= 1) {
 			return;
 		}
 
-		players.sort((a, b) => a.getSeat() - b.getSeat());
-		const roles = players.map((player) => player.getRole());
-		if (direction < seat) {
-			for (let i = 0; i < players.length; i++) {
-				const player = players[i];
-				const role = roles[i + 1] || roles[0];
-				player.setRole(role);
-			}
-		} else if (direction > seat) {
-			for (let i = 0; i < players.length; i++) {
-				const player = players[i];
-				const role = roles[i - 1] || roles[roles.length - 1];
-				player.setRole(role);
-			}
-		}
+		this.driver.addAction(new ShiftAction(this, direction, players));
 	}
 }
