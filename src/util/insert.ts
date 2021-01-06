@@ -1,6 +1,14 @@
 type CompareFn<Element> = (a: Element, b: Element) => number;
 
-function insert<Element>(arr: Element[], target: Element, cmp: CompareFn<Element>): void {
+export function asc(a: number, b: number) {
+	return a - b;
+}
+
+export function desc(a: number, b: number) {
+	return b - a;
+}
+
+function insert<T>(arr: T[], target: T, cmp: CompareFn<T>): void {
 	if (arr.length <= 0) {
 		arr.push(target);
 		return;
