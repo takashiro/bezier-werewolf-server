@@ -1,19 +1,17 @@
 import { Role } from '@bezier/werewolf-core';
 import insert from '../util/insert';
+import ActionDriver from './ActionDriver';
 
 import Collection from './Collection';
-import EventDriver from './EventDriver';
 import BaseSkill from './Skill';
 import SkillMode from './SkillMode';
 
 type Skill = BaseSkill<unknown, unknown, unknown, unknown>;
 
-export default class SkillDriver extends EventDriver {
+export default class SkillDriver extends ActionDriver {
 	protected roles: Role[] = [];
 
 	protected collection = new Collection('room');
-
-	protected phase = Number.NEGATIVE_INFINITY;
 
 	protected skills: Skill[] = [];
 
@@ -30,13 +28,6 @@ export default class SkillDriver extends EventDriver {
 	 */
 	getRoles(): Role[] {
 		return this.roles;
-	}
-
-	/**
-	 * @return The largest index of ready skills.
-	 */
-	getPhase(): number {
-		return this.phase;
 	}
 
 	/**
@@ -59,14 +50,6 @@ export default class SkillDriver extends EventDriver {
 	}
 
 	/**
-	 * Change the current phase.
-	 * @param phase The largest index of ready skills.
-	 */
-	protected movePhaseTo(phase: number): void {
-		this.phase = phase;
-	}
-
-	/**
 	 * Watch the events of skills and make corresponding changes on each event.
 	 * @param skills
 	 */
@@ -81,6 +64,10 @@ export default class SkillDriver extends EventDriver {
 				const next = skill.getOrder() + 1;
 				this.releaseSkills(next);
 			});
+
+			if (skill.hasMode(SkillMode.Write)) {
+				this.addPhase(skill.getOrder());
+			}
 		}
 	}
 
@@ -88,7 +75,6 @@ export default class SkillDriver extends EventDriver {
 		const { skills } = this;
 
 		let readBlocked = false;
-		let current = Number.NEGATIVE_INFINITY;
 		for (const cur of skills) {
 			if (cur.getOrder() < from) {
 				continue;
@@ -98,11 +84,8 @@ export default class SkillDriver extends EventDriver {
 				cur.setReady(true);
 				if (cur.hasMode(SkillMode.Write)) {
 					readBlocked = true;
-					current = cur.getOrder();
 				}
 			}
 		}
-
-		this.movePhaseTo(current);
 	}
 }

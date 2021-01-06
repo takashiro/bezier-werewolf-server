@@ -133,7 +133,7 @@ it('validates exchange result', async () => {
 		players,
 	} = res.body as Vision;
 
-	expect(players[0].role).toBe(Role.Doppelganger);
+	expect(players[0].role).toBe(Role.AlphaWolf);
 	expect(players[1].role).toBe(Role.AlphaWolf);
 	expect(players[2].role).toBe(Role.Werewolf);
 	expect(players[3].role).toBe(1003);

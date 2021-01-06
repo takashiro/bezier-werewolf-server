@@ -7,6 +7,7 @@ import {
 
 import SkillMode from '../../game/SkillMode';
 import TransformAction from '../TransformAction';
+import SkipAction from '../SkipAction';
 import VisionSkill from '../VisionSkill';
 import isWerewolf from '../isWerewolf';
 
@@ -70,6 +71,8 @@ export default class ParanormalInvestigator extends VisionSkill {
 			if (role !== Role.Unknown) {
 				this.transformedTo = role;
 				this.driver.addAction(new TransformAction(this, this.owner, role));
+			} else if (this.selectedTargets.length >= 2) {
+				this.driver.addAction(new SkipAction(this));
 			}
 		}
 

@@ -9,14 +9,26 @@ import app from '../../../src';
 const self = agent(app);
 
 // Configure roles
-const roles: Role[] = new Array(30);
-roles.fill(Role.ParanormalInvestigator, 0, 8);
-roles.fill(Role.Tanner, 8, 12);
-roles.fill(Role.Villager, 12, 16);
-roles.fill(Role.Werewolf, 16, 20);
-for (let i = 20; i < roles.length; i++) {
-	roles[i] = 1000 + i;
-}
+const roles: Role[] = [
+	1001,
+	1002,
+	1003,
+	Role.ParanormalInvestigator,
+	Role.ParanormalInvestigator,
+	Role.ParanormalInvestigator,
+	Role.ParanormalInvestigator,
+	Role.ParanormalInvestigator,
+	Role.Tanner,
+	Role.Villager,
+	Role.DreamWolf,
+	Role.Villager,
+	Role.Werewolf,
+];
+
+const investigators = [1, 2, 3, 4, 5];
+const tanners = [6];
+const villagers = [7, 9];
+const werewolves = [8, 10];
 
 const room = {
 	id: 0,
@@ -24,7 +36,10 @@ const room = {
 };
 
 beforeAll(async () => {
-	const res = await self.post('/room').send({ roles });
+	const res = await self.post('/room').send({
+		roles,
+		random: false,
+	});
 	expect(res.status).toBe(200);
 	Object.assign(room, res.body);
 });
@@ -34,242 +49,228 @@ afterAll(async () => {
 	expect(res.status).toBe(200);
 });
 
-const players: Player[] = [];
-it('fetches all roles', async () => {
+it('takes all seats', async () => {
 	for (let seat = 1; seat <= roles.length - 3; seat++) {
 		const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
 		expect(res.status).toBe(200);
-		players.push(res.body);
 	}
-});
-
-const investigators: Player[] = [];
-it('finds investigators', () => {
-	investigators.push(...players.filter((player) => player.role === Role.ParanormalInvestigator));
-	expect(investigators.length).toBeGreaterThanOrEqual(5);
 });
 
 it('tests invalid skill targets', async () => {
 	const [me] = investigators;
-	const skillApi = `/room/${room.id}/player/${me.seat}/skill?seatKey=1`;
+	const skillApi = `/room/${room.id}/player/${me}/skill?seatKey=1`;
 	await self.post(skillApi)
 		.expect(400, 'Invalid skill targets');
-	await self.post(skillApi).send({ players: [me.seat] })
+	await self.post(skillApi).send({ players: [me] })
 		.expect(400, 'Invalid skill targets');
-	await self.post(skillApi).send({ players: [me.seat, me.seat + 1] })
+	await self.post(skillApi).send({ players: [me, me + 1] })
 		.expect(400, 'Invalid skill targets');
 });
 
 describe('sees 2 villagers', () => {
-	let targets: Player[];
-	let me: Player;
-	const otherRoles: Role[] = [
-		Role.Werewolf,
-		Role.Tanner,
-		Role.ParanormalInvestigator,
+	const me: Player = {
+		seat: investigators[0],
+		role: Role.ParanormalInvestigator,
+	};
+	const targets: Player[] = [
+		{
+			role: Role.Villager,
+			seat: villagers[0],
+		},
+		{
+			role: Role.Villager,
+			seat: villagers[1],
+		},
 	];
-
-	beforeAll(() => {
-		targets = players.filter((p) => !otherRoles.includes(p.role)).slice(0, 2);
-		[me] = investigators;
-	});
 
 	it('sees 1 villager', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[0].seat] });
+			.send({ players: [villagers[0]] });
 
 		expect(res.status).toBe(200);
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(1);
-		expect(vision.players[0]).toStrictEqual(targets[0]);
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(1);
+		expect(players[0]).toStrictEqual(targets[0]);
 	});
 
 	it('sees the same villager again', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[0].seat] });
+			.send({ players: [villagers[0]] });
 
 		expect(res.status).toBe(200);
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(1);
-		expect(vision.players[0]).toStrictEqual(targets[0]);
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(1);
+		expect(players[0]).toStrictEqual(targets[0]);
 	});
 
 	it('sees another villager', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[1].seat] });
+			.send({ players: [villagers[1]] });
 		expect(res.status).toBe(200);
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(2);
-		expect(vision.players).toStrictEqual(targets);
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(2);
+		expect(players[0]).toStrictEqual(targets[0]);
+		expect(players[1]).toStrictEqual(targets[1]);
 	});
 });
 
 describe('sees 1 villager and 1 werewolf', () => {
-	let targets: Player[];
-	let me: Player;
-
-	beforeAll(() => {
-		targets = [
-			players.find((p) => p.role === Role.Villager),
-			players.find((p) => p.role === Role.Werewolf),
-		];
-		[, me] = investigators;
-	});
+	const me: Player = {
+		seat: investigators[1],
+		role: Role.Werewolf,
+	};
+	const targets: Player[] = [
+		{
+			role: Role.Villager,
+			seat: villagers[0],
+		},
+		{
+			role: Role.DreamWolf,
+			seat: werewolves[0],
+		},
+	];
 
 	it('sees 1 villager', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[0].seat] });
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(1);
-		expect(vision.players[0]).toStrictEqual(targets[0]);
+			.send({ players: [villagers[0]] });
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(1);
+		expect(players[0]).toStrictEqual(targets[0]);
 	});
 
 	it('sees 1 werewolf', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[1].seat] });
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(3);
-		expect(vision.players[0]).toStrictEqual(targets[0]);
-		expect(vision.players[1]).toStrictEqual(targets[1]);
-		expect(vision.players[2]).toStrictEqual({
-			seat: me.seat,
-			role: Role.Werewolf,
-		});
+			.send({ players: [werewolves[0]] });
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(3);
+		expect(players[0]).toStrictEqual(targets[0]);
+		expect(players[1]).toStrictEqual(targets[1]);
+		expect(players[2]).toStrictEqual(me);
 	});
 });
 
 describe('sees 1 villager and 1 tanner', () => {
-	let targets: Player[];
-	let me: Player;
-
-	beforeAll(() => {
-		targets = [
-			players.find((p) => p.role === Role.Villager),
-			players.find((p) => p.role === Role.Tanner),
-		];
-		[,, me] = investigators;
-	});
+	const me: Player = {
+		seat: investigators[2],
+		role: Role.Tanner,
+	};
+	const targets: Player[] = [
+		{
+			role: Role.Villager,
+			seat: villagers[0],
+		},
+		{
+			role: Role.Tanner,
+			seat: tanners[0],
+		},
+	];
 
 	it('sees 1 villager', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[0].seat] });
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(1);
-		expect(vision.players[0]).toStrictEqual(targets[0]);
+			.send({ players: [villagers[0]] });
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(1);
+		expect(players[0]).toStrictEqual(targets[0]);
 	});
 
 	it('sees 1 tanner', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [targets[1].seat] });
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(3);
-		expect(vision.players[0]).toStrictEqual(targets[0]);
-		expect(vision.players[1]).toStrictEqual(targets[1]);
-		expect(vision.players[2]).toStrictEqual({
-			seat: me.seat,
-			role: Role.Tanner,
-		});
+			.send({ players: tanners });
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(3);
+		expect(players[0]).toStrictEqual(targets[0]);
+		expect(players[1]).toStrictEqual(targets[1]);
+		expect(players[2]).toStrictEqual(me);
 	});
 });
 
 describe('sees 1 werewolf and stop', () => {
-	let target: Player;
-	let me: Player;
-
-	beforeAll(() => {
-		target = players.find((p) => p.role === Role.Werewolf);
-		[,,, me] = investigators;
-	});
+	const me: Player = {
+		seat: investigators[3],
+		role: Role.Werewolf,
+	};
+	const targets: Player[] = [
+		{
+			role: Role.DreamWolf,
+			seat: werewolves[0],
+		},
+	];
 
 	it('sees 1 werewolf', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [target.seat] });
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(2);
-		expect(vision.players[0].role).toBe(Role.Werewolf);
-		expect(vision.players[0].seat).toBe(target.seat);
-		expect(vision.players[1].role).toBe(Role.Werewolf);
-		expect(vision.players[1].seat).toBe(me.seat);
+			.send({ players: [werewolves[0]] });
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(2);
+		expect(players[0]).toStrictEqual(targets[0]);
+		expect(players[1]).toStrictEqual(me);
 	});
 
 	it('must stop', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [target.seat] });
+			.send({ players: [villagers[0]] });
 		expect(res.status).toBe(400);
 	});
 });
 
 describe('sees 1 tanner and stop', () => {
-	let target: Player;
-	let me: Player;
-
-	beforeAll(() => {
-		target = players.find((p) => p.role === Role.Tanner);
-		[,,,, me] = investigators;
-	});
+	const me: Player = {
+		seat: investigators[4],
+		role: Role.Tanner,
+	};
+	const targets: Player[] = [
+		{
+			role: Role.Tanner,
+			seat: tanners[0],
+		},
+	];
 
 	it('sees 1 werewolf', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [target.seat] });
-		const vision: Vision = res.body;
-		expect(vision.players).toHaveLength(2);
-		expect(vision.players[0].role).toBe(Role.Tanner);
-		expect(vision.players[0].seat).toBe(target.seat);
-		expect(vision.players[1].role).toBe(Role.Tanner);
-		expect(vision.players[1].seat).toBe(me.seat);
+			.send({ players: [tanners[0]] });
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(2);
+		expect(players[0]).toStrictEqual(targets[0]);
+		expect(players[1]).toStrictEqual(me);
 	});
 
 	it('must stop', async () => {
 		const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-			.send({ players: [target.seat] });
+			.send({ players: [villagers[0]] });
 		expect(res.status).toBe(400);
 	});
 });
 
 describe('validates transformation', () => {
 	it('gets ready', async () => {
-		for (const player of players) {
-			if (player.role === Role.ParanormalInvestigator) {
-				continue;
-			}
-			const res = await self.post(`/room/${room.id}/player/${player.seat}/skill?seatKey=1`);
-			expect(res.status).toBe(200);
-		}
-
-		const wolf = players.find((p) => p.role === Role.Werewolf);
-		for (let i = 5; i < investigators.length; i++) {
-			const me = investigators[i];
-			const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`)
-				.send({ players: [wolf.seat] });
+		for (let seat = 6; seat <= 10; seat++) {
+			const res = await self.post(`/room/${room.id}/player/${seat}/skill?seatKey=1`);
 			expect(res.status).toBe(200);
 		}
 	});
 
-	it('validates that investigators are transformed', async () => {
-		await Promise.all(players.map(async (player) => {
-			await self.post(`/room/${room.id}/player/${player.seat}/lynch?seatKey=1`)
+	it('votes', async () => {
+		for (let seat = 1; seat <= 10; seat++) {
+			await self.post(`/room/${room.id}/player/${seat}/lynch?seatKey=1`)
 				.send({ target: 1 });
-		}));
-
-		const [me] = players;
-		const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
-		expect(res.status).toBe(200);
-		const board: Vision = res.body;
-		expect(board.players).toBeTruthy();
-
-		const transformed = investigators.map((i) => board.players[i.seat - 1]);
-		expect(transformed[0].role).toBe(Role.ParanormalInvestigator);
-		expect(transformed[1].role).toBe(Role.Werewolf);
-		expect(transformed[2].role).toBe(Role.Tanner);
-		expect(transformed[3].role).toBe(Role.Werewolf);
-		expect(transformed[4].role).toBe(Role.Tanner);
-
-		for (const player of players) {
-			if (player.role === Role.ParanormalInvestigator) {
-				continue;
-			}
-			const out = board.players[player.seat - 1];
-			expect(player.role).toBe(out.role);
 		}
+	});
+
+	it('validates that investigators are transformed', async () => {
+		const res = await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`);
+		expect(res.status).toBe(200);
+
+		const { players } = res.body as Vision;
+		expect(players).toHaveLength(10);
+
+		expect(players[0].role).toBe(Role.ParanormalInvestigator);
+		expect(players[1].role).toBe(Role.Werewolf);
+		expect(players[2].role).toBe(Role.Tanner);
+		expect(players[3].role).toBe(Role.Werewolf);
+		expect(players[4].role).toBe(Role.Tanner);
+		expect(players[5].role).toBe(Role.Tanner);
+		expect(players[6].role).toBe(Role.Villager);
+		expect(players[7].role).toBe(Role.DreamWolf);
+		expect(players[8].role).toBe(Role.Villager);
+		expect(players[9].role).toBe(Role.Werewolf);
 	});
 });

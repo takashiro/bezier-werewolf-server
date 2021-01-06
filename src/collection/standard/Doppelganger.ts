@@ -4,6 +4,7 @@ import {
 } from '@bezier/werewolf-core';
 
 import SkillMode from '../../game/SkillMode';
+import TransformAction from '../TransformAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Doppelganger extends VisionSkill {
@@ -34,6 +35,7 @@ export default class Doppelganger extends VisionSkill {
 		const { owner } = this;
 		const role = target.getRole();
 		owner.setNotionalRole(role);
+		driver.addAction(new TransformAction(this, owner, role));
 		driver.giftPlayer(owner, role);
 		return Doppelganger.showPlayer(target, true);
 	}

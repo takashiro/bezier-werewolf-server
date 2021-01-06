@@ -32,11 +32,9 @@ it('wakes up Robber', () => {
 	wolf.emit('finished');
 	expect(robber.isReady()).toBe(true);
 	expect(witch.isReady()).toBe(false);
-	expect(driver.getPhase()).toBe(robber.getOrder());
 });
 
 it('wakes up Witch', () => {
 	robber.emit('finished');
 	expect(witch.isReady()).toBe(true);
-	expect(driver.getPhase()).toBe(witch.getOrder());
 });

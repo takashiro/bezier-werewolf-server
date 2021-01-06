@@ -6,13 +6,13 @@ import {
 import BaseDriver from '../base/Driver';
 import shuffle from '../util/shuffle';
 
-import ActionDriver from './ActionDriver';
 import Card from './Card';
 import State from './DriverState';
 import Event from './Event';
 import Player, { Skill } from './Player';
+import SkillDriver from './SkillDriver';
 
-export default class Driver extends ActionDriver implements BaseDriver {
+export default class Driver extends SkillDriver implements BaseDriver {
 	protected random = true;
 
 	protected loneWolf = false;
