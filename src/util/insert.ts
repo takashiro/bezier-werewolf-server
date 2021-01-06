@@ -1,10 +1,10 @@
 type CompareFn<Element> = (a: Element, b: Element) => number;
 
-export function asc(a: number, b: number) {
+export function asc(a: number, b: number): number {
 	return a - b;
 }
 
-export function desc(a: number, b: number) {
+export function desc(a: number, b: number): number {
 	return b - a;
 }
 
