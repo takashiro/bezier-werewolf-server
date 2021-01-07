@@ -12,29 +12,17 @@ export default class Troublemaker extends Skill<void> {
 	protected mode = SkillMode.Write;
 
 	isFeasible(data: Selection): boolean {
-		if (!data.players) {
+		const players = this.selectPlayers(data, 2);
+		if (players?.length !== 2) {
 			return false;
 		}
-
-		const seats = data.players;
-		if (!(seats instanceof Array) || seats.length !== 2) {
-			return false;
-		}
-
-		const players = seats.map((seat) => this.driver.getPlayer(seat));
-		return players[0] !== players[1] && players.every((player) => player && player !== this.owner);
+		return players[0] !== players[1] && players.every((player) => player !== this.owner);
 	}
 
 	protected run(data: Selection): void {
-		if (!data.players) {
-			return;
-		}
-
-		const { driver } = this;
-		const player1 = driver.getPlayer(data.players[0]);
-		const player2 = driver.getPlayer(data.players[1]);
-		if (player1 && player2) {
-			driver.addAction(new ExchangeAction(this, player1, player2));
+		const players = this.selectPlayers(data, 2);
+		if (players?.length === 2) {
+			this.driver.addAction(new ExchangeAction(this, players[0], players[1]));
 		}
 	}
 }

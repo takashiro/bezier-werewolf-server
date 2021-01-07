@@ -13,26 +13,19 @@ export default class Doppelganger extends VisionSkill {
 	protected mode = SkillMode.ReadWrite;
 
 	isFeasible(data: Selection): boolean {
-		if (data.cards || data.players?.length !== 1) {
-			return false;
-		}
-
-		const target = this.driver.getPlayer(data.players[0]);
-		return Boolean(target);
+		return Boolean(this.selectPlayer(data));
 	}
 
-	protected show(data: Selection): Vision {
-		if (!data.players || data.players.length < 1) {
-			return {};
-		}
-
-		const { driver } = this;
-		const target = driver.getPlayer(data.players[0]);
+	protected show(data: Selection): Vision | undefined {
+		const target = this.selectPlayer(data);
 		if (!target) {
-			return {};
+			return;
 		}
 
-		const { owner } = this;
+		const {
+			driver,
+			owner,
+		} = this;
 		const role = target.getRole();
 		owner.setNotionalRole(role);
 		driver.addAction(new TransformAction(this, owner, role));

@@ -26,7 +26,7 @@ export default class AlphaWolf extends Skill<void> {
 	}
 
 	isFeasible(data: Selection): boolean {
-		const target = data.players && this.driver.getPlayer(data.players[0]);
+		const target = this.selectPlayer(data);
 		return Boolean(target) && target !== this.owner;
 	}
 

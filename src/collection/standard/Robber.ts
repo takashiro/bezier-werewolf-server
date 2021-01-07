@@ -13,18 +13,14 @@ export default class Robber extends VisionSkill {
 	protected mode = SkillMode.ReadWrite;
 
 	isFeasible(data: Selection): boolean {
-		if (!data.players) {
-			return false;
-		}
-
-		const target = this.driver.getPlayer(data.players[0]);
+		const target = this.selectPlayer(data);
 		return Boolean(target) && target !== this.owner;
 	}
 
-	protected show(data: Selection): Vision {
-		const target = data.players && this.driver.getPlayer(data.players[0]);
+	protected show(data: Selection): Vision | undefined {
+		const target = this.selectPlayer(data);
 		if (!target) {
-			return {};
+			return;
 		}
 
 		this.driver.addAction(new ExchangeAction(this, this.owner, target));

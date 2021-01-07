@@ -1,10 +1,10 @@
 import {
-	Player,
 	Role,
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
 
+import Player from '../../game/Player';
 import SkillMode from '../../game/SkillMode';
 import TransformAction from '../TransformAction';
 import SkipAction from '../SkipAction';
@@ -26,7 +26,7 @@ export default class ParanormalInvestigator extends VisionSkill {
 
 	protected mode = SkillMode.ReadWrite;
 
-	protected selectedTargets: number[] = [];
+	protected selectedTargets: Player[] = [];
 
 	protected transformedTo?: Role;
 
@@ -39,33 +39,19 @@ export default class ParanormalInvestigator extends VisionSkill {
 			return false;
 		}
 
-		if (!data.players) {
-			return false;
-		}
-
-		const { players } = data;
-		if (players.length !== 1) {
-			return false;
-		}
-
-		const target = this.driver.getPlayer(players[0]);
+		const target = this.selectPlayer(data);
 		return Boolean(target) && target !== this.owner;
 	}
 
-	protected show(data: Selection): Vision {
-		const { players } = data;
-		if (!players) {
-			return {};
-		}
-
-		const target = this.driver.getPlayer(players[0]);
+	protected show(data: Selection): Vision | undefined {
+		const target = this.selectPlayer(data);
 		if (!target) {
-			return {};
+			return;
 		}
 
-		if (!this.selectedTargets.includes(players[0])) {
+		if (!this.selectedTargets.includes(target)) {
 			// Action Priority: 5c
-			this.selectedTargets.push(players[0]);
+			this.selectedTargets.push(target);
 			const seen = target.getRole();
 			const role = transformTo(seen);
 			if (role !== Role.Unknown) {
@@ -76,22 +62,13 @@ export default class ParanormalInvestigator extends VisionSkill {
 			}
 		}
 
-		const vision: Player[] = [];
-		for (const seat of this.selectedTargets) {
-			const player = this.driver.getPlayer(seat);
-			if (player) {
-				vision.push(player.getProfile());
-			}
-		}
-		if (this.transformedTo) {
-			vision.push({
+		const vision = ParanormalInvestigator.showPlayers(this.selectedTargets, true);
+		if (vision.players && this.transformedTo) {
+			vision.players.push({
 				seat: this.owner.getSeat(),
 				role: this.transformedTo,
 			});
 		}
-
-		return {
-			players: vision,
-		};
+		return vision;
 	}
 }

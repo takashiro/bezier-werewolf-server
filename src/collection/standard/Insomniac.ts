@@ -9,7 +9,7 @@ export default class Insomniac extends VisionSkill {
 	protected priority = 0x1900;
 
 	isFeasible(data: Selection): boolean {
-		return this.driver && !data.cards && !data.players;
+		return this.selectNone(data);
 	}
 
 	protected show(): Vision {

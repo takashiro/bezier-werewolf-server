@@ -10,25 +10,14 @@ class Drunk extends Skill<void> {
 	protected mode = SkillMode.Write;
 
 	isFeasible(data: Selection): boolean {
-		if (!data.cards) {
-			return false;
-		}
-
-		const card = this.driver.getCenterCard(data.cards[0]);
-		return !!card;
+		return Boolean(this.selectCard(data));
 	}
 
 	protected run(data: Selection): void {
-		if (!data.cards) {
-			return;
+		const card = this.selectCard(data);
+		if (card) {
+			this.driver.addAction(new ExchangeAction(this, this.owner, card));
 		}
-
-		const card = this.driver.getCenterCard(data.cards[0]);
-		if (!card) {
-			return;
-		}
-
-		this.driver.addAction(new ExchangeAction(this, this.owner, card));
 	}
 }
 

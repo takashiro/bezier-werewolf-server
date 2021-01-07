@@ -10,7 +10,7 @@ export default class Squire extends VisionSkill {
 	protected priority = 0x1930;
 
 	isFeasible(data: Selection): boolean {
-		return this.driver && !data.cards && !data.players;
+		return this.selectNone(data);
 	}
 
 	protected show(): Vision {

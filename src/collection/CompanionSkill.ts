@@ -11,7 +11,7 @@ export default abstract class CompanionSkill extends VisionSkill {
 	protected role = Role.Unknown;
 
 	isFeasible(data: Selection): boolean {
-		return this.driver && !data.cards && !data.players;
+		return this.selectNone(data);
 	}
 
 	protected isCompanion(player: Player): boolean {

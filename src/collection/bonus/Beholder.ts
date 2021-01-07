@@ -15,7 +15,7 @@ export default class Beholder extends VisionSkill {
 	protected priority = 0x1990;
 
 	isFeasible(data: Selection): boolean {
-		return this.driver && !data.cards && !data.players;
+		return this.selectNone(data);
 	}
 
 	protected show(): Vision {

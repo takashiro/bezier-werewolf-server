@@ -4,51 +4,32 @@ import {
 } from '@bezier/werewolf-core';
 
 import VisionSkill from '../VisionSkill';
-import Card from '../../game/Card';
 
 export default class Seer extends VisionSkill {
 	protected priority = 0x1500;
 
 	isFeasible(data: Selection): boolean {
 		if (!data) {
-			return false;
+			return true;
 		}
 
 		if (data.cards) {
-			const { cards } = data;
-			return Array.isArray(cards) && cards.every((i) => Boolean(this.driver.getCenterCard(i)));
+			const cards = this.selectCards(data, 2);
+			return cards?.length === 2;
 		}
 
-		const { players } = data;
-		if (players) {
-			if (players.length !== 1) {
-				return false;
-			}
-
-			const player = this.driver.getPlayer(players[0]);
-			return Boolean(player) && player !== this.owner;
-		}
-
-		return false;
+		const player = this.selectPlayer(data);
+		return Boolean(player) && player !== this.owner;
 	}
 
-	protected show(data: Selection): Vision {
-		const { driver } = this;
-		if (data.players) {
-			const player = driver.getPlayer(data.players[0]);
-			if (player) {
-				return Seer.showPlayer(player, true);
-			}
-		} else if (data.cards) {
-			const cards: Card[] = [];
-			for (const i of data.cards) {
-				const card = driver.getCenterCard(i);
-				if (card) {
-					cards.push(card);
-				}
-			}
-			return Seer.showCards(cards);
+	protected show(data: Selection): Vision | undefined {
+		if (data.cards) {
+			const cards = this.selectCards(data, 2);
+			return cards && Seer.showCards(cards);
 		}
-		return {};
+		if (data.players) {
+			const player = this.selectPlayer(data);
+			return player && Seer.showPlayer(player, true);
+		}
 	}
 }

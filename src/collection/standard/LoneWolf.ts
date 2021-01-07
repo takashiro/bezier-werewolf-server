@@ -4,7 +4,6 @@ import {
 } from '@bezier/werewolf-core';
 
 import VisionSkill from '../VisionSkill';
-import Card from '../../game/Card';
 import isWerewolf from '../isWerewolf';
 
 export default class LoneWolf extends VisionSkill {
@@ -21,31 +20,13 @@ export default class LoneWolf extends VisionSkill {
 	}
 
 	isFeasible(data: Selection): boolean {
-		if (!data || !data.cards) {
-			return false;
-		}
-
-		const { cards } = data;
-		if (cards.length > 1) {
-			return false;
-		}
-
-		const [card] = cards;
-		return Boolean(this.driver.getCenterCard(card));
+		return Boolean(this.selectCard(data));
 	}
 
-	protected show(data: Selection): Vision {
-		const { driver } = this;
-		if (data.cards) {
-			const cards: Card[] = [];
-			for (const i of data.cards) {
-				const card = driver.getCenterCard(i);
-				if (card) {
-					cards.push(card);
-				}
-			}
-			return LoneWolf.showCards(cards);
+	protected show(data: Selection): Vision | undefined {
+		const card = this.selectCard(data);
+		if (card) {
+			return LoneWolf.showCard(card);
 		}
-		return {};
 	}
 }

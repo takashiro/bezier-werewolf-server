@@ -15,20 +15,13 @@ export default class Revealer extends VisionSkill {
 	protected mode = SkillMode.ReadWrite;
 
 	isFeasible(data: Selection): boolean {
-		if (data.cards || !data.players || data.players.length !== 1) {
-			return false;
-		}
-		const [target] = data.players;
-		return Boolean(this.driver.getPlayer(target));
+		return Boolean(this.selectPlayer(data));
 	}
 
-	protected show(data: Selection): Vision {
-		if (!data.players) {
-			return {};
-		}
-		const target = this.driver.getPlayer(data.players[0]);
+	protected show(data: Selection): Vision | undefined {
+		const target = this.selectPlayer(data);
 		if (!target) {
-			return {};
+			return;
 		}
 
 		const team = Teamship.get(target.getRole());

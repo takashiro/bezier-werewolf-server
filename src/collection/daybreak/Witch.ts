@@ -26,35 +26,31 @@ export default class Witch extends VisionSkill {
 	}
 
 	isFeasible(data: Selection): boolean {
-		const { driver } = this;
-
-		if (!data.cards && !data.players) {
+		if (this.selectNone(data)) {
 			return true;
 		}
 
 		if (this.selectedCard === undefined) {
-			const card = data.cards && driver.getCenterCard(data.cards[0]);
-			return Boolean(card);
+			return Boolean(this.selectCard(data));
 		}
 
 		if (this.selectedPlayer === undefined) {
-			const target = data.players && driver.getPlayer(data.players[0]);
-			return Boolean(target);
+			return Boolean(this.selectPlayer(data));
 		}
 
 		return true;
 	}
 
-	protected show(data: Selection): Vision {
-		if (!data.players && !data.cards) {
+	protected show(data: Selection): Vision | undefined {
+		if (this.selectNone(data)) {
 			this.skipped = true;
-			return {};
+			return;
 		}
 
 		const { driver } = this;
 
 		if (this.selectedCard === undefined) {
-			const card = data.cards && driver.getCenterCard(data.cards[0]);
+			const card = this.selectCard(data);
 			if (card) {
 				this.selectedCard = card;
 				return Witch.showCard(card);
@@ -63,7 +59,7 @@ export default class Witch extends VisionSkill {
 		}
 
 		if (this.selectedPlayer === undefined) {
-			const target = data.players && driver.getPlayer(data.players[0]);
+			const target = this.selectPlayer(data);
 			if (target) {
 				this.selectedPlayer = target;
 				driver.addAction(new ExchangeAction(this, this.selectedCard, target));

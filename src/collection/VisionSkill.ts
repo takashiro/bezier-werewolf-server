@@ -8,14 +8,13 @@ import Player from '../game/Player';
 import SkillMode from '../game/SkillMode';
 import Skill from './Skill';
 
-export default abstract class VisionSkill extends Skill<Vision> {
+export default abstract class VisionSkill extends Skill<Vision | undefined> {
 	protected mode = SkillMode.Read;
 
-	protected run(data: Selection): Vision {
+	protected run(data: Selection): Vision | undefined {
 		if (!this.driver || !this.owner) {
-			return {};
+			return;
 		}
-
 		return this.show(data);
 	}
 
@@ -50,5 +49,5 @@ export default abstract class VisionSkill extends Skill<Vision> {
 	 * @param data
 	 * @return players or cards that can be seen
 	 */
-	protected abstract show(data: Selection): Vision;
+	protected abstract show(data: Selection): Vision | undefined;
 }

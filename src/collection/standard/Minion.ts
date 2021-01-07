@@ -14,7 +14,7 @@ export default class Minion extends VisionSkill {
 	protected priority = 0x1200;
 
 	isFeasible(data: Selection): boolean {
-		return this.driver && !data.cards && !data.players;
+		return this.selectNone(data);
 	}
 
 	protected show(): Vision {
