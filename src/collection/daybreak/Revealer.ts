@@ -29,6 +29,6 @@ export default class Revealer extends VisionSkill {
 			this.driver.addAction(new RevealAction(this, target));
 		}
 
-		return Revealer.showPlayer(target, true);
+		return this.showPlayer(target, true);
 	}
 }

@@ -7,6 +7,7 @@ import Card from '../game/Card';
 import Player from '../game/Player';
 import SkillMode from '../game/SkillMode';
 import Skill from './Skill';
+import ViewAction from './ViewAction';
 
 export default abstract class VisionSkill extends Skill<Vision | undefined> {
 	protected mode = SkillMode.Read;
@@ -18,13 +19,19 @@ export default abstract class VisionSkill extends Skill<Vision | undefined> {
 		return this.show(data);
 	}
 
-	protected static showPlayer(player: Player, actual: boolean): Vision {
+	protected showPlayer(player: Player, actual: boolean): Vision {
+		if (actual) {
+			this.driver.addAction(new ViewAction(this, [player]));
+		}
 		return {
 			players: [actual ? player.getActualProfile() : player.getNotionalProfile()],
 		};
 	}
 
-	protected static showPlayers(players: Player[], actual: boolean): Vision {
+	protected showPlayers(players: Player[], actual: boolean): Vision {
+		if (actual) {
+			this.driver.addAction(new ViewAction(this, players));
+		}
 		return {
 			players: actual
 				? players.map((player) => player.getActualProfile())
@@ -32,13 +39,15 @@ export default abstract class VisionSkill extends Skill<Vision | undefined> {
 		};
 	}
 
-	protected static showCard(card: Card): Vision {
+	protected showCard(card: Card): Vision {
+		this.driver.addAction(new ViewAction(this, [card]));
 		return {
 			cards: [card.getProfile()],
 		};
 	}
 
-	protected static showCards(cards: Card[]): Vision {
+	protected showCards(cards: Card[]): Vision {
+		this.driver.addAction(new ViewAction(this, cards));
 		return {
 			cards: cards.map((card) => card.getProfile()),
 		};

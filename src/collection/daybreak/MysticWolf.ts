@@ -14,6 +14,6 @@ export default class MysticWolf extends VisionSkill {
 
 	show(data: Selection): Vision | undefined {
 		const target = this.selectPlayer(data);
-		return target && MysticWolf.showPlayer(target, true);
+		return target && this.showPlayer(target, true);
 	}
 }

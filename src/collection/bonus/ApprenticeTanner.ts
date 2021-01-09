@@ -16,6 +16,6 @@ export default class ApprenticeTanner extends VisionSkill {
 	protected show(): Vision {
 		const players = this.driver.getPlayers();
 		const tanners = players.filter((player) => player.getNotionalRole() === Role.Tanner);
-		return ApprenticeTanner.showPlayers(tanners, false);
+		return this.showPlayers(tanners, false);
 	}
 }

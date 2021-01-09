@@ -3,6 +3,8 @@ import Player, { Skill } from './Player';
 export default abstract class Action {
 	protected skill: Skill;
 
+	protected readOnly = false;
+
 	protected executed = false;
 
 	/**
@@ -33,6 +35,13 @@ export default abstract class Action {
 	 */
 	getOwner(): Player {
 		return this.skill.getOwner();
+	}
+
+	/**
+	 * @return Whether the action is read-only.
+	 */
+	isReadOnly(): boolean {
+		return this.readOnly;
 	}
 
 	/**

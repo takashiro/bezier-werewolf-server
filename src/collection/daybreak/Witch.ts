@@ -53,7 +53,7 @@ export default class Witch extends VisionSkill {
 			const card = this.selectCard(data);
 			if (card) {
 				this.selectedCard = card;
-				return Witch.showCard(card);
+				return this.showCard(card);
 			}
 			return {};
 		}
@@ -67,9 +67,9 @@ export default class Witch extends VisionSkill {
 		}
 
 		if (!this.selectedPlayer) {
-			return Witch.showCard(this.selectedCard);
+			return this.showCard(this.selectedCard);
 		}
 
-		return Witch.showPlayer(this.selectedPlayer, true);
+		return this.showPlayer(this.selectedPlayer, true);
 	}
 }

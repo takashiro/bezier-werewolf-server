@@ -62,7 +62,7 @@ export default class ParanormalInvestigator extends VisionSkill {
 			}
 		}
 
-		const vision = ParanormalInvestigator.showPlayers(this.selectedTargets, true);
+		const vision = this.showPlayers(this.selectedTargets, true);
 		if (vision.players && this.transformedTo) {
 			vision.players.push({
 				seat: this.owner.getSeat(),

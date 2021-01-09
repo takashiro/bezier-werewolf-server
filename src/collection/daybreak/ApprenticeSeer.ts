@@ -14,6 +14,6 @@ export default class ApprenticeSeer extends VisionSkill {
 
 	protected show(data: Selection): Vision | undefined {
 		const card = this.selectCard(data);
-		return card && ApprenticeSeer.showCard(card);
+		return card && this.showCard(card);
 	}
 }

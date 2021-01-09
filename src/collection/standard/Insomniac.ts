@@ -13,6 +13,6 @@ export default class Insomniac extends VisionSkill {
 	}
 
 	protected show(): Vision {
-		return Insomniac.showPlayer(this.owner, true);
+		return this.showPlayer(this.owner, true);
 	}
 }

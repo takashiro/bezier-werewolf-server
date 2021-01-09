@@ -25,11 +25,11 @@ export default class Seer extends VisionSkill {
 	protected show(data: Selection): Vision | undefined {
 		if (data.cards) {
 			const cards = this.selectCards(data, 2);
-			return cards && Seer.showCards(cards);
+			return cards && this.showCards(cards);
 		}
 		if (data.players) {
 			const player = this.selectPlayer(data);
-			return player && Seer.showPlayer(player, true);
+			return player && this.showPlayer(player, true);
 		}
 	}
 }

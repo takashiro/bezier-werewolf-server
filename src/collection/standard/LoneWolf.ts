@@ -26,7 +26,7 @@ export default class LoneWolf extends VisionSkill {
 	protected show(data: Selection): Vision | undefined {
 		const card = this.selectCard(data);
 		if (card) {
-			return LoneWolf.showCard(card);
+			return this.showCard(card);
 		}
 	}
 }

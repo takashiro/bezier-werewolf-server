@@ -30,6 +30,6 @@ export default class Doppelganger extends VisionSkill {
 		owner.setNotionalRole(role);
 		driver.addAction(new TransformAction(this, owner, role));
 		driver.giftPlayer(owner, role);
-		return Doppelganger.showPlayer(target, true);
+		return this.showPlayer(target, true);
 	}
 }

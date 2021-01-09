@@ -12,7 +12,9 @@ export default class ActionDriver extends EventDriver {
 
 	protected phases: number[] = [];
 
-	protected actions: Action[] = [];
+	protected inputActions: Action[] = [];
+
+	protected outputActions: Action[] = [];
 
 	/**
 	 * @return Current phase
@@ -42,16 +44,21 @@ export default class ActionDriver extends EventDriver {
 	 * @return Whether the action is added. An action won't be added if its night phase has passed.
 	 */
 	addAction(action: Action): boolean {
+		if (action.isReadOnly()) {
+			insert(this.outputActions, action, actionAsc);
+			return true;
+		}
+
 		const order = action.getOrder();
 		if (!this.phases.includes(order)) {
 			// Unregistered phase
 			return false;
 		}
-		if (this.actions.find((a) => a.getOrder() === action.getOrder())) {
+		if (this.inputActions.find((a) => a.getOrder() === action.getOrder())) {
 			// Duplicate action in the same phase
 			return false;
 		}
-		insert(this.actions, action, actionAsc);
+		insert(this.inputActions, action, actionAsc);
 		this.exec();
 		return true;
 	}
@@ -62,7 +69,7 @@ export default class ActionDriver extends EventDriver {
 	exec(): void {
 		for (let i = 0; i < this.phases.length; i++) {
 			const phase = this.phases[i];
-			const action = this.actions[i];
+			const action = this.inputActions[i];
 			if (!action || action.getOrder() !== phase) {
 				if (i > 0) {
 					this.phase = this.phases[i - 1];
