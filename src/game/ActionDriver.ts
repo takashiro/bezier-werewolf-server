@@ -17,6 +17,21 @@ export default class ActionDriver extends EventDriver {
 	protected outputActions: Action[] = [];
 
 	/**
+	 * @return All executed actions.
+	 */
+	getHistory(): Action[] {
+		const history: Action[] = [...this.inputActions];
+		for (const action of this.outputActions) {
+			if (action.isExecuted()) {
+				insert(history, action, actionAsc);
+			} else {
+				break;
+			}
+		}
+		return history;
+	}
+
+	/**
 	 * @return Current phase
 	 */
 	getPhase(): number {

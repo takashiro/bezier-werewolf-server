@@ -45,6 +45,13 @@ export default abstract class Action {
 	}
 
 	/**
+	 * @return Whether the action has been executed.
+	 */
+	isExecuted(): boolean {
+		return this.executed;
+	}
+
+	/**
 	 * Execute the action.
 	 */
 	exec(): void {
