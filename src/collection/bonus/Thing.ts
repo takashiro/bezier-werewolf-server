@@ -2,7 +2,7 @@ import { Selection } from '@bezier/werewolf-core';
 import Skill from '../Skill';
 
 export default class Thing extends Skill<void> {
-	protected priority = 0x1410;
+	protected priority = 0x410;
 
 	isFeasible(data: Selection): boolean {
 		const target = this.selectPlayer(data);

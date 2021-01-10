@@ -12,7 +12,7 @@ import Skill from '../../Skill';
 import CenterWerewolfCard from './CenterWerewolfCard';
 
 export default class AlphaWolf extends Skill<void> {
-	protected priority = 0x1320;
+	protected priority = 0x320;
 
 	protected mode = SkillMode.Write;
 

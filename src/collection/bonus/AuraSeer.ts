@@ -7,7 +7,7 @@ import {
 import VisionSkill from '../VisionSkill';
 
 export default class AuraSeer extends VisionSkill {
-	protected priority = 0x1730;
+	protected priority = 0x730;
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

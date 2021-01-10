@@ -6,7 +6,7 @@ import {
 import VisionSkill from '../VisionSkill';
 
 export default class MysticWolf extends VisionSkill {
-	protected priority = 0x1330;
+	protected priority = 0x330;
 
 	isFeasible(data: Selection): boolean {
 		return Boolean(this.selectPlayer(data));

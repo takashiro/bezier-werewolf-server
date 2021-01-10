@@ -7,7 +7,7 @@ import VisionSkill from '../VisionSkill';
 import isWerewolf from '../isWerewolf';
 
 export default class LoneWolf extends VisionSkill {
-	protected priority = 0x1301;
+	protected priority = 0x301;
 
 	isFinished(): boolean {
 		if (super.isFinished() || !this.driver.isLoneWolf()) {

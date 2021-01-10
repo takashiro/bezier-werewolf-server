@@ -11,7 +11,7 @@ import ExchangeAction from '../ExchangeAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Witch extends VisionSkill {
-	protected priority = 0x1620;
+	protected priority = 0x620;
 
 	protected mode = SkillMode.ReadWrite;
 

@@ -8,7 +8,7 @@ import TransformAction from '../TransformAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Doppelganger extends VisionSkill {
-	protected priority = 0x0700;
+	protected priority = -0x700;
 
 	protected mode = SkillMode.ReadWrite;
 

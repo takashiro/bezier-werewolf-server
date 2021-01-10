@@ -12,7 +12,7 @@ const seerRoles: Role[] = [
 ];
 
 export default class Beholder extends VisionSkill {
-	protected priority = 0x1990;
+	protected priority = 0x990;
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

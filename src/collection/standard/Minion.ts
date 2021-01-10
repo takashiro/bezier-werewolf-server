@@ -11,7 +11,7 @@ import isWerewolf from '../isWerewolf';
  * A minion sees all the werewolves without their exact roles.
  */
 export default class Minion extends VisionSkill {
-	protected priority = 0x1200;
+	protected priority = 0x200;
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

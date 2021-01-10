@@ -6,7 +6,7 @@ import {
 import VisionSkill from '../VisionSkill';
 
 export default class Seer extends VisionSkill {
-	protected priority = 0x1500;
+	protected priority = 0x500;
 
 	isFeasible(data: Selection): boolean {
 		if (!data) {

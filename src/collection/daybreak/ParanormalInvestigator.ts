@@ -22,7 +22,7 @@ function transformTo(seen: Role): Role {
 }
 
 export default class ParanormalInvestigator extends VisionSkill {
-	protected priority = 0x1530;
+	protected priority = 0x530;
 
 	protected mode = SkillMode.ReadWrite;
 

@@ -6,7 +6,7 @@ import {
 import VisionSkill from '../VisionSkill';
 
 export default class Insomniac extends VisionSkill {
-	protected priority = 0x1900;
+	protected priority = 0x900;
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

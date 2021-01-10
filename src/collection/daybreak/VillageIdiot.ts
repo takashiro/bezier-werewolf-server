@@ -15,7 +15,7 @@ function takeDirection(selected: number, self: number): ShiftDirection {
 }
 
 export default class VillageIdiot extends Skill<void> {
-	protected priority = 0x1720;
+	protected priority = 0x720;
 
 	protected mode = SkillMode.Write;
 

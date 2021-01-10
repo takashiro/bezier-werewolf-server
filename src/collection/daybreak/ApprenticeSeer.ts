@@ -6,7 +6,7 @@ import {
 import VisionSkill from '../VisionSkill';
 
 export default class ApprenticeSeer extends VisionSkill {
-	protected priority = 0x1520;
+	protected priority = 0x520;
 
 	isFeasible(data: Selection): boolean {
 		return Boolean(this.selectCard(data));
