@@ -20,31 +20,21 @@ export default class VillageIdiot extends Skill<void> {
 	protected mode = SkillMode.Write;
 
 	isFeasible(data: Selection): boolean {
-		if (data.cards) {
+		const target = this.selectPlayer(data);
+		if (!target) {
 			return false;
 		}
-
-		const { players } = data;
-		if (!players || players.length !== 1) {
-			return false;
-		}
-		const [target] = players;
-
-		const cur = this.owner.getSeat();
-		const playerNum = this.driver.getPlayers().length;
-		const prev = cur > 1 ? cur - 1 : playerNum;
-		const next = cur < playerNum ? cur + 1 : 1;
-		return target === cur || target === prev || target === next;
+		return this.driver.getDistance(target, this.owner) <= 1;
 	}
 
 	protected run(data: Selection): void {
-		if (!data.players || data.players.length <= 0) {
+		const selected = this.selectPlayer(data);
+		if (!selected) {
 			return;
 		}
 
-		const [selected] = data.players;
 		const seat = this.owner.getSeat();
-		const direction = takeDirection(selected, seat);
+		const direction = takeDirection(selected.getSeat(), seat);
 		if (direction === ShiftDirection.None) {
 			return;
 		}

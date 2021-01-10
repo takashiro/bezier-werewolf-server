@@ -37,6 +37,8 @@ class Player extends EventEmitter {
 
 	protected revealed = false;
 
+	protected disclosedTo: Set<number> = new Set();
+
 	constructor(seat: number, role: Role) {
 		super();
 		this.seat = seat;
@@ -206,6 +208,22 @@ class Player extends EventEmitter {
 	 */
 	setRevealed(revealed: boolean): void {
 		this.revealed = revealed;
+	}
+
+	/**
+	 * @param player
+	 * @return Whether the player role is visible to another player.
+	 */
+	isDisclosedTo(player: Player): boolean {
+		return this.disclosedTo.has(player.getSeat());
+	}
+
+	/**
+	 * Make the role visible to another player at day phase.
+	 * @param player
+	 */
+	discloseTo(player: Player): void {
+		this.disclosedTo.add(player.getSeat());
 	}
 }
 

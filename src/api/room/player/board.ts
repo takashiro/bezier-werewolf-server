@@ -20,7 +20,8 @@ router.get('/', (req, res) => {
 		return;
 	}
 
-	const players = driver.getPlayers().filter((player) => player.isRevealed());
+	const self = context.player;
+	const players = driver.getPlayers().filter((player) => player.isRevealed() || player.isDisclosedTo(self));
 	const cards = driver.getCenterCards().filter((card) => card.isRevealed());
 
 	const vision: Vision = {

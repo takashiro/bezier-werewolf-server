@@ -63,6 +63,22 @@ export default class Driver extends SkillDriver implements BaseDriver {
 		return this.players[seat - 1];
 	}
 
+	/**
+	 * @param a
+	 * @param b
+	 * @return The distance between two players.
+	 */
+	getDistance(a: Player, b: Player): number {
+		const p = a.getSeat();
+		const q = b.getSeat();
+		const dist1 = Math.abs(p - q);
+		const dist2 = this.players.length - dist1;
+		return Math.min(dist1, dist2);
+	}
+
+	/**
+	 * @return Center cards used in the game.
+	 */
 	getCenterCards(): Card[] {
 		return this.centerCards;
 	}
