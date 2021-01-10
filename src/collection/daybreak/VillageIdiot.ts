@@ -2,6 +2,7 @@ import { Selection } from '@bezier/werewolf-core';
 
 import SkillMode from '../../game/SkillMode';
 import ShiftAction, { ShiftDirection } from '../ShiftAction';
+import SkipAction from '../SkipAction';
 import Skill from '../Skill';
 
 function takeDirection(selected: number, self: number): ShiftDirection {
@@ -36,11 +37,13 @@ export default class VillageIdiot extends Skill<void> {
 		const seat = this.owner.getSeat();
 		const direction = takeDirection(selected.getSeat(), seat);
 		if (direction === ShiftDirection.None) {
+			this.driver.addAction(new SkipAction(this));
 			return;
 		}
 
 		const players = this.driver.getPlayers().filter((player) => player.getSeat() !== seat);
 		if (players.length <= 1) {
+			this.driver.addAction(new SkipAction(this));
 			return;
 		}
 

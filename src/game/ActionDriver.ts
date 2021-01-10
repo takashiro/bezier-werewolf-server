@@ -78,6 +78,13 @@ export default class ActionDriver extends EventDriver {
 		return true;
 	}
 
+	isPending(): boolean {
+		if (this.phases.length > this.inputActions.length) {
+			return true;
+		}
+		return this.inputActions.some((action) => !action.isExecuted());
+	}
+
 	/**
 	 * Execute all ready actions.
 	 */

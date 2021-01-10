@@ -7,6 +7,7 @@ import {
 
 import SkillMode from '../../game/SkillMode';
 import RevealAction from '../RevealAction';
+import SkipAction from '../SkipAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Revealer extends VisionSkill {
@@ -27,6 +28,8 @@ export default class Revealer extends VisionSkill {
 		const team = Teamship.get(target.getRole());
 		if (team === Team.Villager) {
 			this.driver.addAction(new RevealAction(this, target));
+		} else {
+			this.driver.addAction(new SkipAction(this));
 		}
 
 		return this.showPlayer(target, true);

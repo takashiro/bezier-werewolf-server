@@ -8,6 +8,7 @@ import Player from '../../game/Player';
 import SkillMode from '../../game/SkillMode';
 
 import ExchangeAction from '../ExchangeAction';
+import SkipAction from '../SkipAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Witch extends VisionSkill {
@@ -43,6 +44,7 @@ export default class Witch extends VisionSkill {
 
 	protected show(data: Selection): Vision | undefined {
 		if (this.selectNone(data)) {
+			this.driver.addAction(new SkipAction(this));
 			this.skipped = true;
 			return;
 		}

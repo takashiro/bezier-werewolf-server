@@ -192,9 +192,11 @@ export default class Driver extends SkillDriver implements BaseDriver {
 				return;
 			}
 
-			if (this.players.every((p) => p.isSeated())) {
-				this.state = State.InvokingSkills;
+			if (!this.players.every((p) => p.isSeated())) {
+				return;
 			}
+
+			this.state = State.InvokingSkills;
 		});
 
 		player.once('ready', () => {
@@ -202,9 +204,15 @@ export default class Driver extends SkillDriver implements BaseDriver {
 				return;
 			}
 
-			if (this.players.every((p) => p.isReady())) {
-				this.state = State.Voting;
+			if (!this.players.every((p) => p.isReady())) {
+				return;
 			}
+
+			if (this.isPending()) {
+				return;
+			}
+
+			this.state = State.Voting;
 		});
 	}
 
