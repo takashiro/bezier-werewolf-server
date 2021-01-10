@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 
 import {
+	Artifact,
 	Role,
 	Player as PlayerProfile,
 } from '@bezier/werewolf-core';
@@ -37,7 +38,9 @@ class Player extends EventEmitter {
 
 	protected revealed = false;
 
-	protected disclosedTo: Set<number> = new Set();
+	protected disclosedTo?: Set<number>;
+
+	protected artifacts?: Set<Artifact>;
 
 	constructor(seat: number, role: Role) {
 		super();
@@ -215,7 +218,7 @@ class Player extends EventEmitter {
 	 * @return Whether the player role is visible to another player.
 	 */
 	isDisclosedTo(player: Player): boolean {
-		return this.disclosedTo.has(player.getSeat());
+		return Boolean(this.disclosedTo?.has(player.getSeat()));
 	}
 
 	/**
@@ -223,7 +226,35 @@ class Player extends EventEmitter {
 	 * @param player
 	 */
 	discloseTo(player: Player): void {
+		if (!this.disclosedTo) {
+			this.disclosedTo = new Set();
+		}
 		this.disclosedTo.add(player.getSeat());
+	}
+
+	/**
+	 * Place an artifact token on the player.
+	 * @param token
+	 */
+	addArtifact(token: Artifact): void {
+		if (!this.artifacts) {
+			this.artifacts = new Set();
+		}
+		this.artifacts.add(token);
+	}
+
+	/**
+	 * @return Whether the player has any artifact.
+	 */
+	getArtifactNum(): number {
+		return this.artifacts?.size || 0;
+	}
+
+	/**
+	 * @return All the artifacts of the player.
+	 */
+	getArtifacts(): Artifact[] {
+		return this.artifacts ? Array.from(this.artifacts) : [];
 	}
 }
 
