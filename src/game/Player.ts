@@ -42,6 +42,8 @@ class Player extends EventEmitter {
 
 	protected artifacts?: Set<Artifact>;
 
+	protected shielded = false;
+
 	constructor(seat: number, role: Role) {
 		super();
 		this.seat = seat;
@@ -255,6 +257,21 @@ class Player extends EventEmitter {
 	 */
 	getArtifacts(): Artifact[] {
 		return this.artifacts ? Array.from(this.artifacts) : [];
+	}
+
+	/**
+	 * @return Whether the player role is protected from being viewed or exchanged.
+	 */
+	isShielded(): boolean {
+		return this.shielded;
+	}
+
+	/**
+	 * Sets whether the player role is shielded.
+	 * @param shielded
+	 */
+	setShielded(shielded: boolean): void {
+		this.shielded = shielded;
 	}
 }
 
