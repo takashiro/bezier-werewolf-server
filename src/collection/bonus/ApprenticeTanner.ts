@@ -3,11 +3,13 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
-
+import MutexType from '../../game/MutexType';
 import VisionSkill from '../VisionSkill';
 
 export default class ApprenticeTanner extends VisionSkill {
 	protected priority = 0x220;
+
+	protected readMode = [MutexType.NotionalRole];
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

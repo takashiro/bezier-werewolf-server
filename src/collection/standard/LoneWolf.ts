@@ -5,9 +5,12 @@ import {
 
 import VisionSkill from '../VisionSkill';
 import isWerewolf from '../isWerewolf';
+import MutexType from '../../game/MutexType';
 
 export default class LoneWolf extends VisionSkill {
 	protected priority = 0x301;
+
+	protected readMode = [MutexType.ActualRole];
 
 	isFinished(): boolean {
 		if (super.isFinished() || !this.driver.isLoneWolf()) {

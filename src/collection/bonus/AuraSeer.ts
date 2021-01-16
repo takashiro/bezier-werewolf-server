@@ -3,11 +3,13 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
-
+import MutexType from '../../game/MutexType';
 import VisionSkill from '../VisionSkill';
 
 export default class AuraSeer extends VisionSkill {
 	protected priority = 0x730;
+
+	protected readMode = [MutexType.Any];
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

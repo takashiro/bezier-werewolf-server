@@ -3,14 +3,16 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import TransformAction from '../TransformAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Doppelganger extends VisionSkill {
 	protected priority = -0x700;
 
-	protected mode = SkillMode.ReadWrite;
+	protected readMode = [MutexType.ActualRole];
+
+	protected writeMode = [MutexType.NotionalRole, MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		return Boolean(this.selectPlayer(data));

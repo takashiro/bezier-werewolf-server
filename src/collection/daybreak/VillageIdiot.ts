@@ -1,6 +1,6 @@
 import { Selection } from '@bezier/werewolf-core';
 
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import ShiftAction, { ShiftDirection } from '../ShiftAction';
 import SkipAction from '../SkipAction';
 import Skill from '../Skill';
@@ -18,7 +18,7 @@ function takeDirection(selected: number, self: number): ShiftDirection {
 export default class VillageIdiot extends Skill<void> {
 	protected priority = 0x720;
 
-	protected mode = SkillMode.Write;
+	protected writeMode = [MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		const target = this.selectPlayer(data);

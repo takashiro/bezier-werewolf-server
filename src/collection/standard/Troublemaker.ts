@@ -2,14 +2,14 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import Skill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
 
 export default class Troublemaker extends Skill<void> {
 	protected priority = 0x700;
 
-	protected mode = SkillMode.Write;
+	protected writeMode = [MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		const players = this.selectPlayers(data, 2);

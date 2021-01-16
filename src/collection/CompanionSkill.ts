@@ -3,12 +3,15 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
+import MutexType from '../game/MutexType';
 
 import Player from '../game/Player';
 import VisionSkill from './VisionSkill';
 
 export default abstract class CompanionSkill extends VisionSkill {
 	protected role = Role.Unknown;
+
+	protected readMode = [MutexType.NotionalRole];
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

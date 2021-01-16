@@ -1,13 +1,13 @@
 import { Selection } from '@bezier/werewolf-core';
 
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import ExchangeAction from '../ExchangeAction';
 import Skill from '../Skill';
 
 class Drunk extends Skill<void> {
 	protected priority = 0x800;
 
-	protected mode = SkillMode.Write;
+	protected writeMode = [MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		return Boolean(this.selectCard(data));

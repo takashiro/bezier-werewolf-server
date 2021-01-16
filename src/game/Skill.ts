@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
 import EventHook from './EventHook';
-import SkillMode from './SkillMode';
+import MutexType from './MutexType';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Skill<DriverType, OwnerType, InputType, OutputType> {
@@ -17,7 +17,9 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 
 	protected priority = 0;
 
-	protected mode = SkillMode.None;
+	protected readMode: MutexType[] = [];
+
+	protected writeMode: MutexType[] = [];
 
 	protected ready = false;
 
@@ -55,11 +57,31 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	}
 
 	/**
-	 * @param mode Skill mode
-	 * @return Wether the skill mode is enabled.
+	 * @return All the mutex types that the skill reads.
 	 */
-	hasMode(mode: SkillMode): boolean {
-		return (this.mode & mode) === mode;
+	getReadMode(): MutexType[] {
+		return this.readMode.slice();
+	}
+
+	/**
+	 * @return Whether the skill reads something.
+	 */
+	isReader(): boolean {
+		return this.readMode.length > 0;
+	}
+
+	/**
+	 * @return All the mutex types that the skill reads.
+	 */
+	getWriteMode(): MutexType[] {
+		return this.writeMode.slice();
+	}
+
+	/**
+	 * Whether the skill writes something.
+	 */
+	isWriter(): boolean {
+		return this.writeMode.length > 0;
 	}
 
 	/**

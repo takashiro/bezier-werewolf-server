@@ -3,14 +3,16 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import ExchangeAction from '../ExchangeAction';
 import VisionSkill from '../VisionSkill';
 
 export default class Robber extends VisionSkill {
 	protected priority = 0x600;
 
-	protected mode = SkillMode.ReadWrite;
+	protected readMode = [MutexType.ActualRole];
+
+	protected writeMode = [MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		const target = this.selectPlayer(data);

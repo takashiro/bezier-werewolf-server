@@ -4,7 +4,7 @@ import ActionDriver from './ActionDriver';
 
 import Collection from './Collection';
 import BaseSkill from './Skill';
-import SkillMode from './SkillMode';
+import MutexType from './MutexType';
 
 type Skill = BaseSkill<unknown, unknown, unknown, unknown>;
 
@@ -65,7 +65,7 @@ export default class SkillDriver extends ActionDriver {
 				this.releaseSkills(next);
 			});
 
-			if (skill.hasMode(SkillMode.Write)) {
+			if (skill.isWriter()) {
 				this.addPhase(skill.getOrder());
 			}
 		}
@@ -74,16 +74,24 @@ export default class SkillDriver extends ActionDriver {
 	releaseSkills(from = Number.NEGATIVE_INFINITY): void {
 		const { skills } = this;
 
-		let readBlocked = false;
+		const blocked = new Set<MutexType>();
 		for (const cur of skills) {
 			if (cur.getOrder() < from) {
 				continue;
 			}
 
-			if (!readBlocked || !cur.hasMode(SkillMode.Read)) {
+			const readMode = cur.getReadMode();
+			if (blocked.size <= 0 || !readMode.some((mutex) => blocked.has(mutex))) {
 				cur.setReady(true);
-				if (cur.hasMode(SkillMode.Write)) {
-					readBlocked = true;
+				blocked.add(MutexType.Any);
+
+				const writeMode = cur.getWriteMode();
+				if (writeMode.includes(MutexType.Any)) {
+					// Do not release any following skills since the skill blocks anything.
+					break;
+				}
+				for (const mode of writeMode) {
+					blocked.add(mode);
 				}
 			}
 		}

@@ -2,11 +2,14 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
+import MutexType from '../../game/MutexType';
 
 import VisionSkill from '../VisionSkill';
 
 export default class Seer extends VisionSkill {
 	protected priority = 0x500;
+
+	protected readMode = [MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		if (!data) {

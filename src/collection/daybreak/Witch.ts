@@ -5,7 +5,7 @@ import {
 
 import Card from '../../game/Card';
 import Player from '../../game/Player';
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 
 import ExchangeAction from '../ExchangeAction';
 import SkipAction from '../SkipAction';
@@ -14,7 +14,9 @@ import VisionSkill from '../VisionSkill';
 export default class Witch extends VisionSkill {
 	protected priority = 0x620;
 
-	protected mode = SkillMode.ReadWrite;
+	protected readMode = [MutexType.ActualRole];
+
+	protected writeMode = [MutexType.ActualRole];
 
 	protected skipped = false;
 

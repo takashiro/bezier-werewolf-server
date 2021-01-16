@@ -3,16 +3,15 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
-
+import MutexType from '../../game/MutexType';
 import VisionSkill from '../VisionSkill';
 
-const seerRoles: Role[] = [
-	Role.Seer,
-	Role.ApprenticeSeer,
-];
+const seerRoles: Role[] = [Role.Seer, Role.ApprenticeSeer];
 
 export default class Beholder extends VisionSkill {
 	protected priority = 0x990;
+
+	protected readMode = [MutexType.NotionalRole, MutexType.ActualRole];
 
 	isFeasible(data: Selection): boolean {
 		return this.selectNone(data);

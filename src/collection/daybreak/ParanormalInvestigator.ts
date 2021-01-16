@@ -5,7 +5,7 @@ import {
 } from '@bezier/werewolf-core';
 
 import Player from '../../game/Player';
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import TransformAction from '../TransformAction';
 import SkipAction from '../SkipAction';
 import VisionSkill from '../VisionSkill';
@@ -24,7 +24,9 @@ function transformTo(seen: Role): Role {
 export default class ParanormalInvestigator extends VisionSkill {
 	protected priority = 0x530;
 
-	protected mode = SkillMode.ReadWrite;
+	protected readMode = [MutexType.ActualRole];
+
+	protected writeMode = [MutexType.ActualRole];
 
 	protected selectedTargets: Player[] = [];
 

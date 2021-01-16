@@ -5,7 +5,7 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import SkillMode from '../../game/SkillMode';
+import MutexType from '../../game/MutexType';
 import RevealAction from '../RevealAction';
 import SkipAction from '../SkipAction';
 import VisionSkill from '../VisionSkill';
@@ -13,7 +13,9 @@ import VisionSkill from '../VisionSkill';
 export default class Revealer extends VisionSkill {
 	protected priority = 0x1a00;
 
-	protected mode = SkillMode.ReadWrite;
+	protected readMode = [MutexType.ActualRole];
+
+	protected writeMode = [MutexType.Any];
 
 	isFeasible(data: Selection): boolean {
 		return Boolean(this.selectPlayer(data));
