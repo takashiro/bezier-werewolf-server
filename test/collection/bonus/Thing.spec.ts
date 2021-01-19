@@ -83,7 +83,7 @@ it(`is disclosed to Player ${tapped}`, async () => {
 	expect(a.seat).toBe(thing);
 });
 
-it(`is not disclosed to Player 2`, async () => {
+it('is not disclosed to Player 2', async () => {
 	const res = await self.get(`/room/${room.id}/player/2/board?seatKey=1`);
 	expect(res.status).toBe(200);
 	const { players } = res.body as Vision;

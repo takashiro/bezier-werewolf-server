@@ -14,6 +14,7 @@ export default class Curator extends Skill<void> {
 		const player = this.selectPlayer(data);
 		return Boolean(player && player.getArtifactNum() <= 0);
 	}
+
 	protected run(data: Selection): void {
 		const player = this.selectPlayer(data);
 		if (!player) {

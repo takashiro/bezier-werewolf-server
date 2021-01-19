@@ -2,7 +2,6 @@ import { Artifact } from '@bezier/werewolf-core';
 import Action from '../../../game/Action';
 import Player, { Skill } from '../../../game/Player';
 
-
 const artifacts: Artifact[] = [
 	Artifact.VoidOfNothingness,
 	Artifact.ShroudOfShame,
