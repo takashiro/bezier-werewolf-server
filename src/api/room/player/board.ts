@@ -5,26 +5,16 @@ import {
 } from '@bezier/werewolf-core';
 import { Router } from 'express';
 
+import Driver from '../../../game/Driver';
 import DriverState from '../../../game/DriverState';
+import Player from '../../../game/Player';
 import $ from './$';
 
 const router = Router({
 	mergeParams: true,
 });
 
-router.get('/', (req, res) => {
-	const context = $(req, res);
-	if (!context) {
-		return;
-	}
-
-	const { driver } = context;
-	if (driver.getState() !== DriverState.Voting) {
-		res.status(425).send('Other players are still invoking their skills.');
-		return;
-	}
-
-	const self = context.player;
+function getUp(self: Player, driver: Driver): Vision {
 	const players = driver.getPlayers()
 		.map((player) => {
 			const profile = player.getProfile();
@@ -51,7 +41,23 @@ router.get('/', (req, res) => {
 		players,
 		cards,
 	};
-	res.json(vision);
+	return vision;
+}
+
+router.get('/', (req, res) => {
+	const context = $(req, res);
+	if (!context) {
+		return;
+	}
+
+	const self = context.player;
+	const { driver } = context;
+	if (driver.getState() === DriverState.Voting) {
+		const vision = getUp(self, driver);
+		res.json(vision);
+	} else {
+		res.status(425).send('Other players are still invoking their skills.');
+	}
 });
 
 export default router;
