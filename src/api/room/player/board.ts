@@ -14,7 +14,7 @@ const router = Router({
 	mergeParams: true,
 });
 
-function getUp(self: Player, driver: Driver): Vision {
+function wakeUp(self: Player, driver: Driver): Vision {
 	const players = driver.getPlayers()
 		.map((player) => {
 			const profile = player.getProfile();
@@ -28,6 +28,9 @@ function getUp(self: Player, driver: Driver): Vision {
 				} else {
 					profile.artifacts = new Array(artifactNum).fill(Artifact.Unknown);
 				}
+			}
+			if (player.isShielded()) {
+				profile.shielded = true;
 			}
 			return profile;
 		})
@@ -44,6 +47,14 @@ function getUp(self: Player, driver: Driver): Vision {
 	return vision;
 }
 
+function isAccessible(self: Player, driver: Driver): boolean {
+	if (driver.getState() === DriverState.InvokingSkills) {
+		const [skill] = self.getSkills();
+		return skill && skill.isReady() && !skill.isFinished();
+	}
+	return driver.getState() === DriverState.Voting;
+}
+
 router.get('/', (req, res) => {
 	const context = $(req, res);
 	if (!context) {
@@ -52,11 +63,11 @@ router.get('/', (req, res) => {
 
 	const self = context.player;
 	const { driver } = context;
-	if (driver.getState() === DriverState.Voting) {
-		const vision = getUp(self, driver);
-		res.json(vision);
-	} else {
+	if (!isAccessible(self, driver)) {
 		res.status(425).send('Other players are still invoking their skills.');
+	} else {
+		const vision = wakeUp(self, driver);
+		res.json(vision);
 	}
 });
 
