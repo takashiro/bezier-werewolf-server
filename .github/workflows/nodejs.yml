@@ -4,30 +4,24 @@ on:
   push:
     branches:
       - canary
-      - dev
   pull_request:
     branches:
       - dev
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x, 14.x]
-
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+    - name: build and test
       run: |
         npm ci
         npm run build
         npm test
-      env:
-        CI: true
