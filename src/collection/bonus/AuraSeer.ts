@@ -16,10 +16,8 @@ export default class AuraSeer extends VisionSkill {
 	}
 
 	protected show(): Vision {
-		const history = this.driver.getHistory();
-		const players = history
-			.filter((action) => action.getOrder() < this.getOrder())
-			.map((action) => action.getOwner());
+		const history = this.driver.getHistory(this.getOrder());
+		const players = history.map((action) => action.getOwner());
 		return {
 			players: players.map((player) => ({
 				seat: player.getSeat(),

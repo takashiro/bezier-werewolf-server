@@ -17,12 +17,13 @@ export default class ActionDriver extends EventDriver {
 	protected outputActions: Action[] = [];
 
 	/**
+	 * @param now order of the current skill. Posterior skills are excluded.
 	 * @return All executed actions.
 	 */
-	getHistory(): Action[] {
-		const history: Action[] = [...this.inputActions];
+	getHistory(now: number): Action[] {
+		const history: Action[] = this.inputActions.filter((action) => action.getOrder() < now);
 		for (const action of this.outputActions) {
-			if (action.isExecuted()) {
+			if (action.getOrder() < now && action.isExecuted()) {
 				insert(history, action, actionAsc);
 			} else {
 				break;
