@@ -1,7 +1,7 @@
 One Night Ultimate Werewolf ![Node.js CI](https://github.com/takashiro/bezier-werewolf-server/workflows/Node.js%20CI/badge.svg)
 ==========
 
-| Example Page |        https://onuw.takashiro.cn      |
+| Online API   |        https://onuw.takashiro.cn      |
 |--------------|---------------------------------------|
 | Author       |           Kazuichi Takashiro          |
 
@@ -24,13 +24,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 Introduction
 ------------
 
-It's a small online app to arrange role cards of the board game One Night Ultimate Werewolf.
+This is an open-source RESTful API implementation for One Night Ultimate Werewolf.
 
-Web Client: https://github.com/takashiro/bezier-werewolf-react
-
-WeChat App: https://github.com/takashiro/bezier-werewolf-wechat
+WeChat Mini-Program: https://github.com/takashiro/bezier-werewolf-wechat
 
 Running Environment
 -------------------
-1. Nginx
-2. Node v12 or later versions
+* Node v12 or later versions
