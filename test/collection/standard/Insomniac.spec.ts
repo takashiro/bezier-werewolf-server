@@ -53,7 +53,7 @@ it('robs Insomniac', async () => {
 	const vision: Vision = res.body;
 	const [player] = vision.players;
 	expect(player.role).toBe(Role.Insomniac);
-	expect(player.seat).toBe(1);
+	expect(player.seat).toBe(2);
 });
 
 it('sees the final role of Insomniac', async () => {

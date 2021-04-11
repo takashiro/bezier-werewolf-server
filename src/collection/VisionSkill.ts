@@ -17,36 +17,43 @@ export default abstract class VisionSkill extends Skill<Vision | undefined> {
 	}
 
 	protected showPlayer(player: Player, actual: boolean): Vision {
+		const snapshot = actual ? player.getActualProfile() : player.getNotionalProfile();
 		if (actual) {
 			this.driver.addAction(new ViewAction(this, [player]));
 		}
 		return {
-			players: [actual ? player.getActualProfile() : player.getNotionalProfile()],
+			players: [snapshot],
 		};
 	}
 
 	protected showPlayers(players: Player[], actual: boolean): Vision {
 		if (actual) {
+			const snapshots = players.map((player) => player.getActualProfile());
 			this.driver.addAction(new ViewAction(this, players));
+			return {
+				players: snapshots,
+			};
 		}
+
+		const snapshots = players.map((player) => player.getNotionalProfile());
 		return {
-			players: actual
-				? players.map((player) => player.getActualProfile())
-				: players.map((player) => player.getNotionalProfile()),
+			players: snapshots,
 		};
 	}
 
 	protected showCard(card: Card): Vision {
+		const cards = [card.getProfile()];
 		this.driver.addAction(new ViewAction(this, [card]));
 		return {
-			cards: [card.getProfile()],
+			cards,
 		};
 	}
 
 	protected showCards(cards: Card[]): Vision {
+		const snapshots = cards.map((card) => card.getProfile());
 		this.driver.addAction(new ViewAction(this, cards));
 		return {
-			cards: cards.map((card) => card.getProfile()),
+			cards: snapshots,
 		};
 	}
 

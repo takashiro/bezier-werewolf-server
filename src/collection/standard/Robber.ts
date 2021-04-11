@@ -25,7 +25,8 @@ export default class Robber extends VisionSkill {
 			return;
 		}
 
+		const victim = this.showPlayer(target, true);
 		this.driver.addAction(new ExchangeAction(this, this.owner, target));
-		return this.showPlayer(this.owner, true);
+		return victim;
 	}
 }
