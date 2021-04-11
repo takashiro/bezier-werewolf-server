@@ -78,9 +78,9 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	}
 
 	/**
-	 * Whether the skill writes something.
+	 * Whether the skill produces any action that should be ordered.
 	 */
-	isWriter(): boolean {
+	isSequential(): boolean {
 		return this.writeMode.length > 0;
 	}
 

@@ -65,7 +65,7 @@ export default class SkillDriver extends ActionDriver {
 				this.releaseSkills(next);
 			});
 
-			if (skill.isWriter()) {
+			if (skill.isSequential()) {
 				this.addPhase(skill.getOrder());
 			}
 		}
@@ -74,25 +74,29 @@ export default class SkillDriver extends ActionDriver {
 	releaseSkills(from = Number.NEGATIVE_INFINITY): void {
 		const { skills } = this;
 
-		const blocked = new Set<MutexType>();
+		const readBlocked = new Set<MutexType>();
 		for (const cur of skills) {
 			if (cur.getOrder() < from) {
 				continue;
 			}
 
 			const readMode = cur.getReadMode();
-			if (blocked.size <= 0 || !readMode.some((mutex) => blocked.has(mutex))) {
+			const writeMode = cur.getWriteMode();
+			if (readBlocked.size <= 0 || !readMode.some((mutex) => readBlocked.has(mutex))) {
 				cur.setReady(true);
-				blocked.add(MutexType.Any);
 
-				const writeMode = cur.getWriteMode();
-				if (writeMode.includes(MutexType.Any)) {
-					// Do not release any following skills since the skill blocks anything.
-					break;
-				}
-				for (const mode of writeMode) {
-					blocked.add(mode);
-				}
+				// Skills that read anything should always be blocked now, since a skill is released.
+				readBlocked.add(MutexType.Any);
+			}
+
+			if (writeMode.includes(MutexType.Any)) {
+				// Do not release any following skills since the skill blocks anything.
+				break;
+			}
+
+			// Prevent reading what the skill is writing.
+			for (const mode of writeMode) {
+				readBlocked.add(mode);
 			}
 		}
 	}

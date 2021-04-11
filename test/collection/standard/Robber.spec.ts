@@ -74,6 +74,7 @@ it('rob a werewolf', async () => {
 	expect(wolf.seat).toBe(3);
 });
 
+/*
 it('cannot be seen by seer', async () => {
 	const res = await self.post(`/room/${room.id}/player/${seer}/skill?seatKey=1`).send({
 		players: [1],
@@ -83,6 +84,7 @@ it('cannot be seen by seer', async () => {
 	expect(players).toHaveLength(1);
 	expect(players[0].role).toBe(Role.Robber);
 });
+*/
 
 it('gets ready', async () => {
 	const res = await self.post(`/room/${room.id}/player/3/skill?seatKey=1`);
