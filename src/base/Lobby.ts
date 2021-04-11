@@ -1,21 +1,19 @@
 import { LobbyStatus } from '@bezier/werewolf-core';
+
 import Room from './Room';
 
 /**
  * Room Manager
  */
 export default class Lobby {
-	protected nextRoomId = 0;
-
 	protected capacity: number;
 
-	protected rooms: Map<number, Room>;
+	protected rooms = new Map<number, Room>();
 
 	protected roomExpiry: number;
 
 	constructor(capacity = 1000, roomExpiry = 60 * 60 * 1000) {
 		this.capacity = capacity;
-		this.rooms = new Map();
 		this.roomExpiry = roomExpiry;
 	}
 
@@ -25,6 +23,10 @@ export default class Lobby {
 
 	setCapacity(capacity: number): void {
 		this.capacity = capacity;
+	}
+
+	getRoomNum(): number {
+		return this.rooms.size;
 	}
 
 	getRoomExpiry(): number {
@@ -40,8 +42,8 @@ export default class Lobby {
 	 */
 	getStatus(): LobbyStatus {
 		return {
-			roomNum: this.rooms.size,
-			capacity: this.capacity,
+			roomNum: this.getRoomNum(),
+			capacity: this.getCapacity(),
 		};
 	}
 
@@ -49,7 +51,7 @@ export default class Lobby {
 	 * @return Whether there's still any vacancy to create a new room
 	 */
 	isAvailable(): boolean {
-		return this.rooms.size < this.capacity;
+		return this.getRoomNum() < this.getCapacity();
 	}
 
 	/**
@@ -70,15 +72,8 @@ export default class Lobby {
 			return false;
 		}
 
-		do {
-			this.nextRoomId++;
-			if (this.nextRoomId > this.capacity) {
-				this.nextRoomId = 1;
-			}
-		} while (this.rooms.has(this.nextRoomId));
-
-		Reflect.set(room, 'id', this.nextRoomId);
-		const roomId = room.getId();
+		const roomId = this.createRoomId();
+		Reflect.set(room, 'id', roomId);
 		this.rooms.set(roomId, room);
 
 		const timer = setTimeout(() => {
@@ -103,6 +98,17 @@ export default class Lobby {
 		room.destroy();
 		this.rooms.delete(id);
 		return true;
+	}
+
+	/**
+	 * @return A random room id
+	 */
+	protected createRoomId(): number {
+		let id = 0;
+		do {
+			id = Math.floor(Math.random() * this.getCapacity() * 10);
+		} while (this.rooms.has(id));
+		return id;
 	}
 }
 
