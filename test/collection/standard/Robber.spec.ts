@@ -46,6 +46,21 @@ it('fetches all roles', async () => {
 	}
 });
 
+it('cannot act before seer does', async () => {
+	await self.post(`/room/${room.id}/player/${robber}/skill?seatKey=1`).send({})
+		.expect(425, 'Skill not ready');
+});
+
+it('cannot be seen by seer', async () => {
+	const res = await self.post(`/room/${room.id}/player/${seer}/skill?seatKey=1`).send({
+		players: [1],
+	});
+	expect(res.status).toBe(200);
+	const { players } = res.body as Vision;
+	expect(players).toHaveLength(1);
+	expect(players[0].role).toBe(Role.Robber);
+});
+
 it('validates user input', async () => {
 	const skillApi = `/room/${room.id}/player/${robber}/skill?seatKey=1`;
 
@@ -73,18 +88,6 @@ it('rob a werewolf', async () => {
 	expect(wolf.role).toBe(Role.Werewolf);
 	expect(wolf.seat).toBe(3);
 });
-
-/*
-it('cannot be seen by seer', async () => {
-	const res = await self.post(`/room/${room.id}/player/${seer}/skill?seatKey=1`).send({
-		players: [1],
-	});
-	expect(res.status).toBe(200);
-	const { players } = res.body as Vision;
-	expect(players).toHaveLength(1);
-	expect(players[0].role).toBe(Role.Robber);
-});
-*/
 
 it('gets ready', async () => {
 	const res = await self.post(`/room/${room.id}/player/3/skill?seatKey=1`);

@@ -20,6 +20,11 @@ const roles: Role[] = [
 	Role.Werewolf,
 ];
 
+const seer = 1;
+const apprenticeSeer = 2;
+const beholder = 3;
+const troublemaker = 4;
+
 // Create a room
 const room = {
 	id: 0,
@@ -27,7 +32,7 @@ const room = {
 };
 
 const me: Player = {
-	seat: 3,
+	seat: beholder,
 	role: Role.Beholder,
 };
 
@@ -49,13 +54,25 @@ it('fetches all roles', async () => {
 	}
 });
 
-it('waits for other night actions', async () => {
+it('cannot act too early', async () => {
 	const res = await self.post(`/room/${room.id}/player/${me.seat}/skill?seatKey=1`);
 	expect(res.status).toBe(425);
 });
 
-it('waits until Troublemaker exchanges 2 rows', async () => {
-	const res = await self.post(`/room/${room.id}/player/4/skill?seatKey=1`)
+it('waits for Apprentice Seer', async () => {
+	const res = await self.post(`/room/${room.id}/player/${apprenticeSeer}/skill?seatKey=1`)
+		.send({ cards: [0] });
+	expect(res.status).toBe(200);
+});
+
+it('waits for Seer', async () => {
+	const res = await self.post(`/room/${room.id}/player/${seer}/skill?seatKey=1`)
+		.send({ cards: [1, 2] });
+	expect(res.status).toBe(200);
+});
+
+it('waits for Troublemaker', async () => {
+	const res = await self.post(`/room/${room.id}/player/${troublemaker}/skill?seatKey=1`)
 		.send({ players: [2, 5] });
 	expect(res.status).toBe(200);
 });

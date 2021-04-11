@@ -8,6 +8,10 @@ import MutexType from './MutexType';
 
 type Skill = BaseSkill<unknown, unknown, unknown, unknown>;
 
+function isBlocked(blocked: Set<MutexType>, req: MutexType[]): boolean {
+	return blocked.size > 0 && req.some((mutex) => blocked.has(mutex));
+}
+
 export default class SkillDriver extends ActionDriver {
 	protected roles: Role[] = [];
 
@@ -75,6 +79,7 @@ export default class SkillDriver extends ActionDriver {
 		const { skills } = this;
 
 		const readBlocked = new Set<MutexType>();
+		const writeBlocked = new Set<MutexType>();
 		for (const cur of skills) {
 			if (cur.getOrder() < from) {
 				continue;
@@ -82,7 +87,7 @@ export default class SkillDriver extends ActionDriver {
 
 			const readMode = cur.getReadMode();
 			const writeMode = cur.getWriteMode();
-			if (readBlocked.size <= 0 || !readMode.some((mutex) => readBlocked.has(mutex))) {
+			if (!isBlocked(readBlocked, readMode) && !isBlocked(writeBlocked, writeMode)) {
 				cur.setReady(true);
 
 				// Skills that read anything should always be blocked now, since a skill is released.
@@ -92,6 +97,11 @@ export default class SkillDriver extends ActionDriver {
 			if (writeMode.includes(MutexType.Any)) {
 				// Do not release any following skills since the skill blocks anything.
 				break;
+			}
+
+			// Prevent writing to what the skill is reading.
+			for (const mode of readMode) {
+				writeBlocked.add(mode);
 			}
 
 			// Prevent reading what the skill is writing.
