@@ -12,22 +12,21 @@ export default class ActionDriver extends EventDriver {
 
 	protected phases: number[] = [];
 
-	protected inputActions: Action[] = [];
+	protected actions: Action[] = [];
 
-	protected outputActions: Action[] = [];
+	protected history: Action[] = [];
 
 	/**
 	 * @param now order of the current skill. Posterior skills are excluded.
 	 * @return All executed actions.
 	 */
 	getHistory(now: number): Action[] {
-		const history: Action[] = this.inputActions.filter((action) => action.getOrder() < now);
-		for (const action of this.outputActions) {
-			if (action.getOrder() < now && action.isExecuted()) {
-				insert(history, action, actionAsc);
-			} else {
+		const history: Action[] = [];
+		for (const action of this.history) {
+			if (action.getOrder() >= now) {
 				break;
 			}
+			history.push(action);
 		}
 		return history;
 	}
@@ -60,8 +59,9 @@ export default class ActionDriver extends EventDriver {
 	 * @return Whether the action is added. An action won't be added if its night phase has passed.
 	 */
 	addAction(action: Action): boolean {
-		if (action.isReadOnly()) {
-			insert(this.outputActions, action, actionAsc);
+		if (action.isExecuted()) {
+			// Executed actions go to the history immediately.
+			insert(this.history, action, actionAsc);
 			return true;
 		}
 
@@ -70,20 +70,20 @@ export default class ActionDriver extends EventDriver {
 			// Unregistered phase
 			return false;
 		}
-		if (this.inputActions.find((a) => a.getOrder() === action.getOrder())) {
+		if (this.actions.find((a) => a.getOrder() === action.getOrder())) {
 			// Duplicate action in the same phase
 			return false;
 		}
-		insert(this.inputActions, action, actionAsc);
+		insert(this.actions, action, actionAsc);
 		this.exec();
 		return true;
 	}
 
 	isPending(): boolean {
-		if (this.phases.length > this.inputActions.length) {
+		if (this.phases.length > this.actions.length) {
 			return true;
 		}
-		return this.inputActions.some((action) => !action.isExecuted());
+		return this.actions.some((action) => !action.isExecuted());
 	}
 
 	/**
@@ -92,14 +92,17 @@ export default class ActionDriver extends EventDriver {
 	exec(): void {
 		for (let i = 0; i < this.phases.length; i++) {
 			const phase = this.phases[i];
-			const action = this.inputActions[i];
+			const action = this.actions[i];
 			if (!action || action.getOrder() !== phase) {
 				if (i > 0) {
 					this.phase = this.phases[i - 1];
 				}
 				break;
 			}
-			action.exec();
+
+			if (action.exec()) {
+				insert(this.history, action, actionAsc);
+			}
 		}
 	}
 }

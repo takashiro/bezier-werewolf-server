@@ -5,8 +5,6 @@ import Player, { Skill } from '../game/Player';
 export default class ViewAction extends Action {
 	protected targets: (Player | Card)[];
 
-	protected readOnly = true;
-
 	constructor(skill: Skill, targets: (Player | Card)[]) {
 		super(skill);
 		this.targets = targets;

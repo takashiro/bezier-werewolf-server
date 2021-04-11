@@ -3,8 +3,6 @@ import Player, { Skill } from './Player';
 export default abstract class Action {
 	protected skill: Skill;
 
-	protected readOnly = false;
-
 	protected executed = false;
 
 	/**
@@ -38,13 +36,6 @@ export default abstract class Action {
 	}
 
 	/**
-	 * @return Whether the action is read-only.
-	 */
-	isReadOnly(): boolean {
-		return this.readOnly;
-	}
-
-	/**
 	 * @return Whether the action has been executed.
 	 */
 	isExecuted(): boolean {
@@ -53,14 +44,16 @@ export default abstract class Action {
 
 	/**
 	 * Execute the action.
+	 * @return If the action is already executed, skip execution and return false.
 	 */
-	exec(): void {
+	exec(): boolean {
 		if (this.executed) {
-			return;
+			return false;
 		}
 
 		this.run();
 		this.executed = true;
+		return true;
 	}
 
 	/**
