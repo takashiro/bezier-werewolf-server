@@ -3,7 +3,7 @@ import { Room as RoomMeta } from '@bezier/werewolf-core';
 import randstr from '../util/randstr';
 import Driver from './Driver';
 
-export default class Room {
+class Room {
 	protected id: number;
 
 	protected salt: string;
@@ -11,8 +11,6 @@ export default class Room {
 	protected driver?: Driver;
 
 	protected ownerKey: string;
-
-	protected timer?: NodeJS.Timeout;
 
 	constructor() {
 		this.id = 0;
@@ -47,21 +45,6 @@ export default class Room {
 		return this.driver;
 	}
 
-	setTimer(timer: NodeJS.Timeout): void {
-		this.timer = timer;
-	}
-
-	getTimer(): NodeJS.Timeout | undefined {
-		return this.timer;
-	}
-
-	destroy(): void {
-		if (this.timer) {
-			clearTimeout(this.timer);
-			delete this.timer;
-		}
-	}
-
 	toJSON(): RoomMeta {
 		const config = this.driver?.getConfig();
 		return {
@@ -74,3 +57,5 @@ export default class Room {
 		};
 	}
 }
+
+export default Room;

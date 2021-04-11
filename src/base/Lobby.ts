@@ -2,13 +2,20 @@ import { LobbyStatus } from '@bezier/werewolf-core';
 
 import Room from './Room';
 
+interface TimedContainer<ResourceType> {
+	resource: ResourceType;
+	timer: NodeJS.Timeout;
+}
+
+type TimedRoom = TimedContainer<Room>;
+
 /**
  * Room Manager
  */
 export default class Lobby {
 	protected capacity: number;
 
-	protected rooms = new Map<number, Room>();
+	protected rooms = new Map<number, TimedRoom>();
 
 	protected roomExpiry: number;
 
@@ -59,7 +66,7 @@ export default class Lobby {
 	 * @param id
 	 */
 	get(id: number): Room | undefined {
-		return this.rooms.get(id);
+		return this.rooms.get(id)?.resource;
 	}
 
 	/**
@@ -74,12 +81,15 @@ export default class Lobby {
 
 		const roomId = this.createRoomId();
 		Reflect.set(room, 'id', roomId);
-		this.rooms.set(roomId, room);
 
 		const timer = setTimeout(() => {
 			this.remove(roomId);
 		}, this.roomExpiry);
-		room.setTimer(timer);
+
+		this.rooms.set(roomId, {
+			resource: room,
+			timer,
+		});
 
 		return true;
 	}
@@ -95,8 +105,9 @@ export default class Lobby {
 			return false;
 		}
 
-		room.destroy();
 		this.rooms.delete(id);
+		clearTimeout(room.timer);
+
 		return true;
 	}
 
