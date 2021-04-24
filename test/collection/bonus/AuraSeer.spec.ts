@@ -17,6 +17,7 @@ const roles: Role[] = [
 	Role.Seer,
 	Role.Insomniac,
 	Role.Villager,
+	Role.Witch,
 ];
 
 const room = {
@@ -24,11 +25,13 @@ const room = {
 	ownerKey: '',
 };
 
+const playerNum = roles.length - 3;
 const troublemaker = 1;
 const auraseer = 2;
 const seer = 3;
 const insomniac = 4;
 const villager = 5;
+const witch = 6;
 
 beforeAll(async () => {
 	const res = await self.post('/room').send({
@@ -45,7 +48,7 @@ afterAll(async () => {
 });
 
 it('takes all seats', async () => {
-	for (let seat = 1; seat <= 5; seat++) {
+	for (let seat = 1; seat <= playerNum; seat++) {
 		const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
 		expect(res.status).toBe(200);
 	}
@@ -60,6 +63,11 @@ it('waits for Seer', async () => {
 	const res = await self.post(`/room/${room.id}/player/${seer}/skill?seatKey=1`).send({
 		cards: [1, 2],
 	});
+	expect(res.status).toBe(200);
+});
+
+it('waits for Witch', async () => {
+	const res = await self.post(`/room/${room.id}/player/${witch}/skill?seatKey=1`);
 	expect(res.status).toBe(200);
 });
 
@@ -90,7 +98,7 @@ it('wakes up Villager', async () => {
 	expect(res.status).toBe(200);
 });
 
-it('sees Seer and Troublemaker, but not Insomniac', async () => {
+it('sees Seer and Troublemaker, but not Insomniac or Witch', async () => {
 	const res = await self.post(`/room/${room.id}/player/${auraseer}/skill?seatKey=1`);
 	expect(res.status).toBe(200);
 	const { players } = res.body as Vision;

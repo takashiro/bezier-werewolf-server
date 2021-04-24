@@ -1,6 +1,7 @@
 import { Role } from '@bezier/werewolf-core';
 
 import Action from '../game/Action';
+import ActionType from '../game/ActionType';
 import Card from '../game/Card';
 import Player, { Skill } from '../game/Player';
 
@@ -16,7 +17,7 @@ export default class TransformAction extends Action {
 	 * @param newRole
 	 */
 	constructor(owner: Skill, target: Player | Card, newRole: Role) {
-		super(owner);
+		super(owner, ActionType.TransformRole);
 
 		this.target = target;
 		this.newRole = newRole;

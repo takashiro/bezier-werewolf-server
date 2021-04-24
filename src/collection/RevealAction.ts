@@ -1,4 +1,5 @@
 import Action from '../game/Action';
+import ActionType from '../game/ActionType';
 import Card from '../game/Card';
 import Player, { Skill } from '../game/Player';
 
@@ -12,7 +13,7 @@ export default class RevealAction extends Action {
 	 * @param newRole
 	 */
 	constructor(owner: Skill, target: Player | Card) {
-		super(owner);
+		super(owner, ActionType.None);
 
 		this.target = target;
 	}

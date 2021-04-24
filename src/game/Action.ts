@@ -1,7 +1,10 @@
+import ActionType from './ActionType';
 import Player, { Skill } from './Player';
 
 export default abstract class Action {
 	protected skill: Skill;
+
+	protected type: ActionType;
 
 	protected executed = false;
 
@@ -10,8 +13,9 @@ export default abstract class Action {
 	 * @param skill
 	 * @param priority
 	 */
-	constructor(skill: Skill) {
+	constructor(skill: Skill, type: ActionType) {
 		this.skill = skill;
+		this.type = type;
 	}
 
 	/**
@@ -19,6 +23,14 @@ export default abstract class Action {
 	 */
 	getSkill(): Skill {
 		return this.skill;
+	}
+
+	/**
+	 *
+	 * @return How the action is categorized.
+	 */
+	getType(): ActionType {
+		return this.type;
 	}
 
 	/**

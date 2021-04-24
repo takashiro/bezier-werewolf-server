@@ -1,5 +1,6 @@
 import { Artifact } from '@bezier/werewolf-core';
 import Action from '../../../game/Action';
+import ActionType from '../../../game/ActionType';
 import Player, { Skill } from '../../../game/Player';
 
 const artifacts: Artifact[] = [
@@ -18,7 +19,7 @@ export default class RandomArtifactAction extends Action {
 	protected target: Player;
 
 	constructor(skill: Skill, target: Player) {
-		super(skill);
+		super(skill, ActionType.None);
 		this.target = target;
 	}
 

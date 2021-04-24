@@ -1,4 +1,5 @@
 import Action from '../game/Action';
+import ActionType from '../game/ActionType';
 import Player, { Skill } from '../game/Player';
 
 export const enum ShiftDirection {
@@ -13,7 +14,7 @@ export default class ShiftAction extends Action {
 	protected targets: Player[];
 
 	constructor(skill: Skill, direction: ShiftDirection, targets: Player[]) {
-		super(skill);
+		super(skill, ActionType.MoveRole);
 		this.direction = direction;
 		this.targets = targets;
 	}
