@@ -24,6 +24,6 @@ export default abstract class CompanionSkill extends VisionSkill {
 	protected show(): Vision {
 		const players = this.driver.getPlayers();
 		const companions = players.filter((player) => this.isCompanion(player));
-		return this.showPlayers(companions, false);
+		return this.showThumbsOf(companions);
 	}
 }

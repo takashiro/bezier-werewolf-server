@@ -2,6 +2,7 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
+import ActionType from '../../game/ActionType';
 import MutexType from '../../game/MutexType';
 import VisionSkill from '../VisionSkill';
 
@@ -15,6 +16,9 @@ export default class Insomniac extends VisionSkill {
 	}
 
 	protected show(): Vision {
-		return this.showPlayer(this.owner, true);
+		if (!this.validateAction(ActionType.ViewRole, this.owner)) {
+			return {};
+		}
+		return this.showPlayer(this.owner);
 	}
 }

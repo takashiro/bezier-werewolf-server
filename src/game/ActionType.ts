@@ -1,5 +1,6 @@
 const enum ActionType {
 	None,
+	ShowThumb,
 	ViewRole,
 	MoveRole,
 	TransformRole,

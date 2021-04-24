@@ -20,6 +20,6 @@ export default class Beholder extends VisionSkill {
 	protected show(): Vision {
 		const players = this.driver.getPlayers();
 		const seers = players.filter((player) => seerRoles.includes(player.getNotionalRole()));
-		return this.showPlayers(seers, true);
+		return this.showPlayers(seers);
 	}
 }

@@ -1,9 +1,12 @@
 import { Selection } from '@bezier/werewolf-core';
+import ActionType from '../game/ActionType';
 
 import Card from '../game/Card';
 import Driver from '../game/Driver';
+import Event from '../game/Event';
 import Player from '../game/Player';
 import BaseSkill from '../game/Skill';
+import ActionValidation from './ActionValidation';
 
 abstract class Skill<OutputType> extends BaseSkill<Driver, Player, Selection, OutputType> {
 	selectNone(sel: Selection): boolean {
@@ -76,6 +79,16 @@ abstract class Skill<OutputType> extends BaseSkill<Driver, Player, Selection, Ou
 			}
 		}
 		return targets;
+	}
+
+	protected validateAction(type: ActionType, player: Player): boolean {
+		const data: ActionValidation = {
+			type,
+			player,
+			valid: true,
+		};
+		this.driver.trigger(Event.ValidatingAction, data);
+		return data.valid;
 	}
 }
 

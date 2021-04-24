@@ -1,10 +1,13 @@
 import {
+	Role,
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
 
+import ActionType from '../game/ActionType';
 import Card from '../game/Card';
 import Player from '../game/Player';
+
 import Skill from './Skill';
 import ViewAction from './ViewAction';
 
@@ -16,26 +19,49 @@ export default abstract class VisionSkill extends Skill<Vision | undefined> {
 		return this.show(data);
 	}
 
-	protected showPlayer(player: Player, actual: boolean): Vision {
-		const snapshot = actual ? player.getActualProfile() : player.getNotionalProfile();
-		if (actual) {
-			this.driver.addAction(new ViewAction(this, [player]));
+	protected showThumbOf(player: Player): Vision {
+		if (!this.validateAction(ActionType.ShowThumb, player)) {
+			return {};
 		}
+		return {
+			players: [player.getNotionalProfile()],
+		};
+	}
+
+	protected showThumbsOf(players: Player[]): Vision {
+		const snapshots = players.map((player) => {
+			const profile = player.getNotionalProfile();
+			if (!this.validateAction(ActionType.ShowThumb, player)) {
+				profile.role = Role.Unknown;
+			}
+			return profile;
+		});
+		return {
+			players: snapshots,
+		};
+	}
+
+	protected showPlayer(player: Player): Vision {
+		if (!this.validateAction(ActionType.ViewRole, player)) {
+			return {};
+		}
+
+		const snapshot = player.getActualProfile();
+		this.driver.addAction(new ViewAction(this, [player]));
 		return {
 			players: [snapshot],
 		};
 	}
 
-	protected showPlayers(players: Player[], actual: boolean): Vision {
-		if (actual) {
-			const snapshots = players.map((player) => player.getActualProfile());
-			this.driver.addAction(new ViewAction(this, players));
-			return {
-				players: snapshots,
-			};
-		}
-
-		const snapshots = players.map((player) => player.getNotionalProfile());
+	protected showPlayers(players: Player[]): Vision {
+		const snapshots = players.map((player) => {
+			const profile = player.getActualProfile();
+			if (!this.validateAction(ActionType.ViewRole, player)) {
+				profile.role = Role.Unknown;
+			}
+			return profile;
+		});
+		this.driver.addAction(new ViewAction(this, players));
 		return {
 			players: snapshots,
 		};

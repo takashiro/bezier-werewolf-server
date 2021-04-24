@@ -1,6 +1,8 @@
 import { Selection } from '@bezier/werewolf-core';
 
+import ActionType from '../../game/ActionType';
 import MutexType from '../../game/MutexType';
+
 import ShiftAction, { ShiftDirection } from '../ShiftAction';
 import SkipAction from '../SkipAction';
 import Skill from '../Skill';
@@ -41,7 +43,8 @@ export default class VillageIdiot extends Skill<void> {
 			return;
 		}
 
-		const players = this.driver.getPlayers().filter((player) => player.getSeat() !== seat);
+		const players = this.driver.getPlayers()
+			.filter((player) => player.getSeat() !== seat && this.validateAction(ActionType.MoveRole, player));
 		if (players.length <= 1) {
 			this.driver.addAction(new SkipAction(this));
 			return;

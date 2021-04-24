@@ -6,10 +6,12 @@ import {
 
 import Player from '../../game/Player';
 import MutexType from '../../game/MutexType';
+
 import TransformAction from '../TransformAction';
 import SkipAction from '../SkipAction';
 import VisionSkill from '../VisionSkill';
 import isWerewolf from '../isWerewolf';
+import ActionType from '../../game/ActionType';
 
 function transformTo(seen: Role): Role {
 	if (isWerewolf(seen)) {
@@ -42,7 +44,11 @@ export default class ParanormalInvestigator extends VisionSkill {
 		}
 
 		const target = this.selectPlayer(data);
-		return Boolean(target) && target !== this.owner;
+		if (!target || target === this.owner) {
+			return false;
+		}
+
+		return this.validateAction(ActionType.ViewRole, target);
 	}
 
 	protected show(data: Selection): Vision | undefined {
@@ -64,7 +70,7 @@ export default class ParanormalInvestigator extends VisionSkill {
 			}
 		}
 
-		const vision = this.showPlayers(this.selectedTargets, true);
+		const vision = this.showPlayers(this.selectedTargets);
 		if (vision.players && this.transformedTo) {
 			vision.players.push({
 				seat: this.owner.getSeat(),

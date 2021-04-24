@@ -2,6 +2,7 @@ import {
 	Artifact,
 	Role,
 	Vision,
+	Player as PlayerProfile,
 } from '@bezier/werewolf-core';
 import { Router } from 'express';
 
@@ -14,27 +15,33 @@ const router = Router({
 	mergeParams: true,
 });
 
+function showPlayerTo(player: Player, self: Player): PlayerProfile {
+	const profile = player.getProfile();
+	if (!player.isRevealed() && !player.isDisclosedTo(self)) {
+		profile.role = Role.Unknown;
+	}
+	const artifactNum = player.getArtifactNum();
+	if (artifactNum > 0) {
+		if (self === player) {
+			profile.artifacts = player.getArtifacts();
+		} else {
+			profile.artifacts = new Array(artifactNum).fill(Artifact.Unknown);
+		}
+	}
+	if (player.isShielded()) {
+		profile.shielded = true;
+	}
+	return profile;
+}
+
+function isSignificant(player: PlayerProfile): boolean {
+	return Boolean(player.role || player.artifacts || player.shielded);
+}
+
 function wakeUp(self: Player, driver: Driver): Vision {
 	const players = driver.getPlayers()
-		.map((player) => {
-			const profile = player.getProfile();
-			if (!player.isRevealed() && !player.isDisclosedTo(self)) {
-				profile.role = Role.Unknown;
-			}
-			const artifactNum = player.getArtifactNum();
-			if (artifactNum > 0) {
-				if (self === player) {
-					profile.artifacts = player.getArtifacts();
-				} else {
-					profile.artifacts = new Array(artifactNum).fill(Artifact.Unknown);
-				}
-			}
-			if (player.isShielded()) {
-				profile.shielded = true;
-			}
-			return profile;
-		})
-		.filter((player) => player.role || player.artifacts);
+		.map((player) => showPlayerTo(player, self))
+		.filter(isSignificant);
 
 	const cards = driver.getCenterCards()
 		.filter((card) => card.isRevealed())
@@ -47,14 +54,6 @@ function wakeUp(self: Player, driver: Driver): Vision {
 	return vision;
 }
 
-function isAccessible(self: Player, driver: Driver): boolean {
-	if (driver.getState() === DriverState.InvokingSkills) {
-		const [skill] = self.getSkills();
-		return skill && skill.isReady() && !skill.isFinished();
-	}
-	return driver.getState() === DriverState.Voting;
-}
-
 router.get('/', (req, res) => {
 	const context = $(req, res);
 	if (!context) {
@@ -63,12 +62,29 @@ router.get('/', (req, res) => {
 
 	const self = context.player;
 	const { driver } = context;
-	if (!isAccessible(self, driver)) {
-		res.status(425).send('Other players are still invoking their skills.');
-	} else {
+	switch (driver.getState()) {
+	case DriverState.InvokingSkills: {
+		const [skill] = self.getSkills();
+		if (skill && skill.isReady() && !skill.isFinished()) {
+			const vision = wakeUp(self, driver);
+			res.json(vision);
+		} else {
+			res.status(425).send('Other players are still invoking their skills.');
+		}
+		return;
+	}
+
+	case DriverState.Voting: {
 		const vision = wakeUp(self, driver);
 		res.json(vision);
+		return;
 	}
+
+	default:
+		break;
+	}
+
+	res.json({});
 });
 
 export default router;

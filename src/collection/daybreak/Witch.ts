@@ -3,6 +3,7 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
+import ActionType from '../../game/ActionType';
 import Card from '../../game/Card';
 import Player from '../../game/Player';
 import MutexType from '../../game/MutexType';
@@ -38,7 +39,11 @@ export default class Witch extends VisionSkill {
 		}
 
 		if (this.selectedPlayer === undefined) {
-			return Boolean(this.selectPlayer(data));
+			const target = this.selectPlayer(data);
+			if (!target) {
+				return false;
+			}
+			return this.validateAction(ActionType.MoveRole, target);
 		}
 
 		return true;
@@ -74,6 +79,6 @@ export default class Witch extends VisionSkill {
 			return this.showCard(this.selectedCard);
 		}
 
-		return this.showPlayer(this.selectedPlayer, true);
+		return this.showPlayer(this.selectedPlayer);
 	}
 }

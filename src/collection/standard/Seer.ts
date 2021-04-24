@@ -2,6 +2,7 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
+import ActionType from '../../game/ActionType';
 import MutexType from '../../game/MutexType';
 
 import VisionSkill from '../VisionSkill';
@@ -22,7 +23,15 @@ export default class Seer extends VisionSkill {
 		}
 
 		const player = this.selectPlayer(data);
-		return Boolean(player) && player !== this.owner;
+		if (!player) {
+			return true;
+		}
+
+		if (player === this.owner) {
+			return false;
+		}
+
+		return this.validateAction(ActionType.ViewRole, player);
 	}
 
 	protected show(data: Selection): Vision | undefined {
@@ -32,7 +41,7 @@ export default class Seer extends VisionSkill {
 		}
 		if (data.players) {
 			const player = this.selectPlayer(data);
-			return player && this.showPlayer(player, true);
+			return player && this.showPlayer(player);
 		}
 	}
 }

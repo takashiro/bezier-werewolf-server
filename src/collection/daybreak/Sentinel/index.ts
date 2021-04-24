@@ -1,14 +1,19 @@
 import { Selection } from '@bezier/werewolf-core';
 
-import Skill from '../Skill';
-import MutexType from '../../game/MutexType';
-import ShieldAction from '../ShieldAction';
-import SkipAction from '../SkipAction';
+import Skill from '../../Skill';
+import MutexType from '../../../game/MutexType';
+import ShieldAction from '../../ShieldAction';
+import ShieldEffect from './ShieldEffect';
+import SkipAction from '../../SkipAction';
 
 export default class Sentinel extends Skill<void> {
 	protected priority = 0x000;
 
 	protected writeMode = [MutexType.Any];
+
+	protected hooks = [
+		new ShieldEffect(),
+	];
 
 	isFeasible(data: Selection): boolean {
 		const target = this.selectPlayer(data);

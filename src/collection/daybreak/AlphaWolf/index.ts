@@ -3,6 +3,7 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
+import ActionType from '../../../game/ActionType';
 import Card from '../../../game/Card';
 import MutexType from '../../../game/MutexType';
 
@@ -27,7 +28,10 @@ export default class AlphaWolf extends Skill<void> {
 
 	isFeasible(data: Selection): boolean {
 		const target = this.selectPlayer(data);
-		return Boolean(target) && target !== this.owner;
+		if (!target || target === this.owner) {
+			return false;
+		}
+		return this.validateAction(ActionType.MoveRole, target);
 	}
 
 	protected run(data: Selection): void {

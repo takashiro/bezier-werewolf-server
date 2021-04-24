@@ -5,6 +5,7 @@ import {
 import MutexType from '../../game/MutexType';
 import Skill from '../Skill';
 import ExchangeAction from '../ExchangeAction';
+import ActionType from '../../game/ActionType';
 
 export default class Troublemaker extends Skill<void> {
 	protected priority = 0x700;
@@ -16,7 +17,15 @@ export default class Troublemaker extends Skill<void> {
 		if (players?.length !== 2) {
 			return false;
 		}
-		return players[0] !== players[1] && players.every((player) => player !== this.owner);
+		if (players[0] === players[1]) {
+			return false;
+		}
+		for (const player of players) {
+			if (player === this.owner || !this.validateAction(ActionType.MoveRole, player)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	protected run(data: Selection): void {
