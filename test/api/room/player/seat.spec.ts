@@ -3,6 +3,9 @@ import {
 	Role,
 } from '@bezier/werewolf-core';
 import { agent } from 'supertest';
+
+import Driver from '../../../../src/base/Driver';
+import { lobby } from '../../../../src/base/Lobby';
 import app from '../../../../src';
 
 const self = agent(app);
@@ -40,6 +43,21 @@ it('rejects invalid seat number', async () => {
 it('rejects empty seat key', async () => {
 	await self.get(`/room/${room.id}/player/1/seat`)
 		.expect(401, 'Seat key cannot be empty');
+});
+
+it('handles incorrect game driver', async () => {
+	const r = lobby.get(room.id);
+	const getDriver = jest.spyOn(r, 'getDriver');
+
+	getDriver.mockReturnValue(undefined);
+	await self.get(`/room/${room.id}/player/1/seat?seatKey=1`)
+		.expect(500, 'Game driver is not loaded');
+
+	getDriver.mockReturnValue({} as unknown as Driver);
+	await self.get(`/room/${room.id}/player/1/seat?seatKey=1`)
+		.expect(500, 'Game driver is not loaded');
+
+	getDriver.mockRestore();
 });
 
 const players: Player[] = [];

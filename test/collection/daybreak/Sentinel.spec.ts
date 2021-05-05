@@ -88,8 +88,14 @@ afterAll(async () => {
 	expect(res.status).toBe(200);
 });
 
+it('sees an empty board', async () => {
+	await self.get(`/room/${room.id}/player/1/seat?seatKey=1`);
+	await self.get(`/room/${room.id}/player/1/board?seatKey=1`)
+		.expect(200, {});
+});
+
 it('fetches all roles', async () => {
-	for (let seat = 1; seat <= playerNum; seat++) {
+	for (let seat = 2; seat <= playerNum; seat++) {
 		const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
 		expect(res.status).toBe(200);
 	}

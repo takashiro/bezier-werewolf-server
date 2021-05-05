@@ -35,6 +35,9 @@ afterAll(async () => {
 it('rejects invalid room id', async () => {
 	await self.post('/room/0/player/1000/lynch')
 		.expect(400, 'Invalid room id');
+
+	await self.get('/room/0/player/1000/lynch')
+		.expect(400, 'Invalid room id');
 });
 
 it('rejects invalid seat number', async () => {
@@ -85,6 +88,11 @@ it('rejects invalid target seat number', async () => {
 it('rejects any vote until all players have invoked their skills or been ready', async () => {
 	await self.post(`/room/${room.id}/player/1/lynch?seatKey=1`).send({ target: 1 })
 		.expect(425, 'Too early to vote. Other players are still invoking their skills.');
+});
+
+it('rejects vote progress until all players have invoked their skills or been ready', async () => {
+	await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`)
+		.expect(425, 'Other players are still invoking their skills.');
 });
 
 it('gets ready', async () => {
