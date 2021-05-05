@@ -4,6 +4,7 @@
 		"module": "CommonJS",
 		"moduleResolution": "node",
 		"strict": false,
-		"declaration": false
+		"declaration": false,
+		"sourceMap": true
 	}
 }
