@@ -1,0 +1,7 @@
+{
+	"socket": {
+		"port": 2620
+	},
+	"lobbyCapacity": 10,
+	"roomExpiry": 36
+}

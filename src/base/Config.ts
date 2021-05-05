@@ -1,19 +1,14 @@
 import * as fs from 'fs';
+import { ListenOptions } from 'net';
 
 const { readFile } = fs.promises;
 
 export default class Config {
-	socket: number | string;
+	socket: number | string | ListenOptions = '/var/run/bezier-werewolf/bezier-werewolf.sock';
 
-	roomExpiry: number;
+	roomExpiry = 60 * 60 * 1000;
 
-	lobbyCapacity: number;
-
-	constructor() {
-		this.socket = '/var/run/bezier-werewolf/bezier-werewolf.sock';
-		this.roomExpiry = 60 * 60 * 1000;
-		this.lobbyCapacity = 1000;
-	}
+	lobbyCapacity = 1000;
 
 	async read(file = 'config.json'): Promise<void> {
 		if (!fs.existsSync(file)) {
