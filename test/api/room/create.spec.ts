@@ -1,5 +1,7 @@
 import { Role } from '@bezier/werewolf-core';
 import { agent } from 'supertest';
+
+import { lobby } from '../../../src/base/Lobby';
 import app from '../../../src';
 
 const self = agent(app);
@@ -17,6 +19,26 @@ it('ignores extra parameters', async () => {
 it('requires at least 3 roles', async () => {
 	await self.post('/room').send({ roles: [1234, 5678] })
 		.expect(400, 'At least 3 roles must be selected');
+});
+
+it('accepts 100 roles at most', async () => {
+	const roles = [...new Array(200).keys()];
+	await self.post('/room').send({ roles })
+		.expect(400, 'Too many roles');
+});
+
+it('filters out invalid roles', async () => {
+	const roles = [0, 0, 0, 0, 0, 0];
+	await self.post('/room').send({ roles })
+		.expect(400, 'Too many invalid roles');
+});
+
+it('avoids creating too many rooms', async () => {
+	const add = jest.spyOn(lobby, 'add').mockReturnValue(false);
+	await self.post('/room')
+		.send({ roles: [1, 2, 3, 4, 5] })
+		.expect(500, 'Too many rooms');
+	add.mockRestore();
 });
 
 const room = {
