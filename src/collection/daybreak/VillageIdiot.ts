@@ -8,10 +8,11 @@ import SkipAction from '../SkipAction';
 import Skill from '../Skill';
 
 function takeDirection(selected: number, self: number): ShiftDirection {
-	if (selected < self) {
+	const dist = selected - self;
+	if (dist === -1 || dist > 1) {
 		return ShiftDirection.Descending;
 	}
-	if (selected > self) {
+	if (dist === 1 || dist < -1) {
 		return ShiftDirection.Ascending;
 	}
 	return ShiftDirection.None;
