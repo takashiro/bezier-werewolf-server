@@ -64,9 +64,14 @@ router.get('/', (req, res) => {
 	const { driver } = context;
 
 	const [skill] = self.getSkills();
-	if ((skill && skill.isReady() && !skill.isFinished())) {
-		const vision = wakeUp(self, driver);
-		res.json(vision);
+	if (skill) {
+		if (skill.isReady() && !skill.isFinished()) {
+			const vision = wakeUp(self, driver);
+			res.json(vision);
+			return;
+		}
+	} else if (!self.isReady()) {
+		res.json({});
 		return;
 	}
 

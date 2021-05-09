@@ -195,7 +195,7 @@ it('does not prevent werewolves from putting up their thumbs', async () => {
 
 it('shows nothing to tanner at night', async () => {
 	const res = await self.get(`/room/${room.id}/player/${tanner}/board?seatKey=1`);
-	expect(res.status).toBe(425);
+	expect(res.status).toBe(200);
 	expect(res.body).toStrictEqual({});
 });
 

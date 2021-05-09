@@ -1,8 +1,14 @@
 import { Selection } from '@bezier/werewolf-core';
+
+import MutexType from '../../game/MutexType';
+import DiscloseAction from '../DiscloseAction';
 import Skill from '../Skill';
+import SkipAction from '../SkipAction';
 
 export default class Thing extends Skill<void> {
 	protected priority = 0x410;
+
+	protected writeMode = [MutexType.Any];
 
 	isFeasible(data: Selection): boolean {
 		const target = this.selectPlayer(data);
@@ -15,7 +21,9 @@ export default class Thing extends Skill<void> {
 	protected run(data: Selection): void {
 		const target = this.selectPlayer(data);
 		if (target) {
-			this.owner.discloseTo(target);
+			this.driver.addAction(new DiscloseAction(this, this.owner, target));
+		} else {
+			this.driver.addAction(new SkipAction(this));
 		}
 	}
 }
