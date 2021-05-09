@@ -110,11 +110,11 @@ describe('Reveal a Werewolf', () => {
 		expect(res.status).toBe(200);
 	});
 
-	it('fetches all roles', async () => {
-		for (let seat = 1; seat <= 3; seat++) {
-			const res = await self.get(`/room/${room.id}/player/${seat}/seat?seatKey=1`);
-			expect(res.status).toBe(200);
-		}
+	it('does not block Robber entering night phase', async () => {
+		await self.get(`/room/${room.id}/player/2/seat?seatKey=1`)
+			.expect(200);
+		await self.get(`/room/${room.id}/player/2/board?seatKey=1`)
+			.expect(200);
 	});
 
 	it('waits until Robber takes the role of Player No. 1', async () => {
@@ -124,6 +124,16 @@ describe('Reveal a Werewolf', () => {
 		const { players } = res.body as Vision;
 		expect(players).toHaveLength(1);
 		expect(players[0].role).toBe(Role.Revealer);
+	});
+
+	it('blocks Robber entering day phase', async () => {
+		await self.get(`/room/${room.id}/player/2/board?seatKey=1`)
+			.expect(425, 'Other players are still taking their seats.');
+	});
+
+	it('takes his seat', async () => {
+		await self.get(`/room/${room.id}/player/${me.seat}/seat?seatKey=1`)
+			.expect(200);
 	});
 
 	it('reveals Player No. 3', async () => {
@@ -136,6 +146,8 @@ describe('Reveal a Werewolf', () => {
 	});
 
 	it('gets ready', async () => {
+		await self.get(`/room/${room.id}/player/3/seat?seatKey=1`)
+			.expect(200);
 		const res = await self.post(`/room/${room.id}/player/3/skill?seatKey=1`);
 		expect(res.status).toBe(200);
 	});

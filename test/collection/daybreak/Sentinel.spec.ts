@@ -91,7 +91,7 @@ afterAll(async () => {
 it('sees an empty board', async () => {
 	await self.get(`/room/${room.id}/player/1/seat?seatKey=1`);
 	await self.get(`/room/${room.id}/player/1/board?seatKey=1`)
-		.expect(200, {});
+		.expect(200, { players: [], cards: [] });
 });
 
 it('fetches all roles', async () => {

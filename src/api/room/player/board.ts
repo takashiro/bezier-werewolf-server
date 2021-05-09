@@ -62,29 +62,27 @@ router.get('/', (req, res) => {
 
 	const self = context.player;
 	const { driver } = context;
-	switch (driver.getState()) {
-	case DriverState.InvokingSkills: {
-		const [skill] = self.getSkills();
-		if (skill && skill.isReady() && !skill.isFinished()) {
-			const vision = wakeUp(self, driver);
-			res.json(vision);
-		} else {
-			res.status(425).send('Other players are still invoking their skills.');
-		}
-		return;
-	}
 
-	case DriverState.Voting: {
+	const [skill] = self.getSkills();
+	if ((skill && skill.isReady() && !skill.isFinished())) {
 		const vision = wakeUp(self, driver);
 		res.json(vision);
 		return;
 	}
 
-	default:
+	switch (driver.getState()) {
+	case DriverState.TakingSeats:
+		res.status(425).send('Other players are still taking their seats.');
+		return;
+	case DriverState.InvokingSkills:
+		res.status(425).send('Other players are still invoking their skills.');
+		return;
+	default: // Voting
 		break;
 	}
 
-	res.json({});
+	const vision = wakeUp(self, driver);
+	res.json(vision);
 });
 
 export default router;
