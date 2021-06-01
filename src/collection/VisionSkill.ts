@@ -13,9 +13,6 @@ import ViewAction from './ViewAction';
 
 export default abstract class VisionSkill extends Skill<Vision | undefined> {
 	protected run(data: Selection): Vision | undefined {
-		if (!this.driver || !this.owner) {
-			return;
-		}
 		return this.show(data);
 	}
 
