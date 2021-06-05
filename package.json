@@ -5,6 +5,7 @@
   "bin": "dist/cli.js",
   "main": "dist/index.js",
   "scripts": {
+    "start": "node dist/cli.js",
     "build": "rimraf dist && tsc",
     "debug": "tsc --incremental --sourceMap",
     "test": "npm run lint && npm run jest",
