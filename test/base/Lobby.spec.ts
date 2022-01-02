@@ -40,7 +40,9 @@ it('generates massive rooms', () => {
 });
 
 it('automatically removes expired rooms', async () => {
-	await new Promise((resolve) => setTimeout(resolve, 20));
+	await new Promise<void>((resolve) => {
+		setTimeout(resolve, 20);
+	});
 	const status = lobby.getStatus();
 	expect(status.roomNum).toBe(0);
 });
