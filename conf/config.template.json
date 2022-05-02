@@ -1,0 +1,5 @@
+{
+	"socket": "/var/run/bezier-werewolf/bezier-werewolf.sock",
+	"lobbyCapacity": 1000,
+	"roomExpiry": 3600
+}
