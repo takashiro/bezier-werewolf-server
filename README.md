@@ -30,4 +30,4 @@ WeChat Mini-Program: https://github.com/takashiro/bezier-werewolf-wechat
 
 Running Environment
 -------------------
-* Node v14.x or later versions
+* Node v18.x or later versions
