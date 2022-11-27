@@ -22,15 +22,12 @@
 				"--inspect-brk",
 				"${workspaceFolder}/node_modules/jest/bin/jest.js",
 				"--runInBand",
-				"--coverage=false",
 				"--no-cache",
 				"--testTimeout=300000",
 				"${fileBasenameNoExtension}"
 			],
-			"disableOptimisticBPs": true,
 			"console": "integratedTerminal",
-			"internalConsoleOptions": "neverOpen",
-			"port": 9229
+			"internalConsoleOptions": "neverOpen"
 		}
 	]
 }
