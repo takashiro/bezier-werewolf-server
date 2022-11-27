@@ -26,12 +26,12 @@ router.post('/', (req, res) => {
 	}
 
 	const { player, driver } = context;
-	if (driver.getState() !== DriverState.Voting) {
+	if (driver.getState() < DriverState.Voting) {
 		res.status(425).send('Too early to vote. Other players are still invoking their skills.');
 		return;
 	}
 
-	if (player.getLynchTarget()) {
+	if (player.hasVoted()) {
 		res.status(409).send('You have submitted your lynch target');
 		return;
 	}
@@ -53,7 +53,7 @@ router.get('/', (req, res) => {
 	}
 
 	const { driver } = context;
-	if (driver.getState() !== DriverState.Voting) {
+	if (driver.getState() < DriverState.Voting) {
 		res.status(425).send('Other players are still invoking their skills.');
 		return;
 	}

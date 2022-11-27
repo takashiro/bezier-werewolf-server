@@ -3,6 +3,7 @@ const enum DriverState {
 	TakingSeats,
 	InvokingSkills,
 	Voting,
+	Completed,
 }
 
 export default DriverState;

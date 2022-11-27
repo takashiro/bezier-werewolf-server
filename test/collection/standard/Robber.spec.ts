@@ -111,8 +111,8 @@ it('votes', async () => {
 	}
 });
 
-it('checkes roles', async () => {
-	const res = await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`);
+it('checks roles', async () => {
+	const res = await self.get(`/room/${room.id}/player/1/board?seatKey=1`);
 	expect(res.status).toBe(200);
 	const { players } = res.body as Vision;
 	expect(players).toHaveLength(3);

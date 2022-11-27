@@ -9,6 +9,7 @@ import { agent } from 'supertest';
 
 import {
 	Card,
+	LynchResult,
 	Player,
 	Role,
 	Vision,
@@ -133,20 +134,30 @@ describe('validate exchanges', () => {
 		}
 	});
 
+	it('validates votes', async () => {
+		const [me] = players;
+		const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
+		const lync: LynchResult = res.body;
+		expect(lync.votes).toHaveLength(players.length);
+		let seat = 1;
+		for (const vote of lync.votes) {
+			expect(vote.source).toBe(seat);
+			seat++;
+			expect(vote.target).toBe(1);
+		}
+	});
+
 	it('validates lynch result', async () => {
 		const allRoles: Role[] = [];
 		const [me] = players;
-		const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/${me.seat}/board?seatKey=1`);
 		expect(res.status).toBe(200);
 
 		const board: Vision = res.body;
 		expect(board.cards).toStrictEqual(cards);
 		allRoles.push(...board.cards.map((card) => card.role));
 
-		expect(board.players).toStrictEqual(players.map((player) => ({
-			...player,
-			target: 1,
-		})));
+		expect(board.players).toStrictEqual(players);
 		allRoles.push(...board.players.map((card) => card.role));
 
 		expect(allRoles).toHaveLength(roles.length);

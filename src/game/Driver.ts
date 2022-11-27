@@ -214,6 +214,18 @@ export default class Driver extends SkillDriver implements BaseDriver {
 
 			this.state = State.Voting;
 		});
+
+		player.once('voted', () => {
+			if (this.state !== State.Voting) {
+				return;
+			}
+
+			if (!this.players.every((p) => p.hasVoted())) {
+				return;
+			}
+
+			this.state = State.Completed;
+		});
 	}
 
 	protected runDanglingHooks(): void {

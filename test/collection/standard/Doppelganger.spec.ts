@@ -132,7 +132,7 @@ it('votes', async () => {
 });
 
 it('validates exchange result', async () => {
-	const res = await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`);
+	const res = await self.get(`/room/${room.id}/player/1/board?seatKey=1`);
 	expect(res.status).toBe(200);
 
 	const {

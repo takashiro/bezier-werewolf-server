@@ -78,16 +78,25 @@ router.get('/', (req, res) => {
 	switch (driver.getState()) {
 	case DriverState.TakingSeats:
 		res.status(425).send('Other players are still taking their seats.');
-		return;
+		break;
 	case DriverState.InvokingSkills:
 		res.status(425).send('Other players are still invoking their skills.');
-		return;
-	default: // Voting
+		break;
+	case DriverState.Voting: {
+		const vision = wakeUp(self, driver);
+		res.json(vision);
+	}
+		break;
+	case DriverState.Completed:
+	default: {
+		const vision: Vision = {
+			cards: driver.getCenterCards().map((card) => card.getProfile()),
+			players: driver.getPlayers().map((player) => player.getProfile()),
+		};
+		res.json(vision);
 		break;
 	}
-
-	const vision = wakeUp(self, driver);
-	res.json(vision);
+	}
 });
 
 export default router;

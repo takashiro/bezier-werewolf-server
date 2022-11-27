@@ -418,7 +418,7 @@ it('votes', async () => {
 });
 
 it('confirms player roles', async () => {
-	const res = await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`);
+	const res = await self.get(`/room/${room.id}/player/1/board?seatKey=1`);
 	const { cards, players } = res.body as Vision;
 	expect(cards[0]).toStrictEqual({ role: 1001, pos: 0 });
 	expect(cards[1]).toStrictEqual({ role: Role.Squire, pos: 1 });

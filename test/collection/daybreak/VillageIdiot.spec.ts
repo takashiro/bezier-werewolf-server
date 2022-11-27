@@ -98,7 +98,7 @@ describe('rotate left', () => {
 	});
 
 	it('validates rotation result', async () => {
-		const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/${me.seat}/board?seatKey=1`);
 		expect(res.status).toBe(200);
 
 		const { players } = res.body as Vision;
@@ -183,7 +183,7 @@ describe('rotate right', () => {
 	});
 
 	it('validates rotation result', async () => {
-		const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/${me.seat}/board?seatKey=1`);
 		expect(res.status).toBe(200);
 
 		const { players } = res.body as Vision;
@@ -264,7 +264,7 @@ describe('do nothing', () => {
 	});
 
 	it('validates rotation result', async () => {
-		const res = await self.get(`/room/${room.id}/player/${me.seat}/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/${me.seat}/board?seatKey=1`);
 		expect(res.status).toBe(200);
 
 		const { players } = res.body as Vision;

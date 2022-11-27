@@ -93,7 +93,7 @@ describe('exchange actions in order', () => {
 	});
 
 	it('checkes roles', async () => {
-		const res = await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/1/board?seatKey=1`);
 		expect(res.status).toBe(200);
 		const { players } = res.body as Vision;
 		const playerRoles = players.map((player) => player.role);
@@ -163,7 +163,7 @@ describe('exchange actions in reverse order', () => {
 	});
 
 	it('checkes roles', async () => {
-		const res = await self.get(`/room/${room.id}/player/1/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/1/board?seatKey=1`);
 		expect(res.status).toBe(200);
 		const { players } = res.body as Vision;
 		const playerRoles = players.map((player) => player.role);

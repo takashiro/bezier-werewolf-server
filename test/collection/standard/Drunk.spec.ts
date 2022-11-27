@@ -105,7 +105,7 @@ it('reveals all roles', async () => {
 	}
 
 	for (let seat = 1; seat <= 3; seat++) {
-		const res = await self.get(`/room/${room.id}/player/${seat}/lynch?seatKey=1`);
+		const res = await self.get(`/room/${room.id}/player/${seat}/board?seatKey=1`);
 		const { cards, players } = res.body as Vision;
 		expect(cards).toHaveLength(3);
 		expect(cards[0].role).toBe(1001);

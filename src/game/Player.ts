@@ -11,10 +11,19 @@ import BaseSkill from './Skill';
 interface Player {
 	on(event: 'seated', listener: () => void): this;
 	on(event: 'ready', listener: () => void): this;
+	on(event: 'voted', listener: () => void): this;
+
 	once(event: 'seated', listener: () => void): this;
 	once(event: 'ready', listener: () => void): this;
+	once(event: 'voted', listener: () => void): this;
+
 	off(event: 'seated', listener: () => void): this;
 	off(event: 'ready', listener: () => void): this;
+	off(event: 'voted', listener: () => void): this;
+
+	emit(event: 'seated'): boolean;
+	emit(event: 'ready'): boolean;
+	emit(event: 'voted'): boolean;
 }
 
 export type Skill = BaseSkill<unknown, Player, unknown, unknown>;
@@ -149,6 +158,7 @@ class Player extends EventEmitter {
 	 */
 	setLynchTarget(target: Player): void {
 		this.lynchTarget = target;
+		this.emit('voted');
 	}
 
 	/**
@@ -156,6 +166,13 @@ class Player extends EventEmitter {
 	 */
 	getLynchTarget(): Player | undefined {
 		return this.lynchTarget;
+	}
+
+	/**
+	 * Whether the player has voted.
+	 */
+	hasVoted(): boolean {
+		return Boolean(this.lynchTarget);
 	}
 
 	/**
