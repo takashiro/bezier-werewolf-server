@@ -1,3 +1,9 @@
+import {
+	expect,
+	it,
+	jest,
+} from '@jest/globals';
+
 import { Role } from '@bezier/werewolf-core';
 
 import collections from '../../src/collection';

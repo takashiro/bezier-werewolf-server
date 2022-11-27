@@ -1,3 +1,4 @@
+import { it } from '@jest/globals';
 import * as supertest from 'supertest';
 import app from '../../src';
 

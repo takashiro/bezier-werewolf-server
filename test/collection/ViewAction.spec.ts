@@ -1,3 +1,8 @@
+import {
+	expect,
+	it,
+} from '@jest/globals';
+
 import ViewAction from '../../src/collection/ViewAction';
 import { Skill } from '../../src/game/Player';
 

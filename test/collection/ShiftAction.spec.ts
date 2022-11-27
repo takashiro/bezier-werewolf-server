@@ -1,3 +1,9 @@
+import {
+	expect,
+	it,
+	jest,
+} from '@jest/globals';
+
 import { Role } from '@bezier/werewolf-core';
 
 import Player, { Skill } from '../../src/game/Player';

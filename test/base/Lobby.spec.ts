@@ -1,3 +1,8 @@
+import {
+	expect,
+	it,
+} from '@jest/globals';
+
 import Lobby from '../../src/base/Lobby';
 import Room from '../../src/base/Room';
 

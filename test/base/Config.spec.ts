@@ -1,3 +1,9 @@
+import {
+	expect,
+	it,
+	jest,
+} from '@jest/globals';
+
 import * as fs from 'fs';
 import * as path from 'path';
 

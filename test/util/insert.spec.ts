@@ -1,3 +1,8 @@
+import {
+	expect,
+	it,
+} from '@jest/globals';
+
 import insert, { asc, desc } from '../../src/util/insert';
 
 it('inserts at the front', () => {

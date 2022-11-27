@@ -1,3 +1,8 @@
+import {
+	expect,
+	it,
+} from '@jest/globals';
+
 import Room from '../../src/base/Room';
 
 const room = new Room();
