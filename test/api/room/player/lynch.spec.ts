@@ -6,6 +6,7 @@ import {
 } from '@jest/globals';
 import { agent } from 'supertest';
 import {
+	LynchResult,
 	Player,
 	Role,
 } from '@bezier/werewolf-core';
@@ -127,23 +128,16 @@ it('shows vote progress', async () => {
 		const res2 = await self.get(`/room/${room.id}/player/${seat}/lynch?seatKey=1`);
 		expect(res2.status).toBe(200);
 
-		const board = res2.body;
+		const board: LynchResult = res2.body;
 		if (votes.size < players.length) {
-			expect(board.players).toBeUndefined();
-			expect(board.cards).toBeUndefined();
-			expect(board.limit).toBe(players.length);
-			expect(board.progress).toBe(votes.size);
+			expect(board.votes).toBeUndefined();
+			expect(board.progress.limit).toBe(players.length);
+			expect(board.progress.current).toBe(votes.size);
 		} else {
-			expect(board.cards).toHaveLength(3);
-			for (const card of board.cards) {
-				expect(typeof card.pos).toBe('number');
-				expect(typeof card.role).toBe('number');
+			for (const vote of board.votes) {
+				expect(votes.get(vote.source)).toBe(vote.target);
 			}
-			for (const player of board.players) {
-				expect(votes.get(player.seat)).toBe(player.target);
-				expect(player.role).toBe(players[player.seat - 1].role);
-			}
-			expect(board.players).toHaveLength(players.length);
+			expect(board.votes).toHaveLength(players.length);
 		}
 	}
 });
