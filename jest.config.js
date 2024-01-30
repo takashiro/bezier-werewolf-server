@@ -17,4 +17,8 @@ module.exports = {
 			},
 		],
 	},
+	transformIgnorePatterns: [
+		'/node_modules/(?!@bezier/werewolf-core/)',
+		'\\.pnp\\.[^\\/]+$',
+	],
 };
