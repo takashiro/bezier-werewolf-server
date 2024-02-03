@@ -1,7 +1,7 @@
-import ActionType from '../../../game/ActionType';
-import Event from '../../../game/Event';
-import EventHook from '../../../game/EventHook';
-import ActionValidation from '../../ActionValidation';
+import ActionType from '../../../game/ActionType.js';
+import Event from '../../../game/Event.js';
+import EventHook from '../../../game/EventHook.js';
+import ActionValidation from '../../ActionValidation.js';
 
 const forbiddenActions = [
 	ActionType.ViewRole,

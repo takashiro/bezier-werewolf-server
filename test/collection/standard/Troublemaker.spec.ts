@@ -12,11 +12,11 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import app from '../../../src';
+import app from '../../../src/index.js';
 
 const self = agent(app);
 
-const roles: Role[] = [
+const roles = [
 	1001,
 	1002,
 	1003,
@@ -27,7 +27,7 @@ const roles: Role[] = [
 	2005,
 	2006,
 	2007,
-];
+] as Role[];
 
 describe('exchange actions in order', () => {
 	const room = {

@@ -1,6 +1,6 @@
 import { LobbyStatus } from '@bezier/werewolf-core';
 
-import Room from './Room';
+import Room from './Room.js';
 
 interface TimedContainer<ResourceType> {
 	resource: ResourceType;

@@ -3,8 +3,8 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import MutexType from '../../game/MutexType';
-import VisionSkill from '../VisionSkill';
+import MutexType from '../../game/MutexType.js';
+import VisionSkill from '../VisionSkill.js';
 
 export default class ApprenticeSeer extends VisionSkill {
 	protected priority = 0x520;

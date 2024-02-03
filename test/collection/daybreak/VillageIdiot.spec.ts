@@ -13,7 +13,7 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import app from '../../../src';
+import app from '../../../src/index.js';
 
 const self = agent(app);
 
@@ -24,7 +24,7 @@ const room = {
 };
 
 describe('rotate left', () => {
-	const roles: Role[] = [
+	const roles = [
 		1001,
 		1002,
 		1003,
@@ -34,7 +34,7 @@ describe('rotate left', () => {
 		Role.VillageIdiot,
 		2005,
 		2006,
-	];
+	] as Role[];
 
 	const me: Player = {
 		seat: 4,
@@ -112,7 +112,7 @@ describe('rotate left', () => {
 });
 
 describe('rotate right', () => {
-	const roles: Role[] = [
+	const roles = [
 		1001,
 		1002,
 		1003,
@@ -122,7 +122,7 @@ describe('rotate right', () => {
 		2004,
 		2005,
 		Role.VillageIdiot,
-	];
+	] as Role[];
 
 	const me: Player = {
 		seat: 6,
@@ -197,7 +197,7 @@ describe('rotate right', () => {
 });
 
 describe('do nothing', () => {
-	const roles: Role[] = [
+	const roles = [
 		1001,
 		1002,
 		1003,
@@ -207,7 +207,7 @@ describe('do nothing', () => {
 		Role.VillageIdiot,
 		2005,
 		2006,
-	];
+	] as Role[];
 
 	const me: Player = {
 		seat: 4,

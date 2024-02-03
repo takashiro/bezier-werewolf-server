@@ -11,9 +11,9 @@ import {
 	Role,
 } from '@bezier/werewolf-core';
 
-import Driver from '../../../../src/base/Driver';
-import { lobby } from '../../../../src/base/Lobby';
-import app from '../../../../src';
+import Driver from '../../../../src/base/Driver.js';
+import { lobby } from '../../../../src/base/Lobby.js';
+import app from '../../../../src/index.js';
 
 const self = agent(app);
 

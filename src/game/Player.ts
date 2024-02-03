@@ -6,7 +6,7 @@ import {
 	Player as PlayerProfile,
 } from '@bezier/werewolf-core';
 
-import BaseSkill from './Skill';
+import BaseSkill from './Skill.js';
 
 interface Player {
 	on(event: 'seated', listener: () => void): this;

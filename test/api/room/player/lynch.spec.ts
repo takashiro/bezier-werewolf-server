@@ -11,8 +11,8 @@ import {
 	Role,
 } from '@bezier/werewolf-core';
 
-import app from '../../../../src';
-import shuffle from '../../../../src/util/shuffle';
+import app from '../../../../src/index.js';
+import shuffle from '../../../../src/util/shuffle.js';
 
 const self = agent(app);
 

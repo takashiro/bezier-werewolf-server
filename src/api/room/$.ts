@@ -3,8 +3,8 @@ import {
 	Response,
 } from 'express';
 
-import { lobby } from '../../base/Lobby';
-import Room from '../../base/Room';
+import { lobby } from '../../base/Lobby.js';
+import Room from '../../base/Room.js';
 
 export default function parse(req: Request, res: Response): Room | undefined {
 	const id = Number.parseInt(req.params.id, 10);

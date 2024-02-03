@@ -1,6 +1,6 @@
-import Action from '../game/Action';
-import ActionType from '../game/ActionType';
-import { Skill } from '../game/Player';
+import Action from '../game/Action.js';
+import ActionType from '../game/ActionType.js';
+import { Skill } from '../game/Player.js';
 
 export default class SkipAction extends Action {
 	constructor(skill: Skill) {

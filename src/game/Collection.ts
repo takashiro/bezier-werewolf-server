@@ -1,8 +1,8 @@
 import { Role } from '@bezier/werewolf-core';
 
-import Driver from './Driver';
-import Player from './Player';
-import Skill from './Skill';
+import Driver from './Driver.js';
+import Player from './Player.js';
+import Skill from './Skill.js';
 
 type SkillCreator = new(driver: Driver, owner: Player) => Skill<Driver, Player, unknown, unknown>;
 

@@ -3,10 +3,10 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import ActionType from '../../game/ActionType';
-import MutexType from '../../game/MutexType';
+import ActionType from '../../game/ActionType.js';
+import MutexType from '../../game/MutexType.js';
 
-import VisionSkill from '../VisionSkill';
+import VisionSkill from '../VisionSkill.js';
 
 export default class MysticWolf extends VisionSkill {
 	protected priority = 0x330;

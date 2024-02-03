@@ -1,11 +1,11 @@
 import { Selection } from '@bezier/werewolf-core';
 
-import ActionType from '../../game/ActionType';
-import MutexType from '../../game/MutexType';
+import ActionType from '../../game/ActionType.js';
+import MutexType from '../../game/MutexType.js';
 
-import ShiftAction, { ShiftDirection } from '../ShiftAction';
-import SkipAction from '../SkipAction';
-import Skill from '../Skill';
+import ShiftAction, { ShiftDirection } from '../ShiftAction.js';
+import SkipAction from '../SkipAction.js';
+import Skill from '../Skill.js';
 
 function takeDirection(selected: number, self: number): ShiftDirection {
 	const dist = selected - self;

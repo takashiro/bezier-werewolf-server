@@ -3,9 +3,9 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import VisionSkill from '../VisionSkill';
-import isWerewolf from '../isWerewolf';
-import MutexType from '../../game/MutexType';
+import VisionSkill from '../VisionSkill.js';
+import isWerewolf from '../isWerewolf.js';
+import MutexType from '../../game/MutexType.js';
 
 export default class LoneWolf extends VisionSkill {
 	protected priority = 0x301;

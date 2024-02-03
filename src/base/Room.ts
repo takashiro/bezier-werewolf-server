@@ -1,7 +1,7 @@
 import { Room as RoomMeta } from '@bezier/werewolf-core';
 
-import randstr from '../util/randstr';
-import Driver from './Driver';
+import randstr from '../util/randstr.js';
+import Driver from './Driver.js';
 
 class Room {
 	protected id: number;

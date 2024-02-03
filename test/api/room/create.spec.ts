@@ -6,8 +6,8 @@ import {
 import { agent } from 'supertest';
 import { Role } from '@bezier/werewolf-core';
 
-import { lobby } from '../../../src/base/Lobby';
-import app from '../../../src';
+import { lobby } from '../../../src/base/Lobby.js';
+import app from '../../../src/index.js';
 
 const self = agent(app);
 

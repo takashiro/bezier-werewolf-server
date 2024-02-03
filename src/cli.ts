@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 
-import { config } from './base/Config';
-import { lobby } from './base/Lobby';
+import { config } from './base/Config.js';
+import { lobby } from './base/Lobby.js';
 
-import app from './index';
+import app from './index.js';
 
-(async function main(): Promise<void> {
-	await config.read();
-	lobby.setRoomExpiry(config.roomExpiry);
-	lobby.setCapacity(config.lobbyCapacity);
-	app.listen(config.socket);
-}());
+await config.read();
+lobby.setRoomExpiry(config.roomExpiry);
+lobby.setCapacity(config.lobbyCapacity);
+app.listen(config.socket);

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Player } from '@bezier/werewolf-core';
 
-import $ from './$';
+import $ from './$.js';
 
 const router = Router({
 	mergeParams: true,

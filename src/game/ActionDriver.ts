@@ -1,7 +1,7 @@
-import Action from './Action';
-import EventDriver from './EventDriver';
+import Action from './Action.js';
+import EventDriver from './EventDriver.js';
 
-import insert, { asc } from '../util/insert';
+import insert, { asc } from '../util/insert.js';
 
 function actionAsc(a: Action, b: Action): number {
 	return a.getOrder() - b.getOrder();

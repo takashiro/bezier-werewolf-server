@@ -3,10 +3,10 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
-import MutexType from '../game/MutexType';
+import MutexType from '../game/MutexType.js';
 
-import Player from '../game/Player';
-import VisionSkill from './VisionSkill';
+import Player from '../game/Player.js';
+import VisionSkill from './VisionSkill.js';
 
 export default abstract class CompanionSkill extends VisionSkill {
 	protected role = Role.Unknown;

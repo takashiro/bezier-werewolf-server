@@ -4,15 +4,15 @@ import {
 	Role,
 } from '@bezier/werewolf-core';
 
-import { lobby } from '../../base/Lobby';
-import Room from '../../base/Room';
+import { lobby } from '../../base/Lobby.js';
+import Room from '../../base/Room.js';
 
-import GameDriver from '../../game/Driver';
+import GameDriver from '../../game/Driver.js';
 
-import collections from '../../collection';
+import collections from '../../collection/index.js';
 
-import playerRouter from './player';
-import $ from './$';
+import playerRouter from './player/index.js';
+import $ from './$.js';
 
 const router = Router();
 

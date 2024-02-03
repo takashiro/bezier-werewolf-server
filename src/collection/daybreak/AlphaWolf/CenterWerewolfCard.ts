@@ -1,9 +1,9 @@
 import { Role } from '@bezier/werewolf-core';
 
-import Card from '../../../game/Card';
-import Driver from '../../../game/Driver';
-import Event from '../../../game/Event';
-import EventHook from '../../../game/EventHook';
+import Card from '../../../game/Card.js';
+import Driver from '../../../game/Driver.js';
+import Event from '../../../game/Event.js';
+import EventHook from '../../../game/EventHook.js';
 
 interface AlphaWolf {
 	getCard(): Card | undefined;

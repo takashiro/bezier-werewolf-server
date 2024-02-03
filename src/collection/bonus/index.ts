@@ -1,11 +1,11 @@
 import { Role } from '@bezier/werewolf-core';
-import Collection from '../../game/Collection';
+import Collection from '../../game/Collection.js';
 
-import ApprenticeTanner from './ApprenticeTanner';
-import AuraSeer from './AuraSeer';
-import Beholder from './Beholder';
-import Squire from './Squire';
-import Thing from './Thing';
+import ApprenticeTanner from './ApprenticeTanner.js';
+import AuraSeer from './AuraSeer.js';
+import Beholder from './Beholder.js';
+import Squire from './Squire.js';
+import Thing from './Thing.js';
 
 const col = new Collection('bonus');
 

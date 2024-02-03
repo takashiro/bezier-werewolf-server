@@ -4,12 +4,12 @@ import {
 	Teamship,
 	Vision,
 } from '@bezier/werewolf-core';
-import ActionType from '../../game/ActionType';
+import ActionType from '../../game/ActionType.js';
 
-import MutexType from '../../game/MutexType';
-import RevealAction from '../RevealAction';
-import SkipAction from '../SkipAction';
-import VisionSkill from '../VisionSkill';
+import MutexType from '../../game/MutexType.js';
+import RevealAction from '../RevealAction.js';
+import SkipAction from '../SkipAction.js';
+import VisionSkill from '../VisionSkill.js';
 
 export default class Revealer extends VisionSkill {
 	protected priority = 0x1a00;

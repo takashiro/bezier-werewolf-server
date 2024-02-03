@@ -6,8 +6,8 @@ import {
 
 import { Role } from '@bezier/werewolf-core';
 
-import Player, { Skill } from '../../src/game/Player';
-import ShiftAction, { ShiftDirection } from '../../src/collection/ShiftAction';
+import Player, { Skill } from '../../src/game/Player.js';
+import ShiftAction, { ShiftDirection } from '../../src/collection/ShiftAction.js';
 
 const skill = {} as unknown as Skill;
 

@@ -2,10 +2,10 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import MutexType from '../../game/MutexType';
-import Skill from '../Skill';
-import ExchangeAction from '../ExchangeAction';
-import ActionType from '../../game/ActionType';
+import MutexType from '../../game/MutexType.js';
+import Skill from '../Skill.js';
+import ExchangeAction from '../ExchangeAction.js';
+import ActionType from '../../game/ActionType.js';
 
 export default class Troublemaker extends Skill<void> {
 	protected priority = 0x700;

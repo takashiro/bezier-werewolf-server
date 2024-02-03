@@ -12,18 +12,18 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import app from '../../../src';
+import app from '../../../src/index.js';
 
 const self = agent(app);
 
-const roles: Role[] = [
+const roles = [
 	1001,
 	1002,
 	1003,
 	2001,
 	Role.Werewolf,
 	2002,
-];
+] as Role[];
 
 const room = {
 	id: 0,

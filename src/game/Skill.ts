@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
-import EventHook from './EventHook';
-import MutexType from './MutexType';
+import EventHook from './EventHook.js';
+import MutexType from './MutexType.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Skill<DriverType, OwnerType, InputType, OutputType> {
@@ -24,6 +24,8 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	protected ready = false;
 
 	protected order = 0;
+
+	protected finished = false;
 
 	protected output?: OutputType;
 
@@ -125,7 +127,7 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	 * Check if the skill has been invoked
 	 */
 	isFinished(): boolean {
-		return Object.prototype.hasOwnProperty.call(this, 'output');
+		return this.finished;
 	}
 
 	/**
@@ -146,6 +148,7 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 			return this.output as OutputType;
 		}
 		this.output = this.run(data);
+		this.finished = true;
 		if (this.isFinished()) {
 			this.emit('finished');
 		}

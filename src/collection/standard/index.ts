@@ -1,16 +1,16 @@
 import { Role } from '@bezier/werewolf-core';
-import Collection from '../../game/Collection';
+import Collection from '../../game/Collection.js';
 
-import Doppelganger from './Doppelganger';
-import Drunk from './Drunk';
-import Insomniac from './Insomniac';
-import Mason from './Mason';
-import Minion from './Minion';
-import Robber from './Robber';
-import Seer from './Seer';
-import Troublemaker from './Troublemaker';
-import Werewolf from './Werewolf';
-import LoneWolf from './LoneWolf';
+import Doppelganger from './Doppelganger.js';
+import Drunk from './Drunk.js';
+import Insomniac from './Insomniac.js';
+import Mason from './Mason.js';
+import Minion from './Minion.js';
+import Robber from './Robber.js';
+import Seer from './Seer.js';
+import Troublemaker from './Troublemaker.js';
+import Werewolf from './Werewolf.js';
+import LoneWolf from './LoneWolf.js';
 
 const col = new Collection('standard');
 col.add(Role.Doppelganger, Doppelganger);

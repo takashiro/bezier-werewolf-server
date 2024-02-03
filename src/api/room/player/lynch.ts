@@ -5,9 +5,9 @@ import {
 	Vote,
 } from '@bezier/werewolf-core';
 
-import DriverState from '../../../game/DriverState';
+import DriverState from '../../../game/DriverState.js';
 
-import $ from './$';
+import $ from './$.js';
 
 const router = Router({
 	mergeParams: true,

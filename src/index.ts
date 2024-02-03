@@ -1,6 +1,6 @@
-import * as express from 'express';
+import express from 'express';
 
-import routerMap from './api';
+import routerMap from './api/index.js';
 
 const app = express();
 app.use(express.json());

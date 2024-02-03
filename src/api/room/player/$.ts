@@ -3,11 +3,11 @@ import {
 	Response,
 } from 'express';
 
-import Room from '../../../base/Room';
-import Driver from '../../../game/Driver';
-import Player from '../../../game/Player';
+import Room from '../../../base/Room.js';
+import Driver from '../../../game/Driver.js';
+import Player from '../../../game/Player.js';
 
-import parseRoom from '../$';
+import parseRoom from '../$.js';
 
 interface PlayerContext {
 	room: Room;

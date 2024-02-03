@@ -11,19 +11,19 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import app from '../../../src';
+import app from '../../../src/index.js';
 
 const self = agent(app);
 
 // Configure roles
-const roles: Role[] = [
+const roles = [
 	1001,
 	1002,
 	1003,
 	Role.Robber,
 	Role.Seer,
 	Role.Werewolf,
-];
+] as Role[];
 
 const playerNum = roles.length - 3;
 const robber = 1;

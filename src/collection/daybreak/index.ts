@@ -1,16 +1,16 @@
 import { Role } from '@bezier/werewolf-core';
-import Collection from '../../game/Collection';
-import Werewolf from '../standard/Werewolf';
+import Collection from '../../game/Collection.js';
+import Werewolf from '../standard/Werewolf.js';
 
-import AlphaWolf from './AlphaWolf';
-import ApprenticeSeer from './ApprenticeSeer';
-import Curator from './Curator';
-import MysticWolf from './MysticWolf';
-import ParanormalInvestigator from './ParanormalInvestigator';
-import Revealer from './Revealer';
-import Sentinel from './Sentinel';
-import VillageIdiot from './VillageIdiot';
-import Witch from './Witch';
+import AlphaWolf from './AlphaWolf/index.js';
+import ApprenticeSeer from './ApprenticeSeer.js';
+import Curator from './Curator/index.js';
+import MysticWolf from './MysticWolf.js';
+import ParanormalInvestigator from './ParanormalInvestigator.js';
+import Revealer from './Revealer.js';
+import Sentinel from './Sentinel/index.js';
+import VillageIdiot from './VillageIdiot.js';
+import Witch from './Witch.js';
 
 const col = new Collection('daybreak');
 col.add(Role.AlphaWolf, Werewolf, AlphaWolf);

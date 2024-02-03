@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import seatRouter from './seat';
-import skillRouter from './skill';
-import boardRouter from './board';
-import lynchRouter from './lynch';
+import seatRouter from './seat.js';
+import skillRouter from './skill.js';
+import boardRouter from './board.js';
+import lynchRouter from './lynch.js';
 
 const router = Router({
 	mergeParams: true,

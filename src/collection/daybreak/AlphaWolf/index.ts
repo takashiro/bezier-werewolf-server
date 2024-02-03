@@ -3,14 +3,14 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import ActionType from '../../../game/ActionType';
-import Card from '../../../game/Card';
-import MutexType from '../../../game/MutexType';
+import ActionType from '../../../game/ActionType.js';
+import Card from '../../../game/Card.js';
+import MutexType from '../../../game/MutexType.js';
 
-import ExchangeAction from '../../ExchangeAction';
-import Skill from '../../Skill';
+import ExchangeAction from '../../ExchangeAction.js';
+import Skill from '../../Skill.js';
 
-import CenterWerewolfCard from './CenterWerewolfCard';
+import CenterWerewolfCard from './CenterWerewolfCard.js';
 
 export default class AlphaWolf extends Skill<void> {
 	protected priority = 0x320;

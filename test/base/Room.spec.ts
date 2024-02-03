@@ -3,7 +3,7 @@ import {
 	it,
 } from '@jest/globals';
 
-import Room from '../../src/base/Room';
+import Room from '../../src/base/Room.js';
 
 const room = new Room();
 

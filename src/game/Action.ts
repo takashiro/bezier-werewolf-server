@@ -1,5 +1,5 @@
-import ActionType from './ActionType';
-import Player, { Skill } from './Player';
+import ActionType from './ActionType.js';
+import Player, { Skill } from './Player.js';
 
 export default abstract class Action {
 	protected skill: Skill;

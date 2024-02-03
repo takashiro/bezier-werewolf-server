@@ -4,12 +4,12 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import ActionType from '../game/ActionType';
-import Card from '../game/Card';
-import Player from '../game/Player';
+import ActionType from '../game/ActionType.js';
+import Card from '../game/Card.js';
+import Player from '../game/Player.js';
 
-import Skill from './Skill';
-import ViewAction from './ViewAction';
+import Skill from './Skill.js';
+import ViewAction from './ViewAction.js';
 
 export default abstract class VisionSkill extends Skill<Vision | undefined> {
 	protected run(data: Selection): Vision | undefined {

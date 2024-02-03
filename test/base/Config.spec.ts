@@ -4,10 +4,10 @@ import {
 	jest,
 } from '@jest/globals';
 
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
-import Config from '../../src/base/Config';
+import Config from '../../src/base/Config.js';
 
 const config = new Config();
 
@@ -25,7 +25,7 @@ it('ignores non-existing file', async () => {
 });
 
 it('reads a local config.json', async () => {
-	await config.read(path.join(__dirname, 'config.json'));
+	await config.read(path.join('test', 'base', 'config.json'));
 	expect(config.socket).toStrictEqual({ port: 2620 });
 	expect(config.roomExpiry).toBe(36);
 	expect(config.lobbyCapacity).toBe(10);

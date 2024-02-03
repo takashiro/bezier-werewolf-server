@@ -3,8 +3,8 @@ import {
 	it,
 } from '@jest/globals';
 
-import ViewAction from '../../src/collection/ViewAction';
-import { Skill } from '../../src/game/Player';
+import ViewAction from '../../src/collection/ViewAction.js';
+import { Skill } from '../../src/game/Player.js';
 
 const skill = {} as unknown as Skill;
 const action = new ViewAction(skill, []);

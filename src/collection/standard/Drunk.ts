@@ -1,11 +1,11 @@
 import { Selection } from '@bezier/werewolf-core';
 
-import ActionType from '../../game/ActionType';
-import MutexType from '../../game/MutexType';
+import ActionType from '../../game/ActionType.js';
+import MutexType from '../../game/MutexType.js';
 
-import ExchangeAction from '../ExchangeAction';
-import Skill from '../Skill';
-import SkipAction from '../SkipAction';
+import ExchangeAction from '../ExchangeAction.js';
+import Skill from '../Skill.js';
+import SkipAction from '../SkipAction.js';
 
 class Drunk extends Skill<void> {
 	protected priority = 0x800;

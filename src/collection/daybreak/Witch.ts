@@ -3,14 +3,14 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import ActionType from '../../game/ActionType';
-import Card from '../../game/Card';
-import Player from '../../game/Player';
-import MutexType from '../../game/MutexType';
+import ActionType from '../../game/ActionType.js';
+import Card from '../../game/Card.js';
+import Player from '../../game/Player.js';
+import MutexType from '../../game/MutexType.js';
 
-import ExchangeAction from '../ExchangeAction';
-import SkipAction from '../SkipAction';
-import VisionSkill from '../VisionSkill';
+import ExchangeAction from '../ExchangeAction.js';
+import SkipAction from '../SkipAction.js';
+import VisionSkill from '../VisionSkill.js';
 
 export default class Witch extends VisionSkill {
 	protected priority = 0x620;

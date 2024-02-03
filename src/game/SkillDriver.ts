@@ -1,10 +1,10 @@
 import { Role } from '@bezier/werewolf-core';
-import insert from '../util/insert';
-import ActionDriver from './ActionDriver';
+import insert from '../util/insert.js';
+import ActionDriver from './ActionDriver.js';
 
-import Collection from './Collection';
-import BaseSkill from './Skill';
-import MutexType from './MutexType';
+import Collection from './Collection.js';
+import BaseSkill from './Skill.js';
+import MutexType from './MutexType.js';
 
 type Skill = BaseSkill<unknown, unknown, unknown, unknown>;
 

@@ -1,5 +1,5 @@
-import ActionType from '../game/ActionType';
-import Player from '../game/Player';
+import ActionType from '../game/ActionType.js';
+import Player from '../game/Player.js';
 
 interface ActionValidation {
 	type: ActionType;

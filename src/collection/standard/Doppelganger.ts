@@ -3,11 +3,11 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import ActionType from '../../game/ActionType';
-import MutexType from '../../game/MutexType';
+import ActionType from '../../game/ActionType.js';
+import MutexType from '../../game/MutexType.js';
 
-import TransformAction from '../TransformAction';
-import VisionSkill from '../VisionSkill';
+import TransformAction from '../TransformAction.js';
+import VisionSkill from '../VisionSkill.js';
 
 export default class Doppelganger extends VisionSkill {
 	protected priority = -0x700;

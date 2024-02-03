@@ -4,14 +4,14 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import Player from '../../game/Player';
-import MutexType from '../../game/MutexType';
+import Player from '../../game/Player.js';
+import MutexType from '../../game/MutexType.js';
 
-import TransformAction from '../TransformAction';
-import SkipAction from '../SkipAction';
-import VisionSkill from '../VisionSkill';
-import isWerewolf from '../isWerewolf';
-import ActionType from '../../game/ActionType';
+import TransformAction from '../TransformAction.js';
+import SkipAction from '../SkipAction.js';
+import VisionSkill from '../VisionSkill.js';
+import isWerewolf from '../isWerewolf.js';
+import ActionType from '../../game/ActionType.js';
 
 function transformTo(seen: Role): Role {
 	if (isWerewolf(seen)) {

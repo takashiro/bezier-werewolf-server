@@ -8,7 +8,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceFolder}/src/cli.ts",
+			"program": "${workspaceFolder}/dist/cli.js",
 			"outFiles": [
 				"${workspaceFolder}/dist/**/*.js"
 			],
@@ -19,6 +19,7 @@
 			"type": "node",
 			"request": "launch",
 			"runtimeArgs": [
+				"--experimental-vm-modules",
 				"--inspect-brk",
 				"${workspaceFolder}/node_modules/jest/bin/jest.js",
 				"--runInBand",

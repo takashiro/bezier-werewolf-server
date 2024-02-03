@@ -4,9 +4,9 @@ import {
 	Vision,
 } from '@bezier/werewolf-core';
 
-import VisionSkill from '../VisionSkill';
-import isWerewolf from '../isWerewolf';
-import MutexType from '../../game/MutexType';
+import VisionSkill from '../VisionSkill.js';
+import isWerewolf from '../isWerewolf.js';
+import MutexType from '../../game/MutexType.js';
 
 /**
  * A minion sees all the werewolves without their exact roles.

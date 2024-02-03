@@ -3,9 +3,9 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
-import ActionType from '../../game/ActionType';
-import MutexType from '../../game/MutexType';
-import VisionSkill from '../VisionSkill';
+import ActionType from '../../game/ActionType.js';
+import MutexType from '../../game/MutexType.js';
+import VisionSkill from '../VisionSkill.js';
 
 const auraActions = [
 	ActionType.MoveRole,

@@ -1,7 +1,7 @@
 import { Artifact } from '@bezier/werewolf-core';
-import Action from '../../../game/Action';
-import ActionType from '../../../game/ActionType';
-import Player, { Skill } from '../../../game/Player';
+import Action from '../../../game/Action.js';
+import ActionType from '../../../game/ActionType.js';
+import Player, { Skill } from '../../../game/Player.js';
 
 const artifacts: Artifact[] = [
 	Artifact.VoidOfNothingness,

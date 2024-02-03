@@ -1,10 +1,11 @@
 {
 	"compilerOptions": {
-		"target": "ES2019",
-		"module": "CommonJS",
-		"moduleResolution": "node",
-		"strict": false,
+		"target": "ES2022",
+		"module": "Node16",
+		"moduleResolution": "Node16",
+		"esModuleInterop": true,
 		"declaration": false,
-		"sourceMap": true
+		"sourceMap": true,
+		"strict": false
 	}
 }

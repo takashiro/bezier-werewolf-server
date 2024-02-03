@@ -6,9 +6,9 @@ import {
 
 import { Role } from '@bezier/werewolf-core';
 
-import Driver from '../../src/game/Driver';
-import Skill from '../../src/collection/Skill';
-import Player from '../../src/game/Player';
+import Driver from '../../src/game/Driver.js';
+import Skill from '../../src/collection/Skill.js';
+import Player from '../../src/game/Player.js';
 
 class DummySkill extends Skill<unknown> {
 	isFeasible(): boolean {

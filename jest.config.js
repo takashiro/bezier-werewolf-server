@@ -1,24 +1,24 @@
 /**
  * @type {import('ts-jest').JestConfigWithTsJest}
  */
-module.exports = {
-	preset: 'ts-jest',
+export default {
 	testEnvironment: 'node',
 	coverageDirectory: 'build/coverage',
 	collectCoverageFrom: [
 		'src/**/*.ts',
 		'!src/cli.ts',
 	],
+	extensionsToTreatAsEsm: ['.ts'],
+	moduleNameMapper: {
+		'^(\\.{1,2}/.*)\\.js$': '$1',
+	},
 	transform: {
-		'^.+\\.tsx?$': [
+		'^.+\\.ts$': [
 			'ts-jest',
 			{
 				tsconfig: './test/tsconfig.json',
+				useESM: true,
 			},
 		],
 	},
-	transformIgnorePatterns: [
-		'/node_modules/(?!@bezier/werewolf-core/)',
-		'\\.pnp\\.[^\\/]+$',
-	],
 };

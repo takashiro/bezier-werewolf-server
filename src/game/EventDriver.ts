@@ -1,4 +1,4 @@
-import EventHook from './EventHook';
+import EventHook from './EventHook.js';
 
 export default class EventDriver {
 	protected listeners: Map<number, EventHook<unknown>[]>;

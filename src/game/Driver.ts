@@ -3,14 +3,14 @@ import {
 	GameConfig,
 } from '@bezier/werewolf-core';
 
-import BaseDriver from '../base/Driver';
-import shuffle from '../util/shuffle';
+import BaseDriver from '../base/Driver.js';
+import shuffle from '../util/shuffle.js';
 
-import Card from './Card';
-import State from './DriverState';
-import Event from './Event';
-import Player, { Skill } from './Player';
-import SkillDriver from './SkillDriver';
+import Card from './Card.js';
+import State from './DriverState.js';
+import Event from './Event.js';
+import Player, { Skill } from './Player.js';
+import SkillDriver from './SkillDriver.js';
 
 export default class Driver extends SkillDriver implements BaseDriver {
 	protected random = true;

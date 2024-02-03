@@ -2,11 +2,11 @@ import {
 	Selection,
 	Vision,
 } from '@bezier/werewolf-core';
-import ActionType from '../../game/ActionType';
+import ActionType from '../../game/ActionType.js';
 
-import MutexType from '../../game/MutexType';
-import ExchangeAction from '../ExchangeAction';
-import VisionSkill from '../VisionSkill';
+import MutexType from '../../game/MutexType.js';
+import ExchangeAction from '../ExchangeAction.js';
+import VisionSkill from '../VisionSkill.js';
 
 export default class Robber extends VisionSkill {
 	protected priority = 0x600;

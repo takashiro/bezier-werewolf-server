@@ -6,10 +6,10 @@ import {
 } from '@bezier/werewolf-core';
 import { Router } from 'express';
 
-import Driver from '../../../game/Driver';
-import DriverState from '../../../game/DriverState';
-import Player from '../../../game/Player';
-import $ from './$';
+import Driver from '../../../game/Driver.js';
+import DriverState from '../../../game/DriverState.js';
+import Player from '../../../game/Player.js';
+import $ from './$.js';
 
 const router = Router({
 	mergeParams: true,

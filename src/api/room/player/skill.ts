@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import $ from './$';
+import $ from './$.js';
 
 const router = Router({
 	mergeParams: true,

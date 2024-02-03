@@ -2,12 +2,12 @@
 	"compilerOptions": {
 		"outDir": "dist",
 		"declaration": true,
-		"target": "ES2019",
-		"strict": true,
-		"module": "CommonJS",
-		"moduleResolution": "node"
+		"target": "ES2022",
+		"module": "Node16",
+		"moduleResolution": "Node16",
+		"strict": true
 	},
 	"include": [
-		"src/**/*.ts"
+		"src"
 	]
 }

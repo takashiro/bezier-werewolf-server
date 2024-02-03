@@ -3,8 +3,8 @@ import {
 	it,
 } from '@jest/globals';
 
-import Lobby from '../../src/base/Lobby';
-import Room from '../../src/base/Room';
+import Lobby from '../../src/base/Lobby.js';
+import Room from '../../src/base/Room.js';
 
 const lobby = new Lobby();
 

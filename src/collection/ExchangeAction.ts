@@ -1,7 +1,7 @@
-import Action from '../game/Action';
-import Player, { Skill } from '../game/Player';
-import Card from '../game/Card';
-import ActionType from '../game/ActionType';
+import Action from '../game/Action.js';
+import Player, { Skill } from '../game/Player.js';
+import Card from '../game/Card.js';
+import ActionType from '../game/ActionType.js';
 
 export default class ExchangeAction extends Action {
 	protected from: Player | Card;

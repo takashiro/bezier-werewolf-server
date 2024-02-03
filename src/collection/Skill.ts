@@ -1,12 +1,12 @@
 import { Selection } from '@bezier/werewolf-core';
-import ActionType from '../game/ActionType';
+import ActionType from '../game/ActionType.js';
 
-import Card from '../game/Card';
-import Driver from '../game/Driver';
-import Event from '../game/Event';
-import Player from '../game/Player';
-import BaseSkill from '../game/Skill';
-import ActionValidation from './ActionValidation';
+import Card from '../game/Card.js';
+import Driver from '../game/Driver.js';
+import Event from '../game/Event.js';
+import Player from '../game/Player.js';
+import BaseSkill from '../game/Skill.js';
+import ActionValidation from './ActionValidation.js';
 
 abstract class Skill<OutputType> extends BaseSkill<Driver, Player, Selection, OutputType> {
 	selectNone(sel: Selection): boolean {

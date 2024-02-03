@@ -1,9 +1,9 @@
 import { Selection } from '@bezier/werewolf-core';
 
-import MutexType from '../../game/MutexType';
-import DiscloseAction from '../DiscloseAction';
-import Skill from '../Skill';
-import SkipAction from '../SkipAction';
+import MutexType from '../../game/MutexType.js';
+import DiscloseAction from '../DiscloseAction.js';
+import Skill from '../Skill.js';
+import SkipAction from '../SkipAction.js';
 
 export default class Thing extends Skill<void> {
 	protected priority = 0x410;

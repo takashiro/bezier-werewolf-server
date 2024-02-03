@@ -10,7 +10,7 @@ module.exports = {
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaVersion: 11,
+		ecmaVersion: 13,
 		sourceType: 'module',
 	},
 	plugins: [
@@ -18,14 +18,8 @@ module.exports = {
 	],
 	rules: {
 		'consistent-return': 'off',
-		'import/extensions': [
-			'error',
-			'ignorePackages',
-			{
-				ts: 'never',
-				js: 'never',
-			},
-		],
+		'import/extensions': 'off',
+		'import/no-unresolved': 'off',
 		indent: [
 			'error',
 			'tab',
@@ -47,17 +41,9 @@ module.exports = {
 		'@typescript-eslint/no-shadow': [
 			'error',
 		],
+		'@typescript-eslint/no-unsafe-declaration-merging': 'off',
 		'@typescript-eslint/no-use-before-define': [
 			'error',
 		],
-	},
-	settings: {
-		'import/resolver': {
-			node: {
-				extensions: [
-					'.ts',
-				],
-			},
-		},
 	},
 };
