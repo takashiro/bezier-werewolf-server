@@ -1,13 +1,19 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Create app directory
-WORKDIR /opt/bezier-werewolf
+WORKDIR /opt/bezier-werewolf-server
 
 # Install app
-COPY conf/config.json ./
-COPY package*.json ./
-RUN npm ci --production && rm package*.json
+COPY conf/config.json .
+COPY package*.json .
 COPY dist .
+RUN npm ci --omit=dev \
+	&& rm package-lock.json \
+	&& npm pkg delete scripts \
+	&& npm pkg delete devDependencies \
+	&& npm pkg delete files \
+	&& npm pkg delete bin \
+	&& npm pkg set main=index.js
 
 # Expose app
 EXPOSE 8080
