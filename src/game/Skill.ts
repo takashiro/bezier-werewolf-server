@@ -25,9 +25,7 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 
 	protected order = 0;
 
-	protected finished = false;
-
-	protected output?: OutputType;
+	protected output: OutputType | null = null;
 
 	protected hooks?: EventHook<unknown>[];
 
@@ -127,7 +125,7 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 	 * Check if the skill has been invoked
 	 */
 	isFinished(): boolean {
-		return this.finished;
+		return this.output !== null;
 	}
 
 	/**
@@ -148,7 +146,6 @@ abstract class Skill<DriverType, OwnerType, InputType, OutputType> extends Event
 			return this.output as OutputType;
 		}
 		this.output = this.run(data);
-		this.finished = true;
 		if (this.isFinished()) {
 			this.emit('finished');
 		}
