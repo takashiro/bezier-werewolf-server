@@ -3,7 +3,9 @@
   "version": "0.6.0",
   "description": "One Night Ultimate Werewolf (Node.js Server)",
   "type": "module",
-  "bin": "dist/cli.js",
+  "bin": {
+    "werewolf-server": "dist/cli.js"
+  },
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/cli.js",

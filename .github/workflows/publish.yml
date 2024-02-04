@@ -33,7 +33,7 @@ jobs:
           npm pkg delete scripts
           npm pkg delete files
           npm pkg set main=index.js
-          npm pkg set bin=cli.js
+          npm pkg set bin.werewolf-server=cli.js
           npm publish --access=public
           cd ..
         env:
