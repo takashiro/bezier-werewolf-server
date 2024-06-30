@@ -9,11 +9,11 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/cli.js",
-    "build": "rimraf dist && tsc",
-    "debug": "tsc --incremental --sourceMap",
+    "build": "rimraf dist && tsc -p src",
+    "debug": "tsc -p src --incremental --sourceMap",
     "test": "npm run lint && npm run jest",
     "lint": "eslint --ext=js,ts .",
-    "jest": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage --no-cache"
+    "jest": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -45,8 +45,8 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.10",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -55,6 +55,6 @@
     "rimraf": "^5.0.5",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.5.2"
   }
 }

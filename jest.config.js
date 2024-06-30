@@ -6,7 +6,6 @@ export default {
 	coverageDirectory: 'build/coverage',
 	collectCoverageFrom: [
 		'src/**/*.ts',
-		'!src/cli.ts',
 	],
 	extensionsToTreatAsEsm: ['.ts'],
 	moduleNameMapper: {
@@ -16,7 +15,7 @@ export default {
 		'^.+\\.ts$': [
 			'ts-jest',
 			{
-				tsconfig: './test/tsconfig.json',
+				tsconfig: 'test/tsconfig.json',
 				useESM: true,
 			},
 		],
