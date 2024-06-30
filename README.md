@@ -1,13 +1,13 @@
-One Night Ultimate Werewolf ![Node.js CI](https://github.com/takashiro/bezier-werewolf-server/workflows/Node.js%20CI/badge.svg)
-==========
+# One Night Ultimate Werewolf
+[![Node.js CI](https://github.com/takashiro/bezier-werewolf-server/workflows/Node.js%20CI/badge.svg)](https://github.com/takashiro/bezier-werewolf-server/actions?query=workflow%3ANode.js%20CI+branch%3Adev)
+[![NPM Package](https://img.shields.io/npm/v/@bezier/werewolf-server.svg)](https://npmjs.org/package/@bezier/werewolf-server)
 
-| Online API   |        https://onuw.takashiro.cn      |
+| Online API   |     https://onuw.takashiro.cn/api/    |
 |--------------|---------------------------------------|
 | Author       |           Kazuichi Takashiro          |
 
 
-License
--------
+## License
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
@@ -21,13 +21,10 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Introduction
-------------
+## Introduction
 
 This is an open-source RESTful API implementation for One Night Ultimate Werewolf.
 
-WeChat Mini-Program: https://github.com/takashiro/bezier-werewolf-wechat
+## Running Environment
 
-Running Environment
--------------------
-* Node v20.x or later versions
+- Node v20.x or later versions
