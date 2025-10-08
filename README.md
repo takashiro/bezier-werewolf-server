@@ -27,4 +27,4 @@ This is an open-source RESTful API implementation for One Night Ultimate Werewol
 
 ## Running Environment
 
-- Node v20.x or later versions
+- Node v22.x or later versions
