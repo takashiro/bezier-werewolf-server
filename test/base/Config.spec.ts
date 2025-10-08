@@ -20,7 +20,7 @@ it('has default values', async () => {
 it('ignores non-existing file', async () => {
 	const existsSync = jest.spyOn(fs, 'existsSync').mockReturnValue(false);
 	await config.read();
-	expect(existsSync).toBeCalledWith('config.json');
+	expect(existsSync).toHaveBeenCalledWith('config.json');
 	existsSync.mockRestore();
 });
 

@@ -24,7 +24,7 @@ it('does nothing if direction is not defined', () => {
 	const getSeat = jest.spyOn(players[0], 'getSeat');
 	const action = new ShiftAction(skill, ShiftDirection.None, players);
 	action.exec();
-	expect(getSeat).toBeCalled();
+	expect(getSeat).toHaveBeenCalled();
 
 	expect(players[0].getRole()).toBe(Role.Hunter);
 	expect(players[1].getRole()).toBe(Role.Prince);

@@ -36,7 +36,7 @@ it('returns undefined if one center card is not found', () => {
 	getCenterCard.mockReturnValueOnce(undefined);
 	const cards = skill.selectCards({ cards: [0] }, 1);
 	expect(cards).toBeUndefined();
-	expect(getCenterCard).toBeCalledTimes(1);
+	expect(getCenterCard).toHaveBeenCalledTimes(1);
 });
 
 it('returns undefined if the number of center cards is incorrect', () => {
@@ -58,5 +58,5 @@ it('returns undefined if the number of players is incorrect', () => {
 	getPlayer.mockReturnValueOnce(undefined);
 	const players = skill.selectPlayers({ players: [1, 2] }, 3);
 	expect(players).toBeUndefined();
-	expect(getPlayer).toBeCalledTimes(1);
+	expect(getPlayer).toHaveBeenCalledTimes(1);
 });
