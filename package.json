@@ -12,7 +12,7 @@
     "build": "rimraf dist && tsc -p src",
     "debug": "tsc -p src --incremental --sourceMap",
     "test": "npm run lint && npm run jest",
-    "lint": "eslint .",
+    "lint": "eslint --max-warnings=0 .",
     "jest": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "repository": {
