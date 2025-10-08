@@ -19,7 +19,7 @@ const router = Router();
 router.use('/:id/player/:seat', playerRouter);
 
 router.post('/', (req, res) => {
-	const options = req.body as GameConfig;
+	const options = req.body as GameConfig ?? {};
 	let { roles } = options;
 	if (!roles || !Array.isArray(roles)) {
 		res.status(400).send('Invalid roles parameter');

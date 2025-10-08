@@ -17,13 +17,20 @@ const router = Router({
 	mergeParams: true,
 });
 
+function parseLyncTarget(body?: LynchRequest): number {
+	if (!body) {
+		return 0;
+	}
+	return Number.parseInt(body.target, 10);
+}
+
 router.post('/', (req, res) => {
 	const context = $(req, res);
 	if (!context) {
 		return;
 	}
 
-	const target = Number.parseInt((req.body as LynchRequest).target, 10);
+	const target = parseLyncTarget(req.body as LynchRequest);
 	if (Number.isNaN(target) || target <= 0) {
 		res.status(400).send('Invalid target seat number');
 		return;

@@ -1,12 +1,25 @@
 import { Router } from 'express';
+import type { Selection } from '@bezier/werewolf-core';
 
 import $ from './$.js';
+
+interface PathParams {
+	idx?: string;
+}
 
 const router = Router({
 	mergeParams: true,
 });
 
-router.post('/:idx?', (req, res) => {
+function parseSkillIndex({ idx }: PathParams): number {
+	if (!idx) {
+		return 0;
+	}
+	const n = Number.parseInt(idx, 10);
+	return n || 0;
+}
+
+router.post('/{:idx}', (req, res) => {
 	const context = $(req, res);
 	if (!context) {
 		return;
@@ -20,8 +33,8 @@ router.post('/:idx?', (req, res) => {
 		return;
 	}
 
-	const { idx } = req.params;
-	const skill = skills[idx ? (Number.parseInt(idx, 10) || 0) : 0];
+	const idx = parseSkillIndex(req.params);
+	const skill = skills[idx];
 	if (!skill) {
 		res.status(404).send('Skill not found');
 		return;
@@ -32,12 +45,13 @@ router.post('/:idx?', (req, res) => {
 		return;
 	}
 
-	if (!skill.isFeasible(req.body)) {
+	const body = req.body as Selection ?? {};
+	if (!skill.isFeasible(body)) {
 		res.status(400).send('Invalid skill targets');
 		return;
 	}
 
-	const output = skill.exec(req.body);
+	const output = skill.exec(body);
 	if (skills.every((sk) => sk.isFinished())) {
 		player.setReady(true);
 	}
