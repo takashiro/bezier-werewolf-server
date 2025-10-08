@@ -63,8 +63,7 @@ it('check werewolves', async () => {
 		expect(vision.players).toHaveLength(wolves.length - 1);
 
 		const seats = vision.players.map((player) => player.seat);
-		for (let i = 0; i < wolves.length; i++) {
-			const { seat } = wolves[i];
+		for (const { seat } of wolves) {
 			if (seat === wolf.seat) {
 				expect(seats).not.toContain(seat);
 			} else {

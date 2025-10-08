@@ -141,13 +141,13 @@ export default class Driver extends SkillDriver implements BaseDriver {
 	protected prepareRoles(): void {
 		const roles = this.shuffleRoles();
 
-		this.centerCards = new Array(3);
+		this.centerCards = new Array<Card>(3);
 		for (let i = 0; i < 3; i++) {
 			this.centerCards[i] = new Card(i, roles[i]);
 		}
 
 		const playerNum = roles.length - this.centerCards.length;
-		const players: Player[] = new Array(playerNum);
+		const players: Player[] = new Array<Player>(playerNum);
 		for (let i = 0; i < playerNum; i++) {
 			const role = roles[3 + i];
 			const player = new Player(i + 1, role);

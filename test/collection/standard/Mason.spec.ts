@@ -64,8 +64,7 @@ it('checkes Mason companions', async () => {
 		}
 
 		const seats = vision.players.map((player) => player.seat);
-		for (let i = 0; i < masons.length; i++) {
-			const { seat } = masons[i];
+		for (const { seat } of masons) {
 			if (seat === mason.seat) {
 				expect(seats).not.toContain(seat);
 			} else {

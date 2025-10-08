@@ -17,9 +17,9 @@ export default class Config {
 
 		try {
 			const content = await readFile(file, 'utf-8');
-			const config = JSON.parse(content);
+			const config = JSON.parse(content) as Config;
 			Object.assign(this, config);
-		} catch (error) {
+		} catch (ignore) {
 			// Ignore
 		}
 	}

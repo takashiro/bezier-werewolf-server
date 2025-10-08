@@ -13,7 +13,6 @@ export default class ShieldEffect extends EventHook<ActionValidation> {
 		super(Event.ValidatingAction);
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	process(data: ActionValidation): void {
 		if (!forbiddenActions.includes(data.type)) {
 			return;
